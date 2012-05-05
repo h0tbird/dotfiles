@@ -8,3 +8,4 @@ FILE="etc/skel/.bashrc";       [ ! -h /${FILE} ] && [ -f /${FILE} ] && rm -f /${
 FILE="etc/skel/.xinitrc";      [ ! -h /${FILE} ] && [ -f /${FILE} ] && rm -f /${FILE} && ln -s ${BASE}/${FILE} /${FILE}
 FILE="etc/vimrc";              [ ! -h /${FILE} ] && [ -f /${FILE} ] && rm -f /${FILE} && ln -s ${BASE}/${FILE} /${FILE}
 FILE="etc/pacman.conf";        [ ! -h /${FILE} ] && [ -f /${FILE} ] && rm -f /${FILE} && ln -s ${BASE}/${FILE} /${FILE}
+FILE="etc/sudoers";            [ ! -h /${FILE} ] && [ -f /${FILE} ] && rm -f /${FILE} && ln -s ${BASE}/${FILE} /${FILE}
