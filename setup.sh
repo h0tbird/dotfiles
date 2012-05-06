@@ -11,6 +11,7 @@ for i in ${FILE[@]}; do [ ! -f /${i} ] && cp ${BASE}/${i} /${i}; done
 FILE[0]="etc/vimrc"
 FILE[1]="etc/pacman.conf"
 FILE[2]="etc/sudoers"
+FILE[3]="etc/modprobe.d/blacklist.conf"
 for i in ${FILE[@]}; do [ ! /${i} -ef ${BASE}/${i} ] && rm -f /${i} && ln ${BASE}/${i} /${i}; done
 
 # /etc/skel
