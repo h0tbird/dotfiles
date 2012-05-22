@@ -7,7 +7,10 @@ require("beautiful")
 -- Notification library
 require("naughty")
 
+-------------------------------------------------------------------------------
 -- {{{ Error handling
+-------------------------------------------------------------------------------
+
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
 if awesome.startup_errors then
@@ -32,7 +35,10 @@ do
 end
 -- }}}
 
+-------------------------------------------------------------------------------
 -- {{{ Variable definitions
+-------------------------------------------------------------------------------
+
 -- Themes define colours, icons, and wallpapers
 beautiful.init(awful.util.getdir("config") .. "/themes/default/theme.lua")
 
@@ -46,7 +52,7 @@ editor_cmd = terminal .. " -e " .. editor
 -- If you do not like this or do not have such a key,
 -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
 -- However, you can use another modifier like Mod1, but it may interact with others.
-modkey = "Mod4"
+modkey = "Mod1"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 layouts =
@@ -66,7 +72,10 @@ layouts =
 }
 -- }}}
 
+-------------------------------------------------------------------------------
 -- {{{ Tags
+-------------------------------------------------------------------------------
+
 -- Define a tag table which hold all screen tags.
 tags = {}
 for s = 1, screen.count() do
@@ -75,7 +84,10 @@ for s = 1, screen.count() do
 end
 -- }}}
 
+-------------------------------------------------------------------------------
 -- {{{ Menu
+-------------------------------------------------------------------------------
+
 -- Create a laucher widget and a main menu
 myawesomemenu = {
    { "manual", terminal .. " -e man awesome" },
@@ -93,7 +105,10 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
                                      menu = mymainmenu })
 -- }}}
 
+-------------------------------------------------------------------------------
 -- {{{ Wibox
+-------------------------------------------------------------------------------
+
 -- Create a textclock widget
 mytextclock = awful.widget.textclock({ align = "right" })
 
@@ -183,7 +198,10 @@ for s = 1, screen.count() do
 end
 -- }}}
 
+-------------------------------------------------------------------------------
 -- {{{ Mouse bindings
+-------------------------------------------------------------------------------
+
 root.buttons(awful.util.table.join(
     awful.button({ }, 3, function () mymainmenu:toggle() end),
     awful.button({ }, 4, awful.tag.viewnext),
@@ -191,7 +209,10 @@ root.buttons(awful.util.table.join(
 ))
 -- }}}
 
+-------------------------------------------------------------------------------
 -- {{{ Key bindings
+-------------------------------------------------------------------------------
+
 globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
@@ -320,7 +341,10 @@ clientbuttons = awful.util.table.join(
 root.keys(globalkeys)
 -- }}}
 
+-------------------------------------------------------------------------------
 -- {{{ Rules
+-------------------------------------------------------------------------------
+
 awful.rules.rules = {
     -- All clients will match this rule.
     { rule = { },
@@ -341,7 +365,10 @@ awful.rules.rules = {
 }
 -- }}}
 
+-------------------------------------------------------------------------------
 -- {{{ Signals
+-------------------------------------------------------------------------------
+
 -- Signal function to execute when a new client appears.
 client.add_signal("manage", function (c, startup)
     -- Add a titlebar
