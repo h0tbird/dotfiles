@@ -44,7 +44,7 @@ beautiful.init(awful.util.getdir("config") .. "/themes/default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "xterm"
-editor = os.getenv("EDITOR") or "nano"
+editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 
 -- Default modkey.
@@ -64,8 +64,6 @@ layouts =
     awful.layout.suit.floating,
     awful.layout.suit.fair,
     awful.layout.suit.fair.horizontal,
-    awful.layout.suit.spiral,
-    awful.layout.suit.spiral.dwindle,
     awful.layout.suit.max,
     awful.layout.suit.max.fullscreen,
     awful.layout.suit.magnifier
@@ -77,10 +75,15 @@ layouts =
 -------------------------------------------------------------------------------
 
 -- Define a tag table which hold all screen tags.
-tags = {}
+tags = {
+    names = { 1, 2, 3, 4, 5, 6, 7, 8, 9 },
+    layout = { layouts[1], layouts[1], layouts[1], layouts[1], layouts[1],
+               layouts[1], layouts[1], layouts[1], layouts[1] } 
+}
+
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
+    tags[s] = awful.tag(tags.names, s, tags.layout)
 end
 -- }}}
 
