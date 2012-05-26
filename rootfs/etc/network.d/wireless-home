@@ -1,6 +1,6 @@
 CONNECTION='wireless'
 INTERFACE='wlan0'
 SECURITY='wpa'
-ESSID=''
-KEY=''
+ESSID='xxxxx'
+KEY='xxxxx'
 IP='dhcp'
