@@ -1,4 +1,4 @@
----------------------------
+
 -- Default awesome theme --
 ---------------------------
 
@@ -94,4 +94,3 @@ theme.layout_dwindle = "/usr/share/awesome/themes/default/layouts/dwindlew.png"
 theme.awesome_icon = "/usr/share/awesome/icons/awesome16.png"
 
 return theme
--- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:encoding=utf-8:textwidth=80
