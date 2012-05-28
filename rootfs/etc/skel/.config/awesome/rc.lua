@@ -43,7 +43,7 @@ end
 beautiful.init(awful.util.getdir("config") .. "/themes/default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "xterm"
+terminal = "urxvtc"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -368,6 +368,10 @@ awful.rules.rules = {
       properties = { tag = tags[1][3] } },
     { rule = { class = "Pidgin" },
       properties = { tag = tags[1][4] } },
+    { rule = { class = "XTerm" },
+      properties = { size_hints_honor = false } },
+    { rule = { class = "URxvt" },
+      properties = { size_hints_honor = false } },
 }
 -- }}}
 
