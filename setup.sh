@@ -9,3 +9,4 @@ done
 # Ignore changes to tracked files:
 # git update-index --assume-unchanged path/to/tracked/file
 # git ls-files -v | grep -e "^[hsmrck]"
+# git update-index --no-assume-unchanged path/to/tracked/file
