@@ -1,0 +1,15 @@
+CONNECTION='wireless'
+INTERFACE='wlan0'
+SECURITY='wpa-configsection'
+IP='dhcp'
+
+CONFIGSECTION='
+    ssid="xxxxx"
+    key_mgmt=WPA-EAP
+    eap=PEAP
+    pairwise=CCMP TKIP
+    group=CCMP TKIP
+    identity="xxxxx"
+    password="xxxxx"
+    phase1="peaplabel=0"
+    phase2="auth=MSCHAPV2"'
