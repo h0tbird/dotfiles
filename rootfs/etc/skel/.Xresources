@@ -1,4 +1,5 @@
 URxvt.depth: 32
-URxvt.background: [95]#D8D8D8
+URxvt.background: [80]black
+URxvt.foreground: [80]white
 URxvt.scrollBar: false
 URxvt*termName:screen-256color
