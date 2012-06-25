@@ -32,23 +32,15 @@ color light-blue/black light-cyan/blue
 # each is implicitly numbered from 0 in the order of appearance below
 #
 # TIP: If you want a 1024x768 framebuffer, add "vga=773" to your kernel line.
-#
-#-*
 
 # (0) Arch Linux
 title  Arch Linux
 root   (hd0,0)
-kernel /vmlinuz-linux root=/dev/disk/by-uuid/49e1d580-e94b-44eb-b163-f7be832dcd14 ro ipv6.disable=1
+kernel /vmlinuz-linux root=/dev/disk/by-label/root ro ipv6.disable=1
 initrd /initramfs-linux.img
 
 # (1) Arch Linux
 title  Arch Linux Fallback
 root   (hd0,0)
-kernel /vmlinuz-linux root=/dev/disk/by-uuid/49e1d580-e94b-44eb-b163-f7be832dcd14 ro
+kernel /vmlinuz-linux root=/dev/disk/by-label/root ro
 initrd /initramfs-linux-fallback.img
-
-# (2) Windows
-#title Windows
-#rootnoverify (hd0,0)
-#makeactive
-#chainloader +1
