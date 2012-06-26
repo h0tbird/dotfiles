@@ -15,6 +15,7 @@ fi
 # Window Manager of your choice:
 #--------------------------------
 
-xcompmgr &
+[[ -f ~/.Xresources ]] && xrdb -merge ~/.Xresources
 urxvtd -q -o -f
+xcompmgr &
 exec awesome
