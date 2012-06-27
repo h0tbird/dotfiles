@@ -6,5 +6,5 @@ URxvt.foreground:      [80]white
 URxvt.scrollBar:       false
 URxvt.termName:        screen-256color
 URxvt.perl-ext-common: default,tabbed,matcher
-URxvt.urlLauncher:     chrome
+URxvt.urlLauncher:     chromium
 URxvt.matcher.button:  1
