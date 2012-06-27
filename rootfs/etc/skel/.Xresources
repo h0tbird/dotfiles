@@ -1,7 +1,10 @@
 ! URxvt -----------------------------------------------------------------------
 
-URxvt.depth:      32
-URxvt.background: [80]black
-URxvt.foreground: [80]white
-URxvt.scrollBar:  false
-URxvt*termName:   screen-256color
+URxvt.depth:           32
+URxvt.background:      [80]black
+URxvt.foreground:      [80]white
+URxvt.scrollBar:       false
+URxvt.termName:        screen-256color
+URxvt.perl-ext-common: default,tabbed,matcher
+URxvt.urlLauncher:     chrome
+URxvt.matcher.button:  1
