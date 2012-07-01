@@ -3,7 +3,10 @@
 URxvt.depth:           32
 URxvt.background:      [80]black
 URxvt.foreground:      [80]white
-URxvt.scrollBar:       false
+URxvt.scrollBar:       true
+URxvt.scrollBar_right: true
+URxvt.saveLines:       2000
+URxvt.scrollstyle:     plain
 URxvt.termName:        screen-256color
 URxvt.perl-ext-common: default,tabbed,matcher
 URxvt.urlLauncher:     chromium
