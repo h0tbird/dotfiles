@@ -405,14 +405,22 @@ client.add_signal("manage", function (c, startup)
     end
 end)
 
+-- Signal function to execute when a client gets the focus:
 client.add_signal("focus", function(c)
-    c.border_color = beautiful.border_focus
-    c.opacity = 1
+    if c.name:find("urxvt") then
+        c.opacity = 0.97
+    else
+        c.border_color = beautiful.border_focus
+    end
 end)
 
+-- Signal function to execute when a client looses the focus:
 client.add_signal("unfocus", function(c)
-    c.border_color = beautiful.border_normal
-    c.opacity = 0.8
+    if c.name:find("urxvt") then
+        c.opacity = 0.78
+    else
+        c.border_color = beautiful.border_normal
+    end
 end)
 
 -- }}}
