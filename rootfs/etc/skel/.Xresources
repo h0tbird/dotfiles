@@ -1,8 +1,8 @@
 ! URxvt -----------------------------------------------------------------------
 
 URxvt.depth:           32
-URxvt.background:      [80]black
-URxvt.foreground:      [80]white
+URxvt.background:      #212629
+URxvt.foreground:      #737c80
 URxvt.scrollBar:       true
 URxvt.scrollBar_right: true
 URxvt.saveLines:       2000
@@ -11,3 +11,31 @@ URxvt.termName:        screen-256color
 URxvt.perl-ext-common: default,tabbed,matcher
 URxvt.urlLauncher:     chromium
 URxvt.matcher.button:  1
+URxvt.colorIT:         #e0b1dc
+URxvt.colorBD:         #76b57f
+URxvt.colorUL:         #768cb5
+
+!BLACK
+URxvt.color0:          #636363
+URxvt.color8:          #7d7d7d
+!RED
+URxvt.color1:          #b57f76
+URxvt.color9:          #e0b6b1
+!GREEN
+URxvt.color2:          #76b57f
+URxvt.color10:         #b1e0b6
+!YELLOW
+URxvt.color3:          #b59f76
+URxvt.color11:         #e0cdb1
+!BLUE
+URxvt.color4:          #768cb5
+URxvt.color12:         #b1c4e0
+!MAGENTA
+URxvt.color5:          #b576ac
+URxvt.color13:         #e0b1dc
+!CYAN
+URxvt.color6:          #76a5b5
+URxvt.color14:         #b1d7e0
+!WHITE
+URxvt.color7:          #b5b5b5
+URxvt.color15:         #e0e0e0
