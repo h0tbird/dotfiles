@@ -11,16 +11,18 @@ FILES=`find $BASEDIR -type f | cut -b 23-`
 # Functions:
 #------------
 
+. /etc/rc.d/functions
+
 function exists() {
-    [[ -f "/$1" ]] && return 0 || return 1
+    stat_busy $1; [ -f "$1" ] && return 0 || return 1
 }
 
 function hardlinked() {
-    [ "`stat -c %i $1`" == "`stat -c %i $2`" ] && return 0 || return 1
+    [ "`stat -c %i $1`" == "`stat -c %i $2`" ] && stat_done; return 0 || return 1
 }
 
 function equal() {
-    [ "`md5sum $1 | awk '{print $1}'`" == "`md5sum $2 | awk '{print $1}'`" ] && return 0 || return 1
+    [ "`md5sum $1 | awk '{print $1}'`" == "`md5sum $2 | awk '{print $1}'`" ] && stat_done; return 0 || return 1
 }
 
 function backup() {
@@ -29,7 +31,8 @@ function backup() {
 
 function couple() {
     mkdir -p `dirname $1`
-    cp -alf $2 /$1 2> /dev/null || cp -f $2 /$1
+    cp -alf $2 $1 2> /dev/null || cp -f $2 $1
+    stat_done
 }
 
 #------------
