@@ -1,10 +1,56 @@
 #!/bin/sh
 
-BASEDIR="/etc/.dotfiles/rootfs"
+#----------
+# Globals:
+#----------
 
-for i in `find ${BASEDIR} -type f | cut -b 23-`; do
-    mkdir -p `dirname /${i}`
-    cp -alf ${BASEDIR}/${i} /${i} 2> /dev/null || cp -f ${BASEDIR}/${i} /${i}
+BASEDIR="/etc/.dotfiles/rootfs"
+FILES=`find $BASEDIR -type f | cut -b 23-`
+
+#------------
+# Functions:
+#------------
+
+function exists() {
+    [[ -f "/$1" ]] && return 0 || return 1
+}
+
+function hardlinked() {
+    [ "`stat -c %i $1`" == "`stat -c %i $2`" ] && return 0 || return 1
+}
+
+function equal() {
+    [ "`md5sum $1 | awk '{print $1}'`" == "`md5sum $2 | awk '{print $1}'`" ] && return 0 || return 1
+}
+
+function backup() {
+    cp $1 $1.origin
+}
+
+function couple() {
+    mkdir -p `dirname $1`
+    cp -alf $2 /$1 2> /dev/null || cp -f $2 /$1
+}
+
+#------------
+# Main loop:
+#------------
+
+for i in $FILES; do
+
+    SRC="/$i"
+    DST="$BASEDIR/$i"
+
+    if exists $SRC; then
+
+        hardlinked $SRC $DST && continue
+        equal $SRC $DST && continue
+        backup $SRC
+    fi
+
+    couple $SRC $DST
+    continue
+
 done
 
 #----------------------------------
