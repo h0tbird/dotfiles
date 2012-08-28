@@ -49,7 +49,6 @@ for i in $FILES; do
     fi
 
     couple $SRC $DST
-    continue
 
 done
 
