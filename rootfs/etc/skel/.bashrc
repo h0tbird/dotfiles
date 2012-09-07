@@ -10,3 +10,5 @@ alias l='ls -l'
 alias ll='ls -la'
 
 PS1='[\u@\h \W]\$ '
+export VISUAL=`which vim`
+export EDITOR=`which vi`
