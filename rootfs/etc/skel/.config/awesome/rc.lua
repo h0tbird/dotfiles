@@ -1,29 +1,30 @@
--- Standard awesome library
+-----------------------------------------------------------------------------
+-- Libraries:
+------------------------------------------------------------------------------
+
 require("awful")
 require("awful.autofocus")
 require("awful.rules")
--- Theme handling library
 require("beautiful")
--- Notification library
 require("naughty")
 
 -------------------------------------------------------------------------------
--- {{{ Error handling
+-- Handle startup errors:
 -------------------------------------------------------------------------------
 
--- Check if awesome encountered an error during startup and fell back to
--- another config (This code will only ever execute for the fallback config)
 if awesome.startup_errors then
     naughty.notify({ preset = naughty.config.presets.critical,
                      title = "Oops, there were errors during startup!",
                      text = awesome.startup_errors })
 end
 
--- Handle runtime errors after startup
+-------------------------------------------------------------------------------
+-- Handle runtime errors after startup:
+------------------------------------------------------------------------------
+
 do
     local in_error = false
     awesome.add_signal("debug::error", function (err)
-        -- Make sure we don't go into an endless error loop
         if in_error then return end
         in_error = true
 
@@ -33,28 +34,17 @@ do
         in_error = false
     end)
 end
--- }}}
 
 -------------------------------------------------------------------------------
--- {{{ Variable definitions
+-- Variable definitions:
 -------------------------------------------------------------------------------
 
--- Themes define colours, icons, and wallpapers
 beautiful.init(awful.util.getdir("config") .. "/themes/default/theme.lua")
-
--- This is used later as the default terminal and editor to run.
 terminal = "urxvtc"
-editor = os.getenv("EDITOR") or "vim"
+editor = os.getenv("VISUAL") or "vim"
 editor_cmd = terminal .. " -e " .. editor
-
--- Default modkey.
--- Usually, Mod4 is the key with a logo between Control and Alt.
--- If you do not like this or do not have such a key,
--- I suggest you to remap Mod4 to another key using xmodmap or other tools.
--- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
 
--- Table of layouts to cover with awful.layout.inc, order matters.
 layouts =
 {
     awful.layout.suit.tile,
@@ -68,30 +58,25 @@ layouts =
     awful.layout.suit.max.fullscreen,
     awful.layout.suit.magnifier
 }
--- }}}
 
 -------------------------------------------------------------------------------
--- {{{ Tags
+-- Tags:
 -------------------------------------------------------------------------------
 
--- Define a tag table which hold all screen tags.
 tags = {
     names = { 1, 2, 3, 4, 5, 6, 7, 8, 9 },
-    layout = { layouts[1], layouts[10], layouts[10], layouts[5], layouts[1],
+    layout = { layouts[6], layouts[10], layouts[10], layouts[5], layouts[1],
                layouts[1], layouts[1], layouts[1], layouts[1] } 
 }
 
 for s = 1, screen.count() do
-    -- Each screen has its own tag table.
     tags[s] = awful.tag(tags.names, s, tags.layout)
 end
--- }}}
 
 -------------------------------------------------------------------------------
--- {{{ Menu
+-- Menu
 -------------------------------------------------------------------------------
 
--- Create a laucher widget and a main menu
 myawesomemenu = {
    { "manual", terminal .. " -e man awesome" },
    { "edit config", editor_cmd .. " " .. awesome.conffile },
@@ -106,7 +91,6 @@ mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesom
 
 mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
                                      menu = mymainmenu })
--- }}}
 
 -------------------------------------------------------------------------------
 -- {{{ Wibox
@@ -187,7 +171,7 @@ for s = 1, screen.count() do
     -- Add widgets to the wibox - order matters
     mywibox[s].widgets = {
         {
-            mylauncher,
+            -- mylauncher,
             mytaglist[s],
             mypromptbox[s],
             layout = awful.widget.layout.horizontal.leftright
@@ -407,8 +391,8 @@ end)
 
 -- Signal function to execute when a client gets the focus:
 client.add_signal("focus", function(c)
-    if c.name:find("urxvt") then
-        c.opacity = 0.97
+    if c.name and c.name:find("urxvt") then
+        c.opacity = 100
     else
         c.border_color = beautiful.border_focus
     end
@@ -416,8 +400,8 @@ end)
 
 -- Signal function to execute when a client looses the focus:
 client.add_signal("unfocus", function(c)
-    if c.name:find("urxvt") then
-        c.opacity = 0.78
+    if c.name and c.name:find("urxvt") then
+        c.opacity = 0.85
     else
         c.border_color = beautiful.border_normal
     end
