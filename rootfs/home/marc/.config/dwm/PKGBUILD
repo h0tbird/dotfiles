@@ -3,6 +3,10 @@
 # Contributor: Dag Odenhall <dag.odenhall@gmail.com>
 # Contributor: Grigorios Bouzakis <grbzks@gmail.com>
 
+#------------------------------------------------------------------------------
+# Variables:
+#------------------------------------------------------------------------------
+
 pkgname=dwm
 pkgver=6.0
 pkgrel=1
@@ -16,13 +20,32 @@ install=dwm.install
 source=(http://dl.suckless.org/dwm/dwm-$pkgver.tar.gz
 	config.h
 	dwm.desktop)
+_patches=(statuscolors-6.0.diff)
+source=(${source[@]} ${_patches[@]})
+
+#------------------------------------------------------------------------------
+# MD5 Sums:
+#------------------------------------------------------------------------------
+
 md5sums=('8bb00d4142259beb11e13473b81c0857'
          '2453e037f46449774ec8afab49b4f1a2'
-         '939f403a71b6e85261d09fc3412269ee')
+         '939f403a71b6e85261d09fc3412269ee'
+         '08324bd43a9fc08d8aaf9f17c0dbd750')
+
+#------------------------------------------------------------------------------
+# Build:
+#------------------------------------------------------------------------------
 
 build() {
+
   cd $srcdir/$pkgname-$pkgver
   cp $srcdir/config.h config.h
+
+  for p in "${_patches[@]}"; do
+      echo "=> $p"
+      patch < ../$p || return 1
+  done
+
   sed -i 's/CPPFLAGS =/CPPFLAGS +=/g' config.mk
   sed -i 's/^CFLAGS = -g/#CFLAGS += -g/g' config.mk
   sed -i 's/^#CFLAGS = -std/CFLAGS += -std/g' config.mk
@@ -31,7 +54,12 @@ build() {
   make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11
 }
 
+#------------------------------------------------------------------------------
+# Package:
+#------------------------------------------------------------------------------
+
 package() {
+
   cd $srcdir/$pkgname-$pkgver
   make PREFIX=/usr DESTDIR=$pkgdir install
   install -m644 -D LICENSE $pkgdir/usr/share/licenses/$pkgname/LICENSE
