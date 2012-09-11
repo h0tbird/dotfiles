@@ -1,22 +1,23 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const char font[]            = "-*-terminus2-medium-r-*-*-18-*-*-*-*-*-*-*";
-#define NUMCOLORS 9 
+static const char font[] = "-*-terminus2-medium-r-*-*-12-*-*-*-*-*-*-*";
+#define NUMCOLORS 9
 static const char colors[NUMCOLORS][ColLast][9] = {
-// border foreground background
-{ "#212121", "#696969", "#121212" }, // 0 = normal
-{ "#696969", "#E0E0E0", "#121212" }, // 1 = selected
-{ "#212121", "#CF4F88", "#121212" }, // 2 = red
-{ "#212121", "#53A6A6", "#121212" }, // 3 = green
-{ "#212121", "#914E89", "#121212" }, // 4 = yellow
-{ "#212121", "#4779B3", "#121212" }, // 5 = blue
-{ "#212121", "#47959E", "#121212" }, // 6 = cyan
-{ "#212121", "#7E62B3", "#121212" }, // 7 = magenta
-{ "#212121", "#899CA1", "#121212" }, // 8 = grey
+ // border foreground background
+ { "#212121", "#696969", "#121212" }, // 0 = normal
+ { "#696969", "#E0E0E0", "#121212" }, // 1 = selected
+ { "#212121", "#CF4F88", "#121212" }, // 2 = red
+ { "#212121", "#53A6A6", "#121212" }, // 3 = green
+ { "#212121", "#914E89", "#121212" }, // 4 = yellow
+ { "#212121", "#4779B3", "#121212" }, // 5 = blue
+ { "#212121", "#47959E", "#121212" }, // 6 = cyan
+ { "#212121", "#7E62B3", "#121212" }, // 7 = magenta
+ { "#212121", "#899CA1", "#121212" }, // 8 = grey
 };
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
-static const unsigned int snap      = 32;       /* snap pixel */
+
+static const unsigned int borderpx  = 2;        /* border pixel of windows */
+static const unsigned int snap      = 8;        /* snap pixel */
 static const Bool showbar           = True;     /* False means no bar */
 static const Bool topbar            = True;     /* False means bottom bar */
 
@@ -27,6 +28,7 @@ static const Rule rules[] = {
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",     NULL,       NULL,       0,            True,        -1 },
 	{ "Firefox",  NULL,       NULL,       1 << 8,       False,       -1 },
+	{ "Chromium", NULL,       NULL,       1 << 1,       False,       -1 },
 };
 
 /* layout(s) */
@@ -42,7 +44,7 @@ static const Layout layouts[] = {
 };
 
 /* key definitions */
-#define MODKEY Mod1Mask
+#define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
@@ -54,7 +56,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static const char  *dmenucmd[] = { "dmenu_run", "-fn", font, "-nb", colors[0][ColBG], "-nf", colors[0][ColFG], "-sb", colors[1][ColBG], "-sf", colors[1][ColFG], NULL };
-static const char *termcmd[]  = { "uxterm", NULL };
+static const char *termcmd[]  = { "urxvtc", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
