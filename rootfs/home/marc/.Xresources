@@ -9,9 +9,9 @@ URxvt.termName:               screen-256color
 URxvt.perl-ext-common:        default,tabbed,matcher
 URxvt.urlLauncher:            chromium
 URxvt.matcher.button:         1
-URxvt.colorIT:                #e0b1dc
-URxvt.colorBD:                #76b57f
-URxvt.colorUL:                #768cb5
+URxvt.colorIT:                #99ad6a
+URxvt.colorBD:                #e8e8d3
+URxvt.colorUL:                #8197bf
 URxvt.fading:                 40
 URxvt.fadeColor:              #002b36
 URxvt.pointerColorBackground: #586e75

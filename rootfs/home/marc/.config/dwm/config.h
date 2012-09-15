@@ -2,18 +2,22 @@
 
 /* appearance */
 static const char font[] = "-*-terminus2-medium-r-*-*-12-*-*-*-*-*-*-*";
-#define NUMCOLORS 9
+#define NUMCOLORS 13
 static const char colors[NUMCOLORS][ColLast][9] = {
- // border foreground background
- { "#212121", "#696969", "#121212" }, // 0 = normal
- { "#696969", "#E0E0E0", "#121212" }, // 1 = selected
- { "#212121", "#CF4F88", "#121212" }, // 2 = red
- { "#212121", "#53A6A6", "#121212" }, // 3 = green
- { "#212121", "#914E89", "#121212" }, // 4 = yellow
- { "#212121", "#4779B3", "#121212" }, // 5 = blue
- { "#212121", "#47959E", "#121212" }, // 6 = cyan
- { "#212121", "#7E62B3", "#121212" }, // 7 = magenta
- { "#212121", "#899CA1", "#121212" }, // 8 = grey
+  // border foreground background
+  { "#282a2e", "#373b41", "#1d1f21" }, // 1 = normal (grey on black)
+  { "#f0c674", "#c5c8c6", "#1d1f21" }, // 2 = selected (white on black)
+  { "#dc322f", "#1d1f21", "#f0c674" }, // 3 = urgent (black on yellow)
+  { "#282a2e", "#282a2e", "#1d1f21" }, // 4 = darkgrey on black (triangle)
+  { "#282a2e", "#1d1f21", "#282a2e" }, // 5 = black on darkgrey (triangle)
+  { "#282a2e", "#b294bb", "#282a2e" }, // 6 = magenta on darkgrey
+  { "#282a2e", "#cc6666", "#1d1f21" }, // 7 = red on black
+  { "#282a2e", "#b5bd68", "#1d1f21" }, // 8 = green on black
+  { "#282a2e", "#81a2be", "#282a2e" }, // 9 = blue on darkgrey
+  { "#282a2e", "#f0c674", "#1d1f21" }, // A = yellow on black
+  { "#282a2e", "#f0c674", "#282a2e" }, // B = yellow on darkgrey
+  { "#282a2e", "#de935f", "#1d1f21" }, // C = orange on black
+  { "#282a2e", "#8abeb7", "#282a2e" }, // D = cyan on darkgrey
 };
 
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
@@ -27,7 +31,7 @@ static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 static const Rule rules[] = {
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",     NULL,       NULL,       0,            True,        -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       False,       -1 },
+	{ "Firefox",  NULL,       NULL,       1 << 1,       False,       -1 },
 	{ "Chromium", NULL,       NULL,       1 << 1,       False,       -1 },
 };
 
