@@ -55,6 +55,8 @@ for i in $FILES; do
 
 done
 
+[[ -d /home/marc ]] && chown -R marc:users /home/marc
+
 #----------------------------------
 # Ignore changes to tracked files:
 #----------------------------------
