@@ -20,6 +20,8 @@ URxvt.font:                   -*-terminuspowerline-medium-r-normal-*
 URxvt.boldFont:               -*-terminuspowerline-medium-r-normal-*
 URxvt.italicFont:             -*-terminuspowerline-medium-r-normal-*
 URxvt.boldItalic:             -*-terminuspowerline-medium-r-normal-*
+URxvt.fading:                 3
+URxvt.fadeColor:              orange
 
 !TomorrowNight
 #define t_background        #1d1f21
