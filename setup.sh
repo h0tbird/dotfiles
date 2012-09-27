@@ -18,11 +18,11 @@ function exists() {
 }
 
 function hardlinked() {
-    [ "`stat -c %i $1`" == "`stat -c %i $2`" ] && stat_done; return 0 || return 1
+    [ "`stat -c %i $1`" == "`stat -c %i $2`" ] && (stat_done; return 0) || return 1
 }
 
 function equal() {
-    [ "`md5sum $1 | awk '{print $1}'`" == "`md5sum $2 | awk '{print $1}'`" ] && stat_done; return 0 || return 1
+    [ "`md5sum $1 | awk '{print $1}'`" == "`md5sum $2 | awk '{print $1}'`" ] && (stat_done; return 0) || return 1
 }
 
 function backup() {
