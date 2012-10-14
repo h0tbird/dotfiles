@@ -18,20 +18,20 @@ options=(zipman)
 depends=('libx11' 'libxinerama')
 install=dwm.install
 source=(http://dl.suckless.org/dwm/dwm-$pkgver.tar.gz
-	    config.origin
+        config.origin
         config.h
-	    dwm.desktop)
+        dwm.desktop)
 _patches=(01-statuscolours.diff
           02-noborder.diff)
 source=(${source[@]} ${_patches[@]})
 
 #------------------------------------------------------------------------------
-# MD5 Sums:
+# MD5 Sums: (makepkg -g)
 #------------------------------------------------------------------------------
 
 md5sums=('8bb00d4142259beb11e13473b81c0857'
          '2453e037f46449774ec8afab49b4f1a2'
-         'b582ec73d7c3f3a57b245e2fecd55d00'
+         '8277ff8f1a0815491240a3ca04fc487e'
          '939f403a71b6e85261d09fc3412269ee'
          '154cfd717b234b1a77331b5967d9eb8e'
          '88d7faa3a0488ee3eb7fe029555181f2')
@@ -42,22 +42,23 @@ md5sums=('8bb00d4142259beb11e13473b81c0857'
 
 build() {
 
-  cd $srcdir/$pkgname-$pkgver
-  cp $srcdir/config.origin config.h
+    cd $srcdir/$pkgname-$pkgver
+    cp $srcdir/config.origin config.h
 
-  for p in "${_patches[@]}"; do
-      echo "=> $p"
-      patch < ../$p || return 1
-  done
+    for p in "${_patches[@]}"; do
+        echo "=> $p"
+        patch < ../$p || return 1
+    done
 
-  cp $srcdir/config.h config.h
+    cp $srcdir/config.h config.h
 
-  sed -i 's/CPPFLAGS =/CPPFLAGS +=/g' config.mk
-  sed -i 's/^CFLAGS = -g/#CFLAGS += -g/g' config.mk
-  sed -i 's/^#CFLAGS = -std/CFLAGS += -std/g' config.mk
-  sed -i 's/^LDFLAGS = -g/#LDFLAGS += -g/g' config.mk
-  sed -i 's/^#LDFLAGS = -s/LDFLAGS += -s/g' config.mk
-  make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11
+    sed -i 's/CPPFLAGS =/CPPFLAGS +=/g' config.mk
+    sed -i 's/^CFLAGS = -g/#CFLAGS += -g/g' config.mk
+    sed -i 's/^#CFLAGS = -std/CFLAGS += -std/g' config.mk
+    sed -i 's/^LDFLAGS = -g/#LDFLAGS += -g/g' config.mk
+    sed -i 's/^#LDFLAGS = -s/LDFLAGS += -s/g' config.mk
+
+    make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11
 }
 
 #------------------------------------------------------------------------------
@@ -66,9 +67,9 @@ build() {
 
 package() {
 
-  cd $srcdir/$pkgname-$pkgver
-  make PREFIX=/usr DESTDIR=$pkgdir install
-  install -m644 -D LICENSE $pkgdir/usr/share/licenses/$pkgname/LICENSE
-  install -m644 -D README $pkgdir/usr/share/doc/$pkgname/README
-  install -m644 -D $srcdir/dwm.desktop $pkgdir/usr/share/xsessions/dwm.desktop
+    cd $srcdir/$pkgname-$pkgver
+    make PREFIX=/usr DESTDIR=$pkgdir install
+    install -m644 -D LICENSE $pkgdir/usr/share/licenses/$pkgname/LICENSE
+    install -m644 -D README $pkgdir/usr/share/doc/$pkgname/README
+    install -m644 -D $srcdir/dwm.desktop $pkgdir/usr/share/xsessions/dwm.desktop
 }
