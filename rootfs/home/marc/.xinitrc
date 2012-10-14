@@ -5,10 +5,10 @@
 #---------------------------------------------------------
 
 if [ -d /etc/X11/xinit/xinitrc.d ]; then
-  for f in /etc/X11/xinit/xinitrc.d/*; do
-    [ -x "$f" ] && . "$f"
-  done
-  unset f
+    for f in /etc/X11/xinit/xinitrc.d/*; do
+        [ -x "$f" ] && . "$f"
+    done
+    unset f
 fi
 
 #-------------------
@@ -35,17 +35,18 @@ xset fp rehash
 # Start apps in background (only if not already running)
 #--------------------------------------------------------
 
-list=(urxvtd)
+list=(urxvtd statusbar)
 
 for app in "${list[@]}"; do
-  check=$(ps -C "$app" -opid=)
-  if [[ -z "$check" ]]; then
-    case "$app" in
-      dropbox) dropboxd & ;;
-      mpd) mpd ;;
-      urxvtd) urxvtd -q -o -f ;;
-    esac
-  fi
+    check=$(ps -C "$app" -opid=)
+    if [[ -z "$check" ]]; then
+        case "$app" in
+            dropbox) dropboxd & ;;
+            mpd) mpd ;;
+            urxvtd) urxvtd -q -o -f ;;
+            statusbar) statusbar & ;;
+        esac
+    fi
 done
 
 #---------------
