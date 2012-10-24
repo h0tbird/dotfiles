@@ -1,3 +1,5 @@
 [user]
 	name = Marc Villacorta
 	email = marc.villacorta@gmail.com
+[push]
+	default = simple
