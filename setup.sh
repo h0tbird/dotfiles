@@ -80,6 +80,7 @@ for i in $FILES; do
 done
 
 [[ -d /home/marc ]] && chown -R marc:users /home/marc
+[[ -d /etc/vim ]] && (chown -R root:users /etc/vim/*; chmod -R g+w /etc/vim/*)
 
 #----------------------------------
 # Ignore changes to tracked files:
