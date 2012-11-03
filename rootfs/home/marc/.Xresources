@@ -24,6 +24,8 @@ URxvt.tabbed.tabbar-fg:       11
 URxvt.tabbed.tabbar-bg:       8
 URxvt.tabbed.tab-fg:          15
 URxvt.tabbed.tab-bg:          1
+URxvt.pointerBlank:           true
+URxvt.pointerBlankDelay:      2
 
 !TomorrowNight
 #define t_background        #1d1f21
