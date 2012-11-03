@@ -4,9 +4,9 @@
 #   - set to 'menu' to present a menu (requires the dialog package)
 # Network profiles are found in /etc/network.d
 
-#NETWORKS=(wireless-home)
-#NETWORKS=(wireless-home tap0)
-NETWORKS=(ethernet-home br0)
+#NETWORKS=(wireless-work2)
+NETWORKS=(wireless-home tap0)
+#NETWORKS=(ethernet-home br0)
 
 # Specify the name of your wired interface for net-auto-wired
 WIRED_INTERFACE="eth0"

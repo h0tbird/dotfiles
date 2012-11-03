@@ -11,17 +11,23 @@ if [ -d /etc/X11/xinit/xinitrc.d ]; then
     unset f
 fi
 
+#-----------------
+# Set background:
+#-----------------
+
+sh $HOME/.fehbg &
+
 #-------------------
 # Load .Xresources:
 #-------------------
 
 [[ -f $HOME/.Xresources ]] && xrdb -merge $HOME/.Xresources
 
-#-----------------
-# Set background:
-#-----------------
+#-----------------------------
+# Load the composite manager:
+#-----------------------------
 
-sh $HOME/.fehbg &
+xcompmgr -CcfF -I.05 -O.02 -D6 -t-5 -l-5 -r4.2 -o.82 &
 
 #------------------
 # Add fonts paths:

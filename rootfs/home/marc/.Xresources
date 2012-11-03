@@ -26,9 +26,11 @@ URxvt.tabbed.tab-fg:          15
 URxvt.tabbed.tab-bg:          1
 URxvt.pointerBlank:           true
 URxvt.pointerBlankDelay:      2
+URxvt.depth:                  32
+URxvt.background:             [97]#121314
 
 !TomorrowNight
-#define t_background        #1d1f21
+#define t_background        #121314
 #define t_current_line      #282a2e
 #define t_selection         #373b41
 #define t_foreground        #c5c8c6
@@ -41,38 +43,38 @@ URxvt.pointerBlankDelay:      2
 #define t_blue              #81a2be
 #define t_purple            #b294bb
 
-*.foreground:   t_foreground
+*.foreground:   t_comment
 *.background:   t_background
 *.cursorColor:  #aeafad
 
 ! Black / Grey
-*.color0:       #000000
-*.color8:       #666666
+*.color0:       t_current_line
+*.color8:       t_selection
 
 ! Red / Bright Red
-*.color1:       t_red
-*.color9:       #FF3334
+*.color1:       #A54242
+*.color9:       t_red
 
 ! Green + Bright Green
-*.color2:       t_green
-*.color10:      #9ec400
+*.color2:       #8C9440
+*.color10:      t_green
 
 ! Yellow (Orange) + Bright Yellow (Yellow)
 *.color3:       t_orange
 *.color11:      t_yellow
 
 ! Blue + Bright Blue
-*.color4:       t_blue
+*.color4:       #5F819D
 *.color12:      t_blue
 
 ! Magenta (Purple) + Bright Magenta
-*.color5:       t_purple
-*.color13:      #b777e0
+*.color5:       #85678F
+*.color13:      t_purple
 
 ! Cyan (Aqua) + Bright Cyan
-*.color6:       t_aqua
-*.color14:      #54ced6
+*.color6:       #5E8D87
+*.color14:      t_aqua
 
 ! Light Grey (Selection) + White (Current Line)
-*.color7:       t_selection
-*.color15:      t_current_line
+*.color7:       t_comment
+*.color15:      t_foreground
