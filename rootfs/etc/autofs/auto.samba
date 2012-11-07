@@ -1,0 +1,1 @@
+puppet -fstype=cifs,username=marc.villacorta,password=password,workgroup=DEMO,gid=users ://puppet/puppet
