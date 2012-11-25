@@ -1,0 +1,21 @@
+[Unit]
+Description=Home Wi-Fi Network Connectivity
+Wants=network.target
+Before=network.target
+BindsTo=sys-subsystem-net-devices-wlan0.device
+After=sys-subsystem-net-devices-wlan0.device
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+
+ExecStop=/usr/sbin/ip addr flush dev wlan0
+ExecStop=/usr/sbin/ip link set dev wlan0 down
+
+ExecStart=/usr/sbin/ip link set wlan0 up
+ExecStart=/usr/sbin/wpa_supplicant -B -Dwext -i wlan0 -c /etc/wpa_supplicant/wpa_supplicant.conf
+ExecStart=/usr/sbin/ip addr add 192.168.1.6/24 dev wlan0 broadcast 192.168.1.255
+ExecStart=/usr/sbin/ip route add default via 192.168.1.1
+
+[Install]
+WantedBy=multi-user.target

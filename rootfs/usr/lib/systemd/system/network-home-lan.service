@@ -1,0 +1,27 @@
+[Unit]
+Description=Home LAN Network Connectivity
+Wants=network.target
+Before=network.target
+BindsTo=sys-subsystem-net-devices-eth0.device
+After=sys-subsystem-net-devices-eth0.device
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+
+ExecStop=/usr/sbin/ip addr flush dev br0
+ExecStop=/usr/sbin/ip addr flush dev eth0
+ExecStop=/usr/sbin/ip link set dev br0 down
+ExecStop=/usr/sbin/ip link set dev eth0 down
+ExecStop=/usr/sbin/brctl delbr br0
+
+ExecStart=/usr/sbin/brctl addbr br0
+ExecStart=/usr/sbin/brctl addif br0 eth0
+ExecStart=/usr/sbin/ip addr add 192.168.1.5/24 dev br0 broadcast 192.168.1.255
+ExecStart=/usr/sbin/ip addr add 192.168.2.1/24 dev br0 broadcast 192.168.2.255
+ExecStart=/usr/sbin/ip link set dev eth0 up
+ExecStart=/usr/sbin/ip link set dev br0 up
+ExecStart=/usr/sbin/ip route add default via 192.168.1.1
+
+[Install]
+WantedBy=multi-user.target
