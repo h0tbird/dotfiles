@@ -9,13 +9,22 @@ After=sys-subsystem-net-devices-wlan0.device
 Type=oneshot
 RemainAfterExit=yes
 
+ExecStop=/sbin/sysctl -w net.ipv4.ip_forward=0
+ExecStop=/usr/sbin/iptables -t nat -D POSTROUTING -o wlan0 -j MASQUERADE
 ExecStop=/usr/sbin/ip addr flush dev wlan0
 ExecStop=/usr/sbin/ip link set dev wlan0 down
+ExecStop=/usr/sbin/ip addr flush dev tap0
+ExecStop=/usr/sbin/ip link set dev tap0 down
 
+ExecStart=/usr/sbin/ip tuntap add dev tap0 mode tap user marc
+ExecStart=/usr/sbin/ip link set dev tap0 up
+ExecStart=/usr/sbin/ip addr add 192.168.2.1/24 dev tap0 broadcast 192.168.2.255
 ExecStart=/usr/sbin/ip link set wlan0 up
 ExecStart=/usr/sbin/wpa_supplicant -B -Dwext -i wlan0 -c /etc/wpa_supplicant/wpa_supplicant.conf
 ExecStart=/usr/sbin/ip addr add 192.168.1.6/24 dev wlan0 broadcast 192.168.1.255
+ExecStart=/usr/sbin/iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
 ExecStart=/usr/sbin/ip route add default via 192.168.1.1
+ExecStart=/sbin/sysctl -w net.ipv4.ip_forward=1
 
 [Install]
 WantedBy=multi-user.target
