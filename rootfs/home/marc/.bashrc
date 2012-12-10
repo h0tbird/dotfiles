@@ -16,6 +16,7 @@ alias ll='ls -la'
 alias grep='grep --color=auto'
 alias sudo='A=`alias` sudo '
 alias pacman='pacman-color'
+alias startx='ssh-agent startx'
 
 #------------------------------------------------------------------------------
 # Git-prompt:
