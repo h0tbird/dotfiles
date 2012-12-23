@@ -6,7 +6,7 @@ URxvt.scrollBar_right:        true
 URxvt.saveLines:              2000
 URxvt.scrollstyle:            plain
 URxvt.termName:               rxvt-unicode-256color
-URxvt.perl-ext-common:        default,tabbed,matcher
+URxvt.perl-ext-common:        default,tabbedex,matcher
 URxvt.urlLauncher:            chromium
 URxvt.matcher.button:         1
 URxvt.colorIT:                #99ad6a
@@ -24,6 +24,9 @@ URxvt.tabbed.tabbar-fg:       11
 URxvt.tabbed.tabbar-bg:       8
 URxvt.tabbed.tab-fg:          13
 URxvt.tabbed.tab-bg:          1
+URxvt.tabbed.title:           false
+URxvt.tabbed.title-fg:        11
+URxvt.tabbed.title-bg:        8
 URxvt.pointerBlank:           true
 URxvt.pointerBlankDelay:      2
 URxvt.depth:                  32
