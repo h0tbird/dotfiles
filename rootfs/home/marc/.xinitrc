@@ -27,7 +27,7 @@ sh $HOME/.fehbg &
 # Load the composite manager:
 #-----------------------------
 
-xcompmgr -CcfF -I.05 -O.02 -D6 -t-5 -l-5 -r4.2 -o.82 &
+# xcompmgr -CcfF -I.05 -O.02 -D6 -t-5 -l-5 -r4.2 -o.82 &
 
 #------------------
 # Add fonts paths:
