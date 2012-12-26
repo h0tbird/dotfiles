@@ -5,7 +5,7 @@ systemctl --type service | grep -q '^network.*lan.*loaded' && NET='lan'
 
 case $NET in
 
-    wifi ) qemu-kvm \
+    wifi ) qemu-system-x86_64 \
            -enable-kvm \
            -smp 2,sockets=2,cores=1,threads=1 \
            -name puppet.demo.lan \
@@ -20,7 +20,7 @@ case $NET in
            -daemonize
            ;;
 
-    lan ) qemu-kvm \
+    lan ) qemu-system-x86_64 \
           -enable-kvm \
           -smp 2,sockets=2,cores=1,threads=1 \
           -name puppet.demo.lan \
