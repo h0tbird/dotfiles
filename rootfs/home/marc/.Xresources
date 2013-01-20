@@ -27,9 +27,9 @@ URxvt.tabbed.tab-bg:          1
 URxvt.tabbed.title:           false
 URxvt.tabbed.title-fg:        11
 URxvt.tabbed.title-bg:        8
+URxvt.keysym.M-c:             perl:tabbedex:clone_tab
 URxvt.pointerBlank:           true
 URxvt.pointerBlankDelay:      2
-URxvt.depth:                  32
 URxvt.background:             [97]#121314
 
 !TomorrowNight

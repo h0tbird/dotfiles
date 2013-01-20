@@ -52,7 +52,7 @@
 ##    title is displayed).  This make tab bar look nicer.
 ##
 ## Added by StephenB:
-## 
+##
 ## 7. Tabs can be named with Shift+Up (Enter to confirm, Escape to
 ##    cancel).
 ##
@@ -221,6 +221,11 @@ sub new_tab {
       @argv;
 }
 
+sub clone_tab {
+   my ($self) = @_;
+   my $cmdline = ($self->{cur})->{cmdline};
+   $self->new_tab ( "-e", "bash", "-i", "-c", "$cmdline" );
+}
 
 sub configure {
    my ($self) = @_;
@@ -606,6 +611,9 @@ sub tab_user_command {
   elsif ($cmd eq 'tabbedex:rename_tab') {
     $self->rename_tab($tab);
   }
+  elsif ($cmd eq 'tabbedex:clone_tab') {
+    $self->clone_tab;
+  }
   else {
     # Proxy the user command through to the tab's term, while taking care not
     # to get caught in an infinite loop.
@@ -673,9 +681,12 @@ sub tab_osc_seq_perl {
 	or return;
 
     if ($1 eq "set_tab_name") {
-	my ($new_name) = split /;/, $osc, 1;
-	$tab->{name} = $new_name;
-	$self->refresh;
+	    my ($new_name) = split /;/, $osc, 1;
+	    $tab->{name} = $new_name;
+	    $self->refresh;
+    } elsif ($1 eq "set_cmd") {
+        my ($new_cmd) = split /;/, $osc, 1;
+        $tab->{cmdline} = $new_cmd;
     }
 
     1;
