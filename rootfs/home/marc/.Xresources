@@ -8,6 +8,7 @@ URxvt.scrollstyle:            plain
 URxvt.termName:               rxvt-unicode-256color
 URxvt.perl-ext-common:        default,tabbedex,matcher
 URxvt.urlLauncher:            chromium
+URxvt.cutchars:               "\\/`\"\'()*;<>[]{|}:."
 URxvt.matcher.button:         1
 URxvt.colorIT:                #99ad6a
 URxvt.colorBD:                #e8e8d3
