@@ -15,7 +15,7 @@ alias l='ls -l'
 alias ll='ls -la'
 alias grep='grep --color=auto'
 alias sudo='A=`alias` sudo '
-alias pacman='pacman-color'
+alias pacman='pacman --color auto'
 alias startx='ssh-agent startx'
 
 #------------------------------------------------------------------------------
