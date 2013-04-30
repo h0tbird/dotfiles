@@ -17,6 +17,7 @@ alias grep='grep --color=auto'
 alias sudo='A=`alias` sudo '
 alias pacman='pacman --color auto'
 alias startx='ssh-agent startx'
+alias picocom='picocom -l /dev/pts/3'
 
 #------------------------------------------------------------------------------
 # PS1:
