@@ -22,7 +22,7 @@ case $NET in
             -net tap,vlan=0,ifname=tap0,script=no,downscript=no \
             -serial pty \
             -m 1024 \
-            -nographic \
+            -display none \
             -daemonize
             ;;
 
@@ -46,7 +46,7 @@ case $NET in
             -net tap,vlan=0,ifname=tap0,script=no,downscript=no \
             -serial pty \
             -m 1024 \
-            -nographic \
+            -display none \
             -daemonize
             ;;
 esac
