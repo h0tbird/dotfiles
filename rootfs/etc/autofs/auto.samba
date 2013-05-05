@@ -1,1 +1,2 @@
 puppet -fstype=cifs,username=marc.villacorta,password=password,workgroup=DEMO,gid=users ://puppet01/puppet
+osx -fstype=cifs,username=marc,password=password,workgroup=HOME,gid=users,nounix,sec=ntlmssp,noperm,rw ://192.168.1.46/Shared
