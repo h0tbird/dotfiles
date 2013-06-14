@@ -34,17 +34,19 @@ PS1="[$RET_VALUE] \[\e[1;32m\]\W \$(__git_ps1 \"(%s) \")>>\[\e[0m\] "
 [[ -f ~/.git-prompt.sh ]] && source ~/.git-prompt.sh
 
 #------------------------------------------------------------------------------
-# Tabbed ssh sessions:
+# Tabbed helper functions:
 #------------------------------------------------------------------------------
 
 if [[ $TERM == 'rxvt-unicode-256color' ]]; then
 
+  # Wrapper around ssh to set the current tab title:
   function tssh {
     printf "\033]777;tabbedex;set_tab_name;$1\007"
-    ssh $1
+    ssh $@
     printf "\033]777;tabbedex;set_tab_name;\007"
   }
 
+  # Keep track of the last executed command:
   function wrap {
     [[ "$BASH_COMMAND" == "$PROMPT_COMMAND" ]] && return
     CMD=`history | tail -n1 | sed 's/^[ 0-9]*//'`
