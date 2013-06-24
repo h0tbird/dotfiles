@@ -23,10 +23,17 @@ alias picocom='picocom -l /dev/pts/3'
 # PS1:
 #------------------------------------------------------------------------------
 
+dp="\[\033[0;35m\]" # Dark Purple
+dg="\[\033[1;30m\]" # Dark Gray
+lw="\[\033[1;37m\]" # Light White
+lg="\[\033[1;32m\]" # Light Green
+db="\[\033[0;34m\]" # Dark Blue
+nc="\[\033[0m\]"    # No Colour
+
 PROMPT_COMMAND='RET=$?'
 RET_VALUE='$(echo $RET)'
 PROMPT_DIRTRIM=3
-PS1="\e[0;35m[\e[1;30m$RET_VALUE\e[0;35m] \e[m\e[1m\w\e[m \e[1;32m\$(__git_ps1 \"(%s) \")\e[34m>>\e[m "
+PS1="${dp}[${dg}${RET_VALUE}${dp}] ${lw}\w ${lg}\$(__git_ps1 \"(%s)\") ${db}>> ${nc}"
 
 #------------------------------------------------------------------------------
 # Git-prompt:
