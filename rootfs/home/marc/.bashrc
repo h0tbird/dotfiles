@@ -23,17 +23,18 @@ alias picocom='picocom -l /dev/pts/3'
 # PS1:
 #------------------------------------------------------------------------------
 
-dp="\[\033[0;35m\]" # Dark Purple
-dg="\[\033[1;30m\]" # Dark Gray
-lw="\[\033[1;37m\]" # Light White
-lg="\[\033[1;32m\]" # Light Green
-db="\[\033[0;34m\]" # Dark Blue
-nc="\[\033[0m\]"    # No Colour
+xdp="\033[0;35m"; dp="\[${xdp}\]" # Dark Purple
+xdg="\033[1;30m"; dg="\[${xdg}\]" # Dark Gray
+xlw="\033[1;37m"; lw="\[${xlw}\]" # Light White
+xlg="\033[1;32m"; lg="\[${xlg}\]" # Light Green
+xdb="\033[0;34m"; db="\[${xdb}\]" # Dark Blue
+xlr="\033[1;31m"; lr="\[${xlr}\]" # Light Red
+xnc="\033[0m";    nc="\[${xnc}\]" # No Colour
 
-PROMPT_COMMAND='RET=$?'
-RET_VALUE='$(echo $RET)'
 PROMPT_DIRTRIM=3
-PS1="${dp}[${dg}${RET_VALUE}${dp}] ${lw}\w ${lg}\$(__git_ps1 \"(%s)\") ${db}>> ${nc}"
+PROMPT_COMMAND='R=$?'
+RET='$([ $R -eq 0 ] && echo -e ${xlg}${R} || echo -e ${xlr}${R})'
+PS1="${dp}[${RET}${dp}] ${lw}\w ${lg}\$(__git_ps1 \"(%s) \")${db}>> ${nc}"
 
 #------------------------------------------------------------------------------
 # Git-prompt:
