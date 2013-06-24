@@ -25,12 +25,14 @@ alias picocom='picocom -l /dev/pts/3'
 
 PROMPT_COMMAND='RET=$?'
 RET_VALUE='$(echo $RET)'
-PS1="[$RET_VALUE] \[\e[1;32m\]\W \$(__git_ps1 \"(%s) \")>>\[\e[0m\] "
+PROMPT_DIRTRIM=3
+PS1="\e[0;35m[\e[1;30m$RET_VALUE\e[0;35m] \e[m\e[1m\w\e[m \e[1;32m\$(__git_ps1 \"(%s) \")\e[34m>>\e[m "
 
 #------------------------------------------------------------------------------
 # Git-prompt:
 #------------------------------------------------------------------------------
 
+GIT_PS1_SHOWDIRTYSTATE=true
 [[ -f ~/.git-prompt.sh ]] && source ~/.git-prompt.sh
 
 #------------------------------------------------------------------------------
