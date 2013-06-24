@@ -36,12 +36,12 @@ URxvt.keysym.Control-Down:    perl:font-size:decrease
 URxvt.keysym.Control-S-Up:    perl:font-size:incglobal
 URxvt.keysym.Control-S-Down:  perl:font-size:decglobal
 URxvt.keysym.4-Down:          perl:tabbedex:new_tab
-URxvt.keysym.4-Up:            perl:tabbedex:rename_tab
+URxvt.keysym.4-Up:            perl:tabbedex:clone_tab
 URxvt.keysym.4-Left:          perl:tabbedex:prev_tab
 URxvt.keysym.4-Right:         perl:tabbedex:next_tab
 URxvt.keysym.Control-4-Left:  perl:tabbedex:move_tab_left
 URxvt.keysym.Control-4-Right: perl:tabbedex:move_tab_right
-URxvt.keysym.4-c:             perl:tabbedex:clone_tab
+URxvt.keysym.4-r:             perl:tabbedex:rename_tab
 URxvt.keysym.Control-Left:    \033[1;5D
 URxvt.keysym.Control-Right:   \033[1;5C
 URxvt.iso14755:               false
