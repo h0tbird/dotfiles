@@ -33,8 +33,8 @@ xnc="\033[0m";    nc="\[${xnc}\]" # No Colour
 
 PROMPT_DIRTRIM=3
 PROMPT_COMMAND='R=$?'
-RET='$([ $R -eq 0 ] && echo -e ${xlg}${R} || echo -e ${xlr}${R})'
-PS1="${dp}[${RET}${dp}] ${lw}\w ${lg}\$(__git_ps1 \"(%s) \")${db}>> ${nc}"
+RET='$(echo $R)'
+PS1="${dp}[${dg}${RET}${dp}] ${lw}\w ${lg}\$(__git_ps1 \"(%s) \")${db}>> ${nc}"
 
 #------------------------------------------------------------------------------
 # Git-prompt:
@@ -75,5 +75,5 @@ fi
 #------------------------------------------------------------------------------
 
 export VISUAL=`which vim`
-export EDITOR=`which vi`
+export EDITOR=`which vim`
 export PATH="$PATH:$HOME/bin"
