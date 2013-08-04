@@ -61,11 +61,29 @@ static const Layout layouts[] = {
 /* commands */
 static const char  *dmenucmd[] = { "dmenu_run", "-fn", font, "-nb", colors[0][ColBG], "-nf", colors[0][ColFG], "-sb", colors[1][ColBG], "-sf", colors[1][ColFG], NULL };
 static const char *termcmd[]  = { "urxvtc", NULL };
+static const char *zoomin[]  = { "zoom.sh", "in", NULL };
+static const char *zoomout[]  = { "zoom.sh", "out", NULL };
+static const char *zoom1[]  = { "zoom.sh", "1", NULL };
+static const char *zoom2[]  = { "zoom.sh", "2", NULL };
+static const char *zoom3[]  = { "zoom.sh", "3", NULL };
+static const char *zoom4[]  = { "zoom.sh", "4", NULL };
+static const char *zoom5[]  = { "zoom.sh", "5", NULL };
+static const char *zoom6[]  = { "zoom.sh", "6", NULL };
+static const char *zoom7[]  = { "zoom.sh", "7", NULL };
 
 static Key keys[] = {
     /* modifier                     key        function        argument */
     { MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
     { MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
+    { MODKEY|ControlMask,           XK_j,      spawn,          {.v = zoomin } },
+    { MODKEY|ControlMask,           XK_k,      spawn,          {.v = zoomout } },
+    { MODKEY|ControlMask,           XK_q,      spawn,          {.v = zoom1 } },
+    { MODKEY|ControlMask,           XK_w,      spawn,          {.v = zoom2 } },
+    { MODKEY|ControlMask,           XK_e,      spawn,          {.v = zoom3 } },
+    { MODKEY|ControlMask,           XK_r,      spawn,          {.v = zoom4 } },
+    { MODKEY|ControlMask,           XK_t,      spawn,          {.v = zoom5 } },
+    { MODKEY|ControlMask,           XK_y,      spawn,          {.v = zoom6 } },
+    { MODKEY|ControlMask,           XK_u,      spawn,          {.v = zoom7 } },
     { MODKEY,                       XK_b,      togglebar,      {0} },
     { MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
     { MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
