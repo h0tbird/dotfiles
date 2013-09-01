@@ -1,10 +1,11 @@
-/* See LICENSE file for copyright and license details. */
+//-------------
+// Appearance:
+//-------------
 
-/* appearance */
 static const char font[] = "-*-terminus2-medium-r-*-*-12-*-*-*-*-*-*-*";
 #define NUMCOLORS 13
 static const char colors[NUMCOLORS][ColLast][9] = {
-  // border foreground background
+ /* <border>   <fground>  <bground> */
   { "#282a2e", "#373b41", "#1d1f21" }, // 1 = normal (grey on black)
   { "#f0c674", "#c5c8c6", "#1d1f21" }, // 2 = selected (white on black)
   { "#dc322f", "#1d1f21", "#f0c674" }, // 3 = urgent (black on yellow)
@@ -20,12 +21,15 @@ static const char colors[NUMCOLORS][ColLast][9] = {
   { "#282a2e", "#8abeb7", "#282a2e" }, // D = cyan on darkgrey
 };
 
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
-static const unsigned int snap      = 8;        /* snap pixel */
-static const Bool showbar           = True;     /* False means no bar */
-static const Bool topbar            = True;     /* False means bottom bar */
+static const unsigned int borderpx = 1;    // Border pixel of windows
+static const unsigned int snap     = 8;    // snap pixel
+static const Bool showbar          = True; // False means no bar
+static const Bool topbar           = True; // False means bottom bar
 
-/* tagging */
+//----------
+// Tagging:
+//----------
+
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 static const Rule rules[] = {
@@ -33,21 +37,28 @@ static const Rule rules[] = {
     { "Gimp",     NULL,       NULL,       0,            True,        -1 },
     { "Firefox",  NULL,       NULL,       1 << 1,       False,       -1 },
     { "Chromium", NULL,       NULL,       1 << 1,       False,       -1 },
+    { "URxvt",    NULL,       "kbcast",   0,            True,        -1 },
 };
 
-/* layout(s) */
-static const float mfact      = 0.5;   /* factor of master area size [0.05..0.95] */
-static const int nmaster      = 2;     /* number of clients in master area */
-static const Bool resizehints = False; /* True means respect size hints in tiled resizals */
+//------------
+// Layout(s):
+//------------
+
+static const float mfact      = 0.5;   // Factor of master area size [0.05..0.95]
+static const int nmaster      = 2;     // Number of clients in master area
+static const Bool resizehints = False; // True means respect size hints in tiled resizals
 
 static const Layout layouts[] = {
-    /* symbol     arrange function */
-    { "Û É Û",      tile },    /* first entry is default */
-    { "Û Ê Û",      NULL },    /* no layout function means floating behavior */
+   /* <symbol>      <arrange function> */
+    { "Û É Û",      tile },    // First entry is default
+    { "Û Ê Û",      NULL },    // No layout function means floating behavior
     { "Û Ë Û",      monocle },
 };
 
-/* key definitions */
+//------------------
+// Key definitions:
+//------------------
+
 #define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
     { MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
@@ -55,24 +66,25 @@ static const Layout layouts[] = {
     { MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
     { MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
-/* helper for spawning shell commands in the pre dwm-5.0 fashion */
-#define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
+//-----------
+// Commands:
+//-----------
 
-/* commands */
 static const char  *dmenucmd[] = { "dmenu_run", "-fn", font, "-nb", colors[0][ColBG], "-nf", colors[0][ColFG], "-sb", colors[1][ColBG], "-sf", colors[1][ColFG], NULL };
-static const char *termcmd[]  = { "urxvtc", NULL };
-static const char *zoomin[]  = { "zoom.sh", "in", NULL };
-static const char *zoomout[]  = { "zoom.sh", "out", NULL };
-static const char *zoom1[]  = { "zoom.sh", "1", NULL };
-static const char *zoom2[]  = { "zoom.sh", "2", NULL };
-static const char *zoom3[]  = { "zoom.sh", "3", NULL };
-static const char *zoom4[]  = { "zoom.sh", "4", NULL };
-static const char *zoom5[]  = { "zoom.sh", "5", NULL };
-static const char *zoom6[]  = { "zoom.sh", "6", NULL };
-static const char *zoom7[]  = { "zoom.sh", "7", NULL };
+static const char *termcmd[]   = { "urxvtc", NULL };
+static const char *zoomin[]    = { "zoom.sh", "in", NULL };
+static const char *zoomout[]   = { "zoom.sh", "out", NULL };
+static const char *zoom1[]     = { "zoom.sh", "1", NULL };
+static const char *zoom2[]     = { "zoom.sh", "2", NULL };
+static const char *zoom3[]     = { "zoom.sh", "3", NULL };
+static const char *zoom4[]     = { "zoom.sh", "4", NULL };
+static const char *zoom5[]     = { "zoom.sh", "5", NULL };
+static const char *zoom6[]     = { "zoom.sh", "6", NULL };
+static const char *zoom7[]     = { "zoom.sh", "7", NULL };
+static const char *kbcast[]    = { "kbcast.sh", NULL };
 
 static Key keys[] = {
-    /* modifier                     key        function        argument */
+   /* <modifier>                    <key>      <function>      <argument> */
     { MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
     { MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
     { MODKEY|ControlMask,           XK_j,      spawn,          {.v = zoomin } },
@@ -84,6 +96,7 @@ static Key keys[] = {
     { MODKEY|ControlMask,           XK_t,      spawn,          {.v = zoom5 } },
     { MODKEY|ControlMask,           XK_y,      spawn,          {.v = zoom6 } },
     { MODKEY|ControlMask,           XK_u,      spawn,          {.v = zoom7 } },
+    { MODKEY,                       XK_minus,  spawn,          {.v = kbcast } },
     { MODKEY,                       XK_b,      togglebar,      {0} },
     { MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
     { MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -117,10 +130,13 @@ static Key keys[] = {
     { MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 };
 
-/* button definitions */
+//---------------------
+// Button definitions:
+//---------------------
+
 /* click can be ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static Button buttons[] = {
-    /* click                event mask      button          function        argument */
+   /* <click>               <event mask>    <button>        <function>      <argument> */
     { ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
     { ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
     { ClkWinTitle,          0,              Button2,        zoom,           {0} },
@@ -133,4 +149,3 @@ static Button buttons[] = {
     { ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
     { ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
-
