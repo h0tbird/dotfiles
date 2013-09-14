@@ -1,12 +1,7 @@
-Author: Jan Christoph Ebersbach <jceb@e-jc.de>
-URL: http://dwm.suckless.org/patches/noborder
-This patch removes the border when there is just one window visible in tiled or
-monocle layout.
-
-diff -r ec4baab78314 dwm.c
---- a/dwm.c	Mon Dec 19 15:38:30 2011 +0100
-+++ b/dwm.c	Fri Apr 06 08:23:31 2012 +0200
-@@ -1191,7 +1191,7 @@
+diff -up a/dwm.c b/dwm.c
+--- a/dwm.c	2013-09-09 23:29:40.570161653 +0200
++++ b/dwm.c	2013-09-09 23:30:04.206822548 +0200
+@@ -1218,7 +1218,7 @@ maprequest(XEvent *e) {
  
  void
  monocle(Monitor *m) {
@@ -15,7 +10,7 @@ diff -r ec4baab78314 dwm.c
  	Client *c;
  
  	for(c = m->clients; c; c = c->next)
-@@ -1199,8 +1199,17 @@
+@@ -1226,8 +1226,17 @@ monocle(Monitor *m) {
  			n++;
  	if(n > 0) /* override layout symbol */
  		snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d]", n);
@@ -35,7 +30,7 @@ diff -r ec4baab78314 dwm.c
  }
  
  void
-@@ -1703,7 +1712,7 @@
+@@ -1743,7 +1752,7 @@ textnw(const char *text, unsigned int le
  
  void
  tile(Monitor *m) {
@@ -44,7 +39,7 @@ diff -r ec4baab78314 dwm.c
  	Client *c;
  
  	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
-@@ -1714,17 +1723,36 @@
+@@ -1754,17 +1763,36 @@ tile(Monitor *m) {
  		mw = m->nmaster ? m->ww * m->mfact : 0;
  	else
  		mw = m->ww;
@@ -82,7 +77,7 @@ diff -r ec4baab78314 dwm.c
  }
  
  void
-@@ -1741,6 +1769,12 @@
+@@ -1781,6 +1809,12 @@ togglefloating(const Arg *arg) {
  		return;
  	selmon->sel->isfloating = !selmon->sel->isfloating || selmon->sel->isfixed;
  	if(selmon->sel->isfloating)
