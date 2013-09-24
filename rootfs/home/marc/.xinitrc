@@ -23,11 +23,13 @@ sh $HOME/.fehbg &
 
 [[ -f $HOME/.Xresources ]] && xrdb -merge $HOME/.Xresources
 
-#-----------------------------
-# Load the composite manager:
-#-----------------------------
+#---------------------------
+# Setup the keyring daemon:
+#---------------------------
 
-# xcompmgr -CcfF -I.05 -O.02 -D6 -t-5 -l-5 -r4.2 -o.82 &
+source /etc/X11/xinit/xinitrc.d/30-dbus
+eval $(/usr/bin/gnome-keyring-daemon --start --components=gpg,pkcs11,secrets,ssh)
+export GNOME_KEYRING_CONTROL GNOME_KEYRING_PID GPG_AGENT_INFO SSH_AUTH_SOCK
 
 #------------------
 # Add fonts paths:
