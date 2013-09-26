@@ -1,52 +1,46 @@
 #!/bin/sh
 
-systemctl --type service | grep -q '^network.*wifi.*loaded' && NET='wifi'
-systemctl --type service | grep -q '^network.*lan.*loaded' && NET='lan'
+if `ip l | grep -q tap1`; then TAP='tap1'; fi
+if `ip l | grep -q tap0`; then TAP='tap0'; fi
 
-case $NET in
+#------------------------------------------------------------------------------
+# Setup the context:
+#------------------------------------------------------------------------------
 
-    #-------------------------------------------------------------
-    # ip tuntap add dev tap0 mode tap user marc
-    # ip link set dev tap0 up
-    # ip addr add 192.168.2.1/24 dev tap0 broadcast 192.168.2.255
-    #-------------------------------------------------------------
+case $TAP in
 
-    wifi )  qemu-system-x86_64 \
-            -enable-kvm \
-            -smp 2,sockets=2,cores=1,threads=1 \
-            -name puppet01.demo.lan \
-            -nodefconfig \
-            -rtc base=utc \
-            -drive file='/home/marc/CentOS.img',if=virtio \
-            -net nic,model=virtio \
-            -net tap,vlan=0,ifname=tap0,script=no,downscript=no \
-            -serial pty \
-            -m 1024 \
-            -display none \
-            -daemonize
-            ;;
+    #------
+    # LAN:
+    #------
 
-    #------------------------------------------------------------
-    # ip tuntap add dev tap0 mode tap user marc
-    # ip link set dev tap0 up
-    # brctl addbr br0
-    # brctl addif br0 eth0
-    # brctl addif br0 tap0
-    # ip addr add 192.168.2.1/24 dev br0 broadcast 192.168.2.255
-    #------------------------------------------------------------
+    tap0) sudo sysctl -w net.ipv4.ip_forward=0
+          sudo sysctl -w net.ipv4.conf.eth0.proxy_arp=0
+          sudo sysctl -w net.ipv4.conf.tap0.proxy_arp=0 ;;
 
-    lan )   qemu-system-x86_64 \
-            -enable-kvm \
-            -smp 2,sockets=2,cores=1,threads=1 \
-            -name puppet01.demo.lan \
-            -nodefconfig \
-            -rtc base=utc \
-            -drive file='/home/marc/CentOS.img',if=virtio \
-            -net nic,model=virtio \
-            -net tap,vlan=0,ifname=tap0,script=no,downscript=no \
-            -serial pty \
-            -m 1024 \
-            -display none \
-            -daemonize
-            ;;
+    #-------
+    # WiFi:
+    #-------
+
+    tap1) sudo sysctl -w net.ipv4.ip_forward=1
+          sudo sysctl -w net.ipv4.conf.wlan0.proxy_arp=1
+          sudo sysctl -w net.ipv4.conf.tap1.proxy_arp=1
+          sudo ip route add 192.168.1.4 dev tap1 ;;
 esac
+
+#------------------------------------------------------------------------------
+# Launch the KVM instance:
+#------------------------------------------------------------------------------
+
+qemu-system-x86_64 \
+-enable-kvm \
+-smp 2,sockets=2,cores=1,threads=1 \
+-name puppet01.demo.lan \
+-nodefconfig \
+-rtc base=utc \
+-drive file='/home/marc/CentOS.img',if=virtio \
+-net nic,model=virtio \
+-net tap,vlan=0,ifname=${TAP},script=no,downscript=no \
+-serial pty \
+-m 1024 \
+-display none \
+-daemonize

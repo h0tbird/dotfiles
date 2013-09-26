@@ -9,12 +9,14 @@ LAN_NET='192.168.1.0'
 LAN_BCAST='192.168.1.255'
 LAN_GW='192.168.1.1'
 LAN_METRIC='100'
+LAN_TAP='tap0'
 
 WIFI_IP='192.168.1.4'
 WIFI_NET='192.168.1.0'
 WIFI_BCAST='192.168.1.255'
 WIFI_GW='192.168.1.1'
 WIFI_METRIC='300'
+WIFI_TAP='tap1'
 
 #------------------------------------------------------------------------------
 # Start LAN:
@@ -23,15 +25,15 @@ WIFI_METRIC='300'
 function lan_start {
 
     # Add tap interface:
-    /usr/sbin/ip tuntap add dev tap0 mode tap user marc
+    /usr/sbin/ip tuntap add dev ${LAN_TAP} mode tap user marc
 
     # Create bridge:
     /usr/sbin/brctl addbr br0
     /usr/sbin/brctl addif br0 eth0
-    /usr/sbin/brctl addif br0 tap0
+    /usr/sbin/brctl addif br0 ${LAN_TAP}
 
     # Bring up links:
-    /usr/sbin/ip link set dev tap0 up
+    /usr/sbin/ip link set dev ${LAN_TAP} up
     /usr/sbin/ip link set dev eth0 up
     /usr/sbin/ip link set dev br0 up
 
@@ -50,9 +52,6 @@ function lan_start {
 
     esac
 
-    # IP forwarding:
-    /sbin/sysctl -w net.ipv4.ip_forward=1
-
     # Setup DNS:
     /usr/bin/echo "nameserver 8.8.8.8" | /usr/sbin/resolvconf -a br0
 }
@@ -66,9 +65,6 @@ function lan_stop {
     # Setup DNS:
     /usr/sbin/resolvconf -d br0
 
-    # Disable forwarding:
-    /sbin/sysctl -w net.ipv4.ip_forward=0
-
     case $1 in
 
       'static')
@@ -81,17 +77,17 @@ function lan_stop {
     esac
 
     # Flush IP addresses:
-    /usr/sbin/ip addr flush dev tap0
+    /usr/sbin/ip addr flush dev ${LAN_TAP}
     /usr/sbin/ip addr flush dev eth0
     /usr/sbin/ip addr flush dev br0
 
-    # Tear link down:
-    /usr/sbin/ip link set dev tap0 down
+    # Take down links:
+    /usr/sbin/ip link set dev ${LAN_TAP} down
     /usr/sbin/ip link set dev eth0 down
     /usr/sbin/ip link set dev br0 down
 
     # Delete interfaces:
-    /usr/sbin/ip tuntap del dev tap0 mode tap
+    /usr/sbin/ip tuntap del dev ${LAN_TAP} mode tap
     /usr/sbin/brctl delbr br0
 }
 
@@ -101,7 +97,14 @@ function lan_stop {
 
 function wifi_start {
 
+    # Add tap interface:
+    /usr/sbin/ip tuntap add dev ${WIFI_TAP} mode tap user marc
+
+    # Bring up links:
+    /usr/sbin/ip link set dev ${WIFI_TAP} up
     /usr/sbin/ip link set wlan0 up
+
+    # Launch the supplicant:
     /usr/sbin/wpa_supplicant -B -Dwext -i wlan0 -c /etc/wpa_supplicant/wpa_supplicant.conf
 
     case $1 in
@@ -117,9 +120,6 @@ function wifi_start {
         /usr/sbin/dhcpcd wlan0 ;;
 
     esac
-
-    # IP forwarding:
-    /sbin/sysctl -w net.ipv4.ip_forward=1
 
     # Setup DNS:
     /usr/bin/echo "nameserver 8.8.8.8" | /usr/sbin/resolvconf -a wlan0
@@ -141,9 +141,19 @@ function wifi_stop {
           /usr/sbin/dhcpcd -x wlan0 ;;
     esac
 
+    # Flush IP addresses:
+    /usr/sbin/ip addr flush dev ${LAN_TAP}
     /usr/sbin/ip addr flush dev wlan0
+
+    # Therminate the supplicant:
     /usr/bin/wpa_cli terminate
+
+    # Take down links:
+    /usr/sbin/ip link set dev ${WIFI_TAP} down
     /usr/sbin/ip link set dev wlan0 down
+
+    # Delete interfaces:
+    /usr/sbin/ip tuntap del dev ${WIFI_TAP} mode tap
 }
 
 #------------------------------------------------------------------------------
