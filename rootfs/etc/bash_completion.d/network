@@ -1,0 +1,24 @@
+# network completion                                       -*- shell-script -*-
+
+_network() {
+
+    local cur prev opts
+    _init_completion -n = || return
+
+    opts="lan_static lan_dhcp wifi_static wifi_dhcp"
+    COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+
+    case $prev in
+
+        lan_static|lan_dhcp|wifi_static|wifi_dhcp)
+        local opts="start stop"
+        COMPREPLY=($(compgen -W "${opts}" -- ${cur})) ;;
+
+    esac
+
+    return 0
+} &&
+
+complete -F _network network
+
+# ex: ts=4 sw=4 et filetype=sh
