@@ -41,6 +41,7 @@ function lan_start {
     case $1 in
 
       'static')
+        /usr/bin/systemctl enable network-lan-static.service
         /usr/sbin/ip addr add ${LAN_IP}/24 dev br0 broadcast ${LAN_BCAST}
         /usr/sbin/ip route del ${LAN_NET}/24 dev br0 proto kernel scope link src ${LAN_IP}
         /usr/sbin/ip route add ${LAN_NET}/24 dev br0 proto kernel scope link src ${LAN_IP} metric ${LAN_METRIC}
@@ -48,6 +49,7 @@ function lan_start {
         /usr/sbin/ip route add default via ${LAN_GW} dev br0 metric ${LAN_METRIC} ;;
 
       'dhcp')
+        /usr/bin/systemctl enable network-lan-dhcp.service
         /usr/sbin/dhcpcd br0 ;;
 
     esac
@@ -68,10 +70,12 @@ function lan_stop {
     case $1 in
 
       'static')
+        /usr/bin/systemctl disable network-lan-static.service
         /usr/sbin/ip route del default dev br0
         /usr/sbin/ip route del ${LAN_IP} dev lo ;;
 
       'dhcp')
+        /usr/bin/systemctl disable network-lan-dhcp.service
         /usr/sbin/dhcpcd -x br0 ;;
 
     esac
@@ -110,6 +114,7 @@ function wifi_start {
     case $1 in
 
       'static')
+        /usr/bin/systemctl enable network-wifi-static.service
         /usr/sbin/ip addr add ${WIFI_IP}/24 dev wlan0 broadcast ${WIFI_BCAST}
         /usr/sbin/ip route del ${WIFI_NET}/24 dev wlan0 proto kernel scope link src ${WIFI_IP}
         /usr/sbin/ip route add ${WIFI_NET}/24 dev wlan0 proto kernel scope link src ${WIFI_IP} metric ${WIFI_METRIC}
@@ -117,6 +122,7 @@ function wifi_start {
         /usr/sbin/ip route add default via ${WIFI_GW} dev wlan0 metric ${WIFI_METRIC} ;;
 
       'dhcp')
+        /usr/bin/systemctl enable network-wifi-dhcp.service
         /usr/sbin/dhcpcd wlan0 ;;
 
     esac
@@ -133,12 +139,14 @@ function wifi_stop {
 
     case $1 in
 
-        'static')
-          /usr/sbin/ip route del default dev wlan0
-          /usr/sbin/ip route del ${WIFI_IP} dev lo ;;
+      'static')
+        /usr/bin/systemctl disable network-wifi-static.service
+        /usr/sbin/ip route del default dev wlan0
+        /usr/sbin/ip route del ${WIFI_IP} dev lo ;;
 
-        'dhcp')
-          /usr/sbin/dhcpcd -x wlan0 ;;
+      'dhcp')
+        /usr/bin/systemctl disable network-wifi-dhcp.service
+        /usr/sbin/dhcpcd -x wlan0 ;;
     esac
 
     # Flush IP addresses:
