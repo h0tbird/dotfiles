@@ -59,7 +59,7 @@ if [[ $TERM == 'rxvt-unicode-256color' ]]; then
   # Keep track of the last executed command:
   function wrap {
     [[ "$BASH_COMMAND" == "$PROMPT_COMMAND" ]] && return
-    CMD=`history | tail -n1 | sed 's/^[ 0-9]*//'`
+    CMD=`history | tail -n1 | sed 's/^[ 0-9]*//;s/%/%%/g'`
     [[ "$CMD" == "$COMMANDLINE" || "$CMD" == "" ]] && return
     printf "\033]777;tabbedex;set_cmd;$CMD\007"
     export COMMANDLINE=$CMD
