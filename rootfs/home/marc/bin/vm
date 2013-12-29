@@ -58,7 +58,8 @@ function bridge_wifi {
 [ -d /var/tmp/vm ] || mkdir /var/tmp/vm
 
 #------------------------------------------------------------------------------
-# Choose your own adventure:
+# In order to connect to the quemu monitor of each particular VM you can use:
+# rlwrap -H ~/.qmp_history socat UNIX-CONNECT:/var/tmp/vm/xxx.monitor STDIO
 #------------------------------------------------------------------------------
 
 case "${1}-${2}" in
@@ -79,7 +80,7 @@ case "${1}-${2}" in
     -name ${1}.demo.lan \
     -nodefconfig \
     -rtc base=utc \
-    -drive file="/home/marc/${1}.img",if=virtio \
+    -drive file="${HOME}/vm-images/${1}.img",if=virtio \
     -net nic,model=virtio \
     -net tap,vlan=0,ifname=${TAP},script=no,downscript=no \
     -serial pty \
@@ -110,7 +111,7 @@ case "${1}-${2}" in
     -name ${1}.demo.lan \
     -nodefconfig \
     -rtc base=utc \
-    -drive file="/home/marc/${1}.img",if=virtio \
+    -drive file="${HOME}/vm-images/${1}.img",if=virtio \
     -net nic,model=virtio \
     -net tap,vlan=0,ifname=${TAP},script=no,downscript=no \
     -serial pty \
