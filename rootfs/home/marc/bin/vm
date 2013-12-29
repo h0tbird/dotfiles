@@ -72,6 +72,7 @@ case "${1}-${2}" in
 
     TAP=$(bridge_wifi $(create_tap $(next_tap)))
     $SUDO $IP route add 192.168.1.4 dev ${TAP}
+    echo ${TAP} > /var/tmp/vm/${1}.tap
 
     qemu-system-x86_64 \
     -enable-kvm \
@@ -89,11 +90,6 @@ case "${1}-${2}" in
     -mon chardev=charmonitor,id=monitor,mode=control \
     -display none \
     -daemonize ;;
-
-  puppet01-stop)
-
-      for i in `seq 0 10`; do sudo ip tuntap del dev tap${i} mode tap; done
-      echo "STOP ${1}" ;;
 
   #-------#
   # lxc01 #
@@ -103,6 +99,7 @@ case "${1}-${2}" in
 
     TAP=$(bridge_wifi $(create_tap $(next_tap)))
     $SUDO $IP route add 192.168.1.8 dev ${TAP}
+    echo ${TAP} > /var/tmp/vm/${1}.tap
 
     qemu-system-x86_64 \
     -enable-kvm \
@@ -121,12 +118,20 @@ case "${1}-${2}" in
     -display none \
     -daemonize ;;
 
-  lxc01-stop) echo "STOP ${1}" ;;
+  #----------#
+  # Stop any #
+  #----------#
 
-  #----------
-  # Default:
-  #----------
+  *-stop)
 
-  *) echo "Usage: `basename $0` <name>" ;;
+    echo '{ "execute": "qmp_capabilities" } { "execute": "system_powerdown" }' | \
+    socat - UNIX-CONNECT:/var/tmp/vm/${1}.monitor > /dev/null
+    until $SUDO $IP tuntap del dev `cat /var/tmp/vm/${1}.tap` mode tap; do sleep 2; done ;;
+
+  #---------#
+  # Default #
+  #---------#
+
+  *) echo "Usage: `basename $0` <name> <start|stop>" ;;
 
 esac
