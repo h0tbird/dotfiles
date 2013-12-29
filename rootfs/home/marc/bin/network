@@ -16,7 +16,6 @@ WIFI_NET='192.168.1.0'
 WIFI_BCAST='192.168.1.255'
 WIFI_GW='192.168.1.1'
 WIFI_METRIC='300'
-WIFI_TAP='tap1'
 
 #------------------------------------------------------------------------------
 # Start LAN:
@@ -101,11 +100,7 @@ function lan_stop {
 
 function wifi_start {
 
-    # Add tap interface:
-    /usr/sbin/ip tuntap add dev ${WIFI_TAP} mode tap user marc
-
     # Bring up links:
-    /usr/sbin/ip link set dev ${WIFI_TAP} up
     /usr/sbin/ip link set wlan0 up
 
     # Launch the supplicant:
@@ -157,11 +152,7 @@ function wifi_stop {
     /usr/bin/wpa_cli terminate
 
     # Take down links:
-    /usr/sbin/ip link set dev ${WIFI_TAP} down
     /usr/sbin/ip link set dev wlan0 down
-
-    # Delete interfaces:
-    /usr/sbin/ip tuntap del dev ${WIFI_TAP} mode tap
 }
 
 #------------------------------------------------------------------------------

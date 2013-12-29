@@ -52,16 +52,22 @@ function bridge_wifi {
 }
 
 #------------------------------------------------------------------------------
-#
+# Entry point:
 #------------------------------------------------------------------------------
 
-case $1 in
+[ -d /var/tmp/vm ] || mkdir /var/tmp/vm
 
-  #-----------
-  # puppet01:
-  #-----------
+#------------------------------------------------------------------------------
+# Choose your own adventure:
+#------------------------------------------------------------------------------
 
-  puppet01)
+case "${1}-${2}" in
+
+  #----------#
+  # puppet01 #
+  #----------#
+
+  puppet01-start)
 
     TAP=$(bridge_wifi $(create_tap $(next_tap)))
     $SUDO $IP route add 192.168.1.4 dev ${TAP}
@@ -69,6 +75,7 @@ case $1 in
     qemu-system-x86_64 \
     -enable-kvm \
     -smp 2,sockets=2,cores=1,threads=1 \
+    -pidfile /var/tmp/vm/${1}.pid \
     -name ${1}.demo.lan \
     -nodefconfig \
     -rtc base=utc \
@@ -77,14 +84,21 @@ case $1 in
     -net tap,vlan=0,ifname=${TAP},script=no,downscript=no \
     -serial pty \
     -m 1024 \
+    -chardev socket,id=charmonitor,path=/var/tmp/vm/${1}.monitor,server,nowait \
+    -mon chardev=charmonitor,id=monitor,mode=control \
     -display none \
     -daemonize ;;
 
-  #--------
-  # lxc01:
-  #--------
+  puppet01-stop)
 
-  lxc01)
+      for i in `seq 0 10`; do sudo ip tuntap del dev tap${i} mode tap; done
+      echo "STOP ${1}" ;;
+
+  #-------#
+  # lxc01 #
+  #-------#
+
+  lxc01-start)
 
     TAP=$(bridge_wifi $(create_tap $(next_tap)))
     $SUDO $IP route add 192.168.1.8 dev ${TAP}
@@ -92,6 +106,7 @@ case $1 in
     qemu-system-x86_64 \
     -enable-kvm \
     -smp 2,sockets=2,cores=1,threads=1 \
+    -pidfile /var/tmp/vm/${1}.pid \
     -name ${1}.demo.lan \
     -nodefconfig \
     -rtc base=utc \
@@ -100,8 +115,12 @@ case $1 in
     -net tap,vlan=0,ifname=${TAP},script=no,downscript=no \
     -serial pty \
     -m 1024 \
+    -chardev socket,id=charmonitor,path=/var/tmp/vm/${1}.monitor,server,nowait \
+    -mon chardev=charmonitor,id=monitor,mode=control \
     -display none \
     -daemonize ;;
+
+  lxc01-stop) echo "STOP ${1}" ;;
 
   #----------
   # Default:
