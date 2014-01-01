@@ -9,6 +9,7 @@ AWK=`which awk`
 IP=`which ip`
 SUDO=`which sudo`
 SYSCTL=`which sysctl`
+BRCTL=`which brctl`
 SOCAT=`which socat`
 CAT=`which cat`
 
@@ -40,6 +41,14 @@ function destroy_tap {
   $SUDO $IP link set dev $1 down
   $SUDO $IP tuntap del dev $1 mode tap
   return $?
+}
+
+#------------------------------------------------------------------------------
+# bridge_lan: Bridges a TAP device named $1 to the br0 device.
+#------------------------------------------------------------------------------
+
+function bridge_lan {
+  $SUDO $BRCTL addif br0 $1
 }
 
 #------------------------------------------------------------------------------
