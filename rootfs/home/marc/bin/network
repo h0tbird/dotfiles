@@ -8,19 +8,24 @@ LAN_IP='192.168.1.3'
 LAN_NET='192.168.1.0'
 LAN_BCAST='192.168.1.255'
 LAN_GW='192.168.1.1'
-LAN_METRIC='100'
 LAN_TAP='tap0'
 
 WIFI_IP='192.168.1.4'
 WIFI_NET='192.168.1.0'
 WIFI_BCAST='192.168.1.255'
 WIFI_GW='192.168.1.1'
-WIFI_METRIC='300'
 
-USB_IP='192.168.1.5'
-USB_NET='192.168.1.0'
-USB_BCAST='192.168.1.255'
-USB_GW='192.168.1.1'
+USB_IP='192.168.42.209'
+USB_NET='192.168.42.0'
+USB_BCAST='192.168.42.255'
+USB_GW='192.168.42.129'
+
+#------------------------------------------------------------------------------
+# Metrics:
+#------------------------------------------------------------------------------
+
+LAN_METRIC='100'
+WIFI_METRIC='300'
 USB_METRIC='500'
 
 #------------------------------------------------------------------------------
@@ -55,7 +60,7 @@ function lan_start {
 
       'dhcp')
         /usr/bin/systemctl enable network-lan-dhcp.service
-        /usr/sbin/dhcpcd br0 ;;
+        /usr/sbin/dhcpcd -m ${LAN_METRIC} br0 ;;
 
     esac
 
@@ -124,7 +129,7 @@ function wifi_start {
 
       'dhcp')
         /usr/bin/systemctl enable network-wifi-dhcp.service
-        /usr/sbin/dhcpcd wlan0 ;;
+        /usr/sbin/dhcpcd -m ${WIFI_METRIC} wlan0 ;;
 
     esac
 
@@ -181,7 +186,7 @@ function usb_start {
 
       'dhcp')
         /usr/bin/systemctl enable network-usb-dhcp.service
-        /usr/sbin/dhcpcd usb0 ;;
+        /usr/sbin/dhcpcd -m ${USB_METRIC} usb0 ;;
 
     esac
 
