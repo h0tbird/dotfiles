@@ -180,7 +180,7 @@ function usb_start {
         /usr/sbin/ip route add default via ${USB_GW} dev usb0 metric ${USB_METRIC} ;;
 
       'dhcp')
-        #/usr/bin/systemctl enable network-usb-dhcp.service
+        /usr/bin/systemctl enable network-usb-dhcp.service
         /usr/sbin/dhcpcd usb0 ;;
 
     esac
@@ -203,7 +203,7 @@ function usb_stop {
         /usr/sbin/ip route del ${USB_IP} dev lo ;;
 
       'dhcp')
-        #/usr/bin/systemctl disable network-usb-dhcp.service
+        /usr/bin/systemctl disable network-usb-dhcp.service
         /usr/sbin/dhcpcd -x usb0 ;;
     esac
 
