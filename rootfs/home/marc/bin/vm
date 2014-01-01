@@ -9,6 +9,8 @@ AWK=`which awk`
 IP=`which ip`
 SUDO=`which sudo`
 SYSCTL=`which sysctl`
+SOCAT=`which socat`
+CAT=`which cat`
 
 #------------------------------------------------------------------------------
 # next_tap: returns the name of the next available TAP interface.
@@ -37,7 +39,7 @@ function create_tap {
 function destroy_tap {
   $SUDO $IP link set dev $1 down
   $SUDO $IP tuntap del dev $1 mode tap
-  echo $1
+  return $?
 }
 
 #------------------------------------------------------------------------------
@@ -113,10 +115,13 @@ case "${1}-${2}" in
     -net tap,vlan=0,ifname=${TAP},script=no,downscript=no \
     -serial pty \
     -m 1024 \
+    -kernel \
+    -ramdisk \
+    -append method=http://192.168.1.4/cblr/links/RHEL7-x86_64/ ksdevice=eth0 lang= console=ttyS0,115200 text ks=http://192.168.1.4/cblr/svc/op/ks/system/lxc01.demo.lan serial kssendmac \
     -chardev socket,id=charmonitor,path=/var/tmp/vm/${1}.monitor,server,nowait \
-    -mon chardev=charmonitor,id=monitor,mode=control \
-    -display none \
-    -daemonize ;;
+    -mon chardev=charmonitor,id=monitor,mode=control ;;
+    #-display none \
+    #-daemonize ;;
 
   #----------#
   # Stop any #
@@ -125,8 +130,8 @@ case "${1}-${2}" in
   *-stop)
 
     echo '{ "execute": "qmp_capabilities" } { "execute": "system_powerdown" }' | \
-    socat - UNIX-CONNECT:/var/tmp/vm/${1}.monitor > /dev/null
-    until $SUDO $IP tuntap del dev `cat /var/tmp/vm/${1}.tap` mode tap; do sleep 2; done ;;
+    $SOCAT - UNIX-CONNECT:/var/tmp/vm/${1}.monitor > /dev/null
+    until destroy_tap `$CAT /var/tmp/vm/${1}.tap`; do sleep 2; done ;;
 
   #---------#
   # Default #

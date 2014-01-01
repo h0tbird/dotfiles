@@ -1,0 +1,15 @@
+[Unit]
+Description=USB Network (static)
+Wants=network.target
+Before=network.target
+BindsTo=sys-subsystem-net-devices-usb0.device
+After=sys-subsystem-net-devices-usb0.device
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/home/marc/bin/network usb_static start
+ExecStop=/home/marc/bin/network usb_static stop
+
+[Install]
+WantedBy=multi-user.target

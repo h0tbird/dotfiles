@@ -17,6 +17,12 @@ WIFI_BCAST='192.168.1.255'
 WIFI_GW='192.168.1.1'
 WIFI_METRIC='300'
 
+USB_IP='192.168.1.5'
+USB_NET='192.168.1.0'
+USB_BCAST='192.168.1.255'
+USB_GW='192.168.1.1'
+USB_METRIC='500'
+
 #------------------------------------------------------------------------------
 # Start LAN:
 #------------------------------------------------------------------------------
@@ -145,7 +151,6 @@ function wifi_stop {
     esac
 
     # Flush IP addresses:
-    /usr/sbin/ip addr flush dev ${LAN_TAP}
     /usr/sbin/ip addr flush dev wlan0
 
     # Therminate the supplicant:
@@ -153,6 +158,60 @@ function wifi_stop {
 
     # Take down links:
     /usr/sbin/ip link set dev wlan0 down
+}
+
+#------------------------------------------------------------------------------
+# Start USB:
+#------------------------------------------------------------------------------
+
+function usb_start {
+
+    # Bring up links:
+    /usr/sbin/ip link set usb0 up
+
+    case $1 in
+
+      'static')
+        #/usr/bin/systemctl enable network-usb-static.service
+        /usr/sbin/ip addr add ${USB_IP}/24 dev usb0 broadcast ${USB_BCAST}
+        /usr/sbin/ip route del ${USB_NET}/24 dev usb0 proto kernel scope link src ${USB_IP}
+        /usr/sbin/ip route add ${USB_NET}/24 dev usb0 proto kernel scope link src ${USB_IP} metric ${USB_METRIC}
+        /usr/sbin/ip route add ${USB_IP} via 127.0.0.1 dev lo metric ${USB_METRIC}
+        /usr/sbin/ip route add default via ${USB_GW} dev usb0 metric ${USB_METRIC} ;;
+
+      'dhcp')
+        #/usr/bin/systemctl enable network-usb-dhcp.service
+        /usr/sbin/dhcpcd usb0 ;;
+
+    esac
+
+    # Setup DNS:
+    /usr/bin/echo "nameserver 8.8.8.8" | /usr/sbin/resolvconf -a usb0
+}
+
+#------------------------------------------------------------------------------
+# Stop USB:
+#------------------------------------------------------------------------------
+
+function usb_stop {
+
+    case $1 in
+
+      'static')
+        #/usr/bin/systemctl disable network-usb-static.service
+        /usr/sbin/ip route del default dev usb0
+        /usr/sbin/ip route del ${USB_IP} dev lo ;;
+
+      'dhcp')
+        #/usr/bin/systemctl disable network-usb-dhcp.service
+        /usr/sbin/dhcpcd -x usb0 ;;
+    esac
+
+    # Flush IP addresses:
+    /usr/sbin/ip addr flush dev usb0
+
+    # Take down links:
+    /usr/sbin/ip link set dev usb0 down
 }
 
 #------------------------------------------------------------------------------
