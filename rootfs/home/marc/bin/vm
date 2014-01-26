@@ -124,13 +124,11 @@ case "${1}-${2}" in
     -net tap,vlan=0,ifname=${TAP},script=no,downscript=no \
     -serial pty \
     -m 1024 \
-    -kernel \
-    -ramdisk \
-    -append method=http://192.168.1.4/cblr/links/RHEL7-x86_64/ ksdevice=eth0 lang= console=ttyS0,115200 text ks=http://192.168.1.4/cblr/svc/op/ks/system/lxc01.demo.lan serial kssendmac \
+    -kernel /home/marc/vm-images/rhel7/vmlinuz \
+    -initrd /home/marc/vm-images/rhel7/initrd.img \
+    -append "method=http://192.168.1.4/cblr/links/RHEL7-x86_64/ ksdevice=eth0 text ks=http://192.168.1.4/cblr/svc/op/ks/system/lxc01.demo.lan serial kssendmac" \
     -chardev socket,id=charmonitor,path=/var/tmp/vm/${1}.monitor,server,nowait \
     -mon chardev=charmonitor,id=monitor,mode=control ;;
-    #-display none \
-    #-daemonize ;;
 
   #----------#
   # Stop any #
