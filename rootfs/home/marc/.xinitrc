@@ -22,14 +22,6 @@ xrandr | grep 'DP1 connected' && xrandr --output LVDS1 --mode 1600x900 --output 
 
 [[ -f $HOME/.Xresources ]] && xrdb -merge $HOME/.Xresources
 
-#---------------------------
-# Setup the keyring daemon:
-#---------------------------
-
-source /etc/X11/xinit/xinitrc.d/30-dbus
-eval $(/usr/bin/gnome-keyring-daemon --start --components=gpg,pkcs11,secrets,ssh)
-export GNOME_KEYRING_CONTROL GNOME_KEYRING_PID GPG_AGENT_INFO SSH_AUTH_SOCK
-
 #------------------
 # Add fonts paths:
 #------------------
