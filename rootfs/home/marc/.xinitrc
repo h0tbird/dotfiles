@@ -10,11 +10,26 @@ if [ -d /etc/X11/xinit/xinitrc.d ]; then
   done
 fi
 
-#---------------------
-# Setup dual monitor:
-#---------------------
+#----------------------------
+# VirtualBox guest services:
+#----------------------------
 
-xrandr | grep 'DP1 connected' && xrandr --output LVDS1 --mode 1600x900 --output DP1 --mode 1920x1080 --above LVDS1 &
+[ -x /usr/bin/VBoxClient-all ] && /usr/bin/VBoxClient-all &
+
+#-----------------
+# Setup monitors:
+#-----------------
+
+ID=$(sleep 2; xrandr --verbose | grep MHz | sort | awk '{print $1$2$3}' | md5sum | cut -f1 -d' ')
+
+case $ID in
+
+  'ec867d3dfa8050c8e04b0ebc8acb67d1') xrandr --output VBOX0 --mode 1366x768 ;;  # VBox Latitude E7440
+  '1f1319d611e213e8fe87366a90f97120') xrandr --output VBOX0 --mode 1920x1080 ;; # VBox home DELL Monitor
+
+esac
+
+(sleep 1 && xrandr | grep 'DP1 connected' && xrandr --output LVDS1 --mode 1600x900 --output DP1 --mode 1920x1080 --above LVDS1) &
 
 #-------------------
 # Load .Xresources:
@@ -34,7 +49,7 @@ xset fp rehash
 # Start apps in background (only if not already running)
 #--------------------------------------------------------
 
-list=(urxvtd statusbar)
+list=(urxvtd statusbar xcmenu)
 
 for app in "${list[@]}"; do
   check=$(ps -C "$app" -opid=)
@@ -42,6 +57,7 @@ for app in "${list[@]}"; do
     case "$app" in
       urxvtd) urxvtd -q -o -f ;;
       statusbar) statusbar & ;;
+      xcmenu) xcmenu --daemon --primary --clipboard ;;
     esac
   fi
 done
