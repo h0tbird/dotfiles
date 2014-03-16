@@ -14,22 +14,26 @@ fi
 # VirtualBox guest services:
 #----------------------------
 
-[ -x /usr/bin/VBoxClient-all ] && /usr/bin/VBoxClient-all &
+[[ -x /usr/bin/VBoxClient-all ]] && /usr/bin/VBoxClient-all &
 
 #-----------------
 # Setup monitors:
 #-----------------
 
-ID=$(sleep 2; xrandr --verbose | grep MHz | sort | awk '{print $1$2$3}' | md5sum | cut -f1 -d' ')
+ID=$(sleep 1; xrandr --verbose | grep MHz | sort | awk '{print $1$2$3}' | md5sum | cut -f1 -d' ')
 
 case $ID in
 
-  'ec867d3dfa8050c8e04b0ebc8acb67d1') xrandr --output VBOX0 --mode 1366x768 ;;  # VBox Latitude E7440
-  '1f1319d611e213e8fe87366a90f97120') xrandr --output VBOX0 --mode 1920x1080 ;; # VBox home DELL Monitor
+  # VirtualBox Latitude E7440:
+  'ec867d3dfa8050c8e04b0ebc8acb67d1') xrandr --output VBOX0 --mode 1366x768 ;;
+
+  # VirtualBox DELL E2313H:
+  '1f1319d611e213e8fe87366a90f97120') xrandr --output VBOX0 --mode 1920x1080 ;;
+
+  # Lenovo X1 Carbon and DELL E2313H:
+  '0aaae6473d8e10796a6f93a3d31b9153') xrandr --output LVDS1 --mode 1600x900 --output DP1 --mode 1920x1080 --above LVDS1 ;;
 
 esac
-
-(sleep 1 && xrandr | grep 'DP1 connected' && xrandr --output LVDS1 --mode 1600x900 --output DP1 --mode 1920x1080 --above LVDS1) &
 
 #-------------------
 # Load .Xresources:
