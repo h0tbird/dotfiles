@@ -33,6 +33,9 @@ case $ID in
   # Lenovo X1 Carbon and DELL E2313H:
   'ab41b96932000b2ded4f636e3766a1e2') xrandr --output LVDS1 --mode 1600x900 --output DP1 --mode 1920x1080 --above LVDS1 ;;
 
+  # VirtualBox DELL work:
+  '38329c8139c7d4ba5cefcd8ddaa5c85b') xrandr --output VBOX0 --mode 1680x1050 ;;
+
 esac
 
 #-------------------
