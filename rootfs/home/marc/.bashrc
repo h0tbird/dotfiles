@@ -17,6 +17,9 @@ alias grep='grep --color=auto'
 alias sudo='A=`alias` sudo '
 alias pacman='pacman --color auto'
 alias picocom='picocom -l /dev/pts/4'
+alias dip="docker inspect --format '{{ .NetworkSettings.IPAddress }}'"
+alias drm='docker rm $(docker ps -qa)';
+alias dri='docker rmi $(docker images -q)';
 
 #------------------------------------------------------------------------------
 # PS1:
