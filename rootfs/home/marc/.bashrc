@@ -19,7 +19,7 @@ alias pacman='pacman --color auto'
 alias picocom='picocom -l /dev/pts/4'
 alias dip="docker inspect --format '{{ .NetworkSettings.IPAddress }}'"
 alias drm='docker rm $(docker ps -qa)';
-alias dri='docker rmi $(docker images -q)';
+alias drmi='docker rmi $(docker images | grep "^<none>" | awk "{print $3}")';
 
 #------------------------------------------------------------------------------
 # PS1:
