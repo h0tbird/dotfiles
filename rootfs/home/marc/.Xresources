@@ -31,15 +31,15 @@ URxvt.tabbed.title-bg:        8
 URxvt.pointerBlank:           true
 URxvt.pointerBlankDelay:      2
 URxvt.background:             [97]#121314
-URxvt.keysym.4-Down:          perl:tabbedex:new_tab
-URxvt.keysym.4-Up:            perl:tabbedex:clone_tab
-URxvt.keysym.4-Left:          perl:tabbedex:prev_tab
-URxvt.keysym.4-Right:         perl:tabbedex:next_tab
-URxvt.keysym.Control-4-Left:  perl:tabbedex:move_tab_left
-URxvt.keysym.Control-4-Right: perl:tabbedex:move_tab_right
+URxvt.keysym.4-n:             perl:tabbedex:new_tab
+URxvt.keysym.4-u:             perl:tabbedex:clone_tab
+URxvt.keysym.4-h:             perl:tabbedex:prev_tab
+URxvt.keysym.4-l:             perl:tabbedex:next_tab
+URxvt.keysym.4-S-H:           perl:tabbedex:move_tab_left
+URxvt.keysym.4-S-L:           perl:tabbedex:move_tab_right
 URxvt.keysym.4-r:             perl:tabbedex:rename_tab
-URxvt.keysym.Control-Left:    \033[1;5D
-URxvt.keysym.Control-Right:   \033[1;5C
+URxvt.keysym.C-n:             \033[1;5D
+URxvt.keysym.C-period:        \033[1;5C
 URxvt.iso14755:               false
 URxvt.iso14755_52:            false
 
