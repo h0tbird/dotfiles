@@ -78,4 +78,5 @@ fi
 
 export VISUAL=`which vim`
 export EDITOR=`which vim`
-export PATH="$PATH:$HOME/bin"
+export GOPATH=$HOME/go
+export PATH="$PATH:$HOME/bin:/usr/local/go/bin"
