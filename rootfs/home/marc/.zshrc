@@ -28,7 +28,8 @@ alias dps='docker ps'
 alias dki='docker run -i -t -P'
 alias drm='docker rm $(docker ps -qa)'
 alias dip="docker inspect --format '{{ .NetworkSettings.IPAddress }}'"
-alias drmi='docker rmi $(docker images | grep "^<none>" | awk "{print $3}")';
+alias drmi='docker rmi $(docker images | awk "/^<none>/ {print $3}")'
+alias drmi="i=\$(docker images | awk '/^<no/ {print \$3}'); [ -n \"\$i\" ] && docker rmi \$i"
 alias dkb='docker build --rm -t ${PWD##*/} .'
 
 #------------------------------------------------------------------------------
@@ -52,9 +53,6 @@ PROMPT='${dp}[${RET}${dp}]${bw} %~ ${nc}$(git_super_status)${dp}>> ${nc}'
 
 eval "$(dircolors -b)"
 
-# The following lines were added by compinstall
-zstyle :compinstall filename '/home/marc/.zshrc'
-
 #------------------------------------------------------------------------------
 # Advanced tab-completion:
 #------------------------------------------------------------------------------
@@ -77,13 +75,3 @@ bindkey '^?' backward-delete-char
 bindkey '^h' backward-delete-char
 bindkey '^w' backward-kill-word
 bindkey '^r' history-incremental-search-backward
-
-function zle-line-init zle-keymap-select {
-    VIM_PROMPT="%{$fg_bold[yellow]%} [% NORMAL]%  %{$reset_color%}"
-    RPS1="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/} $EPS1"
-    zle reset-prompt
-}
-
-zle -N zle-line-init
-zle -N zle-keymap-select
-export KEYTIMEOUT=1
