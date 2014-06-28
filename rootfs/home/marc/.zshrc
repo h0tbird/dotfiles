@@ -42,8 +42,9 @@ bw="%{[38;5;231m%}" # Bright white
 nc="%{[00m%}"       # No color
 
 setopt prompt_subst
+source ~/.zsh/git-prompt/zshrc.sh
 precmd() { R=$?; [ $R -eq 0 ] && RET="${lg}${R}" || RET="${lr}${R}" }
-PROMPT='${dp}[${RET}${dp}]${bw} %~ ${dp}>> ${nc}'
+PROMPT='${dp}[${RET}${dp}]${bw} %~ ${nc}$(git_super_status)${dp}>> ${nc}'
 
 #------------------------------------------------------------------------------
 # Set and export LS_COLORS:
