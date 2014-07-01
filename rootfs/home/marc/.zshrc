@@ -63,12 +63,20 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
 #------------------------------------------------------------------------------
+# Exports:
+#------------------------------------------------------------------------------
+
+export VISUAL=`which vim`
+export EDITOR=`which vim`
+export PATH="$PATH:$HOME/bin"
+
+#------------------------------------------------------------------------------
 # Key bindings:
 #------------------------------------------------------------------------------
 
+bindkey -e
 bindkey '^[[1;5C' emacs-forward-word
 bindkey '^[[1;5D' emacs-backward-word
-bindkey -v
 bindkey '^P' up-history
 bindkey '^N' down-history
 bindkey '^?' backward-delete-char
