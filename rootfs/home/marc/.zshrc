@@ -10,7 +10,17 @@ SAVEHIST=1000
 # Specifying options:
 #------------------------------------------------------------------------------
 
-setopt appendhistory autocd beep extendedglob nomatch notify
+setopt append_history
+setopt extended_history
+setopt share_history
+setopt hist_find_no_dups
+setopt hist_ignore_dups
+setopt hist_verify
+setopt autocd
+setopt beep
+setopt extended_glob
+setopt nomatch
+setopt notify
 
 #------------------------------------------------------------------------------
 # Aliasing:
@@ -48,19 +58,24 @@ precmd() { R=$?; [ $R -eq 0 ] && RET="${lg}${R}" || RET="${lr}${R}" }
 PROMPT='${dp}[${RET}${dp}]${bw} %~ ${nc}$(git_super_status)${dp}>> ${nc}'
 
 #------------------------------------------------------------------------------
-# Set and export LS_COLORS:
-#------------------------------------------------------------------------------
-
-eval "$(dircolors -b)"
-
-#------------------------------------------------------------------------------
 # Advanced tab-completion:
 #------------------------------------------------------------------------------
 
-autoload -Uz compinit && compinit
+autoload -U compinit && compinit
+autoload -U colors && colors
+eval "$(dircolors -b)"
+
+# menu
 zstyle ':completion:*' menu select
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
+# partial match
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+
+# kill
+zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
+zstyle ':completion:*:*:kill:*:processes' list-colors "=(#b) #([0-9]#) ([0-9a-z-]#)*=$color[green]=0=$color[black]"
+zstyle ':completion:*:*:kill:*' force-list always
 
 #------------------------------------------------------------------------------
 # Exports:
