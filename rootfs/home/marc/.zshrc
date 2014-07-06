@@ -1,4 +1,9 @@
 #------------------------------------------------------------------------------
+# '.zshrc' is sourced in interactive shells. It should contain commands to set
+# up aliases, functions, options, key bindings, etc.
+#------------------------------------------------------------------------------
+
+#------------------------------------------------------------------------------
 # Setting up history:
 #------------------------------------------------------------------------------
 
@@ -76,14 +81,6 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:
 zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
 zstyle ':completion:*:*:kill:*:processes' list-colors "=(#b) #([0-9]#) ([0-9a-z-]#)*=$color[green]=0=$color[black]"
 zstyle ':completion:*:*:kill:*' force-list always
-
-#------------------------------------------------------------------------------
-# Exports:
-#------------------------------------------------------------------------------
-
-export VISUAL=`which vim`
-export EDITOR=`which vim`
-export PATH="$PATH:$HOME/bin"
 
 #------------------------------------------------------------------------------
 # Key bindings:
