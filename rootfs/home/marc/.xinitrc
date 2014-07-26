@@ -44,6 +44,12 @@ esac
 
 [[ -f $HOME/.Xresources ]] && xrdb -merge $HOME/.Xresources
 
+#---------------------------------------------------------
+# Setting keyboard layout (setxkbmap -print -verbose 10):
+#---------------------------------------------------------
+
+setxkbmap -model pc104 -layout es
+
 #------------------
 # Add fonts paths:
 #------------------
