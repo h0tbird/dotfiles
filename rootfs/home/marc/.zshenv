@@ -10,6 +10,7 @@
 #------------------------------------------------------------------------------
 
 export PATH="${HOME}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin"
+export PATH="`ruby -rubygems -e 'puts Gem.user_dir'`/bin:$PATH"
 
 #------------------------------------------------------------------------------
 # Java lives here:
