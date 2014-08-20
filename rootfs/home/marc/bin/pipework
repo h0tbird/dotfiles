@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 
 case "$1" in
@@ -8,7 +8,7 @@ case "$1" in
 esac
 
 IFNAME=$1
-if [ "$2" == "-i" ]; then
+if [ "$2" = "-i" ]; then
   CONTAINER_IFNAME=$3
   shift 2
 else
@@ -176,6 +176,7 @@ fi
 [ -f /var/run/netns/$NSPID ] && rm -f /var/run/netns/$NSPID
 ln -s /proc/$NSPID/ns/net /var/run/netns/$NSPID
 
+
 # Check if we need to create a bridge.
 [ $IFTYPE = bridge ] && [ ! -d /sys/class/net/$IFNAME ] && {
     (ip link add dev $IFNAME type bridge > /dev/null 2>&1) || (brctl addbr $IFNAME)
@@ -185,8 +186,8 @@ ln -s /proc/$NSPID/ns/net /var/run/netns/$NSPID
 MTU=$(ip link show $IFNAME | awk '{print $5}')
 # If it's a bridge, we need to create a veth pair
 [ $IFTYPE = bridge ] && {
-    LOCAL_IFNAME=pl$NSPID$CONTAINER_IFNAME
-    GUEST_IFNAME=pg$NSPID$CONTAINER_IFNAME
+    LOCAL_IFNAME="v${CONTAINER_IFNAME}pl${NSPID}"
+    GUEST_IFNAME="v${CONTAINER_IFNAME}pg${NSPID}"
     ip link add name $LOCAL_IFNAME mtu $MTU type veth peer name $GUEST_IFNAME mtu $MTU
     case "$BRTYPE" in
         linux)
@@ -219,9 +220,9 @@ ip netns exec $NSPID ip link set $GUEST_IFNAME name $CONTAINER_IFNAME
 [ "$MACADDR" ] && ip netns exec $NSPID ip link set dev $CONTAINER_IFNAME address $MACADDR
 if [ "$IPADDR" = "dhcp" ]
 then
-    [ $DHCP_CLIENT = "udhcpc"  ] && ip netns exec $NSPID $DHCP_CLIENT -qi $CONTAINER_IFNAME
-    [ $DHCP_CLIENT = "dhclient"  ] && ip netns exec $NSPID $DHCP_CLIENT $CONTAINER_IFNAME
-    [ $DHCP_CLIENT = "dhcpcd"  ] && ip netns exec $NSPID $DHCP_CLIENT -q $CONTAINER_IFNAME
+    [ $DHCP_CLIENT = "udhcpc"  ] && ip netns exec $NSPID $DHCP_CLIENT -qi $CONTAINER_IFNAME -x hostname:$GUESTNAME
+    [ $DHCP_CLIENT = "dhclient"  ] && ip netns exec $NSPID $DHCP_CLIENT $CONTAINER_IFNAME -H $GUESTNAME
+    [ $DHCP_CLIENT = "dhcpcd"  ] && ip netns exec $NSPID $DHCP_CLIENT -q $CONTAINER_IFNAME -h $GUESTNAME
 else
     ip netns exec $NSPID ip addr add $IPADDR dev $CONTAINER_IFNAME
     [ "$GATEWAY" ] && {
