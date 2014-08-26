@@ -34,10 +34,20 @@ function create_tap {
 }
 
 #------------------------------------------------------------------------------
+# create_bridge: creates a new bridge named $1.
+#------------------------------------------------------------------------------
+
+function create_bridge {
+  $BRCTL show | grep -q $1 && return
+  $SUDO $BRCTL addbr $1
+}
+
+#------------------------------------------------------------------------------
 # destroy_tap: destroys the TAP device named $1.
 #------------------------------------------------------------------------------
 
 function destroy_tap {
+  $IP link | grep -q $1 || return 0
   $SUDO $IP link set dev $1 down
   $SUDO $IP tuntap del dev $1 mode tap
   return $?
@@ -87,19 +97,22 @@ case "${1}-${2}" in
 
     qemu-system-x86_64 \
     -enable-kvm \
+    -m 1024 \
     -smp 2,sockets=2,cores=1,threads=1 \
     -pidfile /var/tmp/vm/${1}.pid \
     -name ${1}.demo.lan \
-    -nodefconfig \
+    -nographic \
+    -nodefaults \
+    -boot order=nc,reboot-timeout=60,strict=on \
     -rtc base=utc \
-    -drive file="${HOME}/vm-images/${1}.img",if=virtio \
-    -net nic,model=virtio \
-    -net tap,vlan=0,ifname=${TAP},script=no,downscript=no \
-    -serial pty \
-    -m 1024 \
-    -chardev socket,id=charmonitor,path=/var/tmp/vm/${1}.monitor,server,nowait \
-    -mon chardev=charmonitor,id=monitor,mode=control \
-    -display none \
+    -netdev tap,id=netdev0,ifname=${TAP},script=no,downscript=no \
+    -device virtio-net-pci,romfile=/usr/share/qemu/pxe-virtio.rom,netdev=netdev0,id=net0,bootindex=1 \
+    -drive file="${HOME}/vm-images/${1}.img",if=none,id=drive0 \
+    -device virtio-blk-pci,scsi=off,bus=pci.0,addr=0x5,drive=drive0,id=disk0,bootindex=2 \
+    -chardev socket,id=monitor,path=/var/tmp/vm/${1}_monitor.sock,server,nowait \
+    -mon chardev=monitor,id=monitor,mode=control \
+    -chardev socket,id=console,path=/var/tmp/vm/${1}_console.sock,server,nowait \
+    -device isa-serial,chardev=console,id=serial0 \
     -daemonize ;;
 
   #-------#
@@ -108,27 +121,29 @@ case "${1}-${2}" in
 
   lxc01-start)
 
-    TAP=$(bridge_wifi $(create_tap $(next_tap)))
-    $SUDO $IP route add 192.168.1.8 dev ${TAP}
-    echo ${TAP} > /var/tmp/vm/${1}.tap
+    create_bridge br0
 
     qemu-system-x86_64 \
     -enable-kvm \
+    -m 1024 \
     -smp 2,sockets=2,cores=1,threads=1 \
     -pidfile /var/tmp/vm/${1}.pid \
     -name ${1}.demo.lan \
-    -nodefconfig \
+    -nographic \
+    -nodefaults \
+    -boot order=nc,reboot-timeout=60,strict=on \
     -rtc base=utc \
-    -drive file="${HOME}/vm-images/${1}.img",if=virtio \
-    -net nic,model=virtio \
-    -net tap,vlan=0,ifname=${TAP},script=no,downscript=no \
-    -serial pty \
-    -m 1024 \
-    -kernel /home/marc/vm-images/rhel7/vmlinuz \
-    -initrd /home/marc/vm-images/rhel7/initrd.img \
-    -append "method=http://192.168.1.4/cblr/links/RHEL7-x86_64/ ksdevice=eth0 text ks=http://192.168.1.4/cblr/svc/op/ks/system/lxc01.demo.lan serial kssendmac" \
-    -chardev socket,id=charmonitor,path=/var/tmp/vm/${1}.monitor,server,nowait \
-    -mon chardev=charmonitor,id=monitor,mode=control ;;
+    -netdev bridge,id=netdev0 \
+    -device virtio-net-pci,romfile=/usr/share/qemu/pxe-virtio.rom,netdev=netdev0,id=net0,bootindex=1 \
+    -drive file="${HOME}/vm-images/${1}.img",if=none,id=drive0 \
+    -device virtio-blk-pci,scsi=off,bus=pci.0,addr=0x5,drive=drive0,id=disk0,bootindex=2 \
+    -chardev socket,id=monitor,path=/var/tmp/vm/${1}_monitor.sock,server,nowait \
+    -mon chardev=monitor,id=monitor,mode=control \
+    -chardev socket,id=console,path=/var/tmp/vm/${1}_console.sock,server,nowait \
+    -device isa-serial,chardev=console,id=serial0 \
+    -daemonize
+
+    socat unix-connect:/var/tmp/vm/lxc01_console.sock stdio ;;
 
   #----------#
   # Stop any #
@@ -136,8 +151,8 @@ case "${1}-${2}" in
 
   *-stop)
 
-    echo '{ "execute": "qmp_capabilities" } { "execute": "system_powerdown" }' | \
-    $SOCAT - UNIX-CONNECT:/var/tmp/vm/${1}.monitor > /dev/null
+    echo '{ "execute": "qmp_capabilities" } { "execute": "quit" }' | \
+    $SOCAT - UNIX-CONNECT:/var/tmp/vm/${1}_monitor.sock > /dev/null
     until destroy_tap `$CAT /var/tmp/vm/${1}.tap`; do sleep 2; done ;;
 
   #---------#
