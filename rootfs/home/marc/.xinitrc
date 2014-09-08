@@ -31,7 +31,7 @@ case $ID in
   '1f1319d611e213e8fe87366a90f97120') xrandr --output VBOX0 --mode 1920x1080 ;;
 
   # Lenovo X1 Carbon and DELL E2313H:
-  'ab41b96932000b2ded4f636e3766a1e2') xrandr --output LVDS1 --mode 1600x900 --output DP1 --mode 1920x1080 --above LVDS1 ;;
+  '43a9367290c0165a3bf9f981e793d14b') xrandr --output LVDS1 --mode 1600x900 --output DP1 --mode 1920x1080 --above LVDS1 ;;
 
   # VirtualBox DELL work:
   '38329c8139c7d4ba5cefcd8ddaa5c85b') xrandr --output VBOX0 --mode 1680x1050 ;;
