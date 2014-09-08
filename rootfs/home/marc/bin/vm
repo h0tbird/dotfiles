@@ -40,6 +40,7 @@ function create_tap {
 function create_bridge {
   $BRCTL show | grep -q $1 && return
   $SUDO $BRCTL addbr $1
+  $SUDO $IP link set dev $1 up
 }
 
 #------------------------------------------------------------------------------
@@ -122,6 +123,8 @@ case "${1}-${2}" in
   lxc01-start)
 
     create_bridge br0
+    sudo ip addr add 192.168.2.5/24 dev br0 broadcast 192.168.2.255
+    #sudo ip route add 192.168.2.0/24 dev br0 proto kernel scope link src 192.168.2.5
 
     qemu-system-x86_64 \
     -enable-kvm \
