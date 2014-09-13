@@ -128,7 +128,7 @@ then
     # Check for first available dhcp client
     DHCP_CLIENT_LIST="udhcpc dhcpcd dhclient"
     for CLIENT in $DHCP_CLIENT_LIST; do
-        which $CLIENT >/dev/null && {
+        which $CLIENT &>/dev/null && {
             DHCP_CLIENT=$CLIENT
             break
         }
@@ -222,7 +222,7 @@ if [ "$IPADDR" = "dhcp" ]
 then
     [ $DHCP_CLIENT = "udhcpc"  ] && ip netns exec $NSPID $DHCP_CLIENT -qi $CONTAINER_IFNAME -x hostname:$GUESTNAME
     [ $DHCP_CLIENT = "dhclient"  ] && ip netns exec $NSPID $DHCP_CLIENT $CONTAINER_IFNAME -H $GUESTNAME
-    [ $DHCP_CLIENT = "dhcpcd"  ] && ip netns exec $NSPID $DHCP_CLIENT -q $CONTAINER_IFNAME -h $GUESTNAME
+    [ $DHCP_CLIENT = "dhcpcd"  ] && ip netns exec $NSPID $DHCP_CLIENT -C resolv.conf -q $CONTAINER_IFNAME -h $GUESTNAME
 else
     ip netns exec $NSPID ip addr add $IPADDR dev $CONTAINER_IFNAME
     [ "$GATEWAY" ] && {
