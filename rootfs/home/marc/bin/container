@@ -1,95 +1,26 @@
 #!/bin/bash
 
 #------------------------------------------------------------------------------
-# Variables:
+# Defines:
 #------------------------------------------------------------------------------
 
-DOMAIN='demo.lan'
+CONTAINER_HOME='/home/marc/docker'
 
 #------------------------------------------------------------------------------
-# Visual effects:
-#------------------------------------------------------------------------------
-
-C_CLEAR=$(tput sgr0)
-C_MAIN=${C_CLEAR}$(tput bold)
-C_OTHER=${C_MAIN}$(tput setaf 4)
-C_BUSY=${C_CLEAR}$(tput setaf 6)
-DEL_TEXT="\e[$(( $(( $(tput cols) - 13 )) + 4 ))G"
-
-deltext() {
-    printf "${DEL_TEXT}"
-}
-
-stat_busy() {
-    printf "${C_OTHER}:: ${C_MAIN}${1}${C_CLEAR} "
-    printf "\e[s"
-    deltext
-    printf "   ${C_OTHER}[${C_BUSY}BUSY${C_OTHER}]${C_CLEAR} "
-}
-
-stat_done() {
-    deltext
-    printf "   ${C_OTHER}[${C_MAIN}DONE${C_OTHER}]${C_CLEAR} \n"
-}
-
-#------------------------------------------------------------------------------
-# Start the container:
+# Define start and stop functions:
 #------------------------------------------------------------------------------
 
 function container_start {
-
-  stat_busy "Starting container ${1}${ID}"
-  LIST=`docker ps -a | awk '/'${1}'[0-9]/ {print $NF}'`
-  for ID in `seq -w 99`; do echo ${LIST} | grep -q ${ID} || break; done
-
-  case ${1} in
-
-    repo)
-      CID=`docker run --privileged -v /data/repos:/var/www/repos -h ${1}${ID}.${DOMAIN} --name ${1}${ID} -d -P h0tbird/${1}`
-      ;;
-
-    *)
-      CID=`docker run --privileged -h ${1}${ID}.${DOMAIN} --name ${1}${ID} -d -P h0tbird/${1}`
-      ;;
-
-  esac
-
-  stat_done
-
-  stat_busy "Seting up ${1}${ID} network"
-  case ${1} in
-
-    boot)
-      pipework br0 ${1}${ID} 192.168.2.1/24
-      echo "nameserver 192.168.2.1" | resolvconf -m 0 -a fake0
-      ;;
-
-    *) pipework br0 ${1}${ID} dhcp ;;
-
-  esac
-  stat_done
+  /home/marc/docker/docker-${1}/bin/container start
 }
-
-#------------------------------------------------------------------------------
-# Stop the container:
-#------------------------------------------------------------------------------
 
 function container_stop {
-
-  stat_busy "Killing dhcpcd process"; pkill -f "dhcpcd -A -c true -q eth1 -h ${1}"; stat_done
-  stat_busy "Killing container ${1}"; docker ps | grep -wq ${1} && ID=`docker kill ${1}`; stat_done
-  stat_busy "Removing container ${1}"; docker ps -a | grep -wq ${1} && ID=`docker rm -f ${1}`; stat_done
-  case ${1} in boot01) resolvconf -d fake0 ;; esac
+  /home/marc/docker/docker-${1:0:-2}/bin/container stop $1
 }
 
 #------------------------------------------------------------------------------
-# Entry point (run via sudo if not 'root'):
+# Entry point:
 #------------------------------------------------------------------------------
 
-SUDO=`which sudo`; if [[ $EUID -ne 0 ]]; then $SUDO $0 $@; else
-
-  [[ $# -ne 2 ]] && exit 1
-  case ${1} in start|stop) container_${1} ${2};;
-  esac
-
-fi
+[ $# -ne 2 ] && echo "Usage: $0 [start role] | [stop name]" && exit 1
+case $1 in start|stop) container_$1 $2 ;; esac
