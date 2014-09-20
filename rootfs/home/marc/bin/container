@@ -41,7 +41,19 @@ function container_start {
   stat_busy "Starting container ${1}${ID}"
   LIST=`docker ps -a | awk '/'${1}'[0-9]/ {print $NF}'`
   for ID in `seq -w 99`; do echo ${LIST} | grep -q ${ID} || break; done
-  CID=`docker run --privileged -h ${1}${ID}.${DOMAIN} --name ${1}${ID} -d -P h0tbird/${1}`
+
+  case ${1} in
+
+    repo)
+      CID=`docker run --privileged -v /data/repos:/var/www/repos -h ${1}${ID}.${DOMAIN} --name ${1}${ID} -d -P h0tbird/${1}`
+      ;;
+
+    *)
+      CID=`docker run --privileged -h ${1}${ID}.${DOMAIN} --name ${1}${ID} -d -P h0tbird/${1}`
+      ;;
+
+  esac
+
   stat_done
 
   stat_busy "Seting up ${1}${ID} network"
@@ -52,7 +64,7 @@ function container_start {
       echo "nameserver 192.168.2.1" | resolvconf -m 0 -a fake0
       ;;
 
-    *) pipework br0 ${1}${ID} dhcp && rm -f /run/dhcpcd-eth1.pid ;;
+    *) pipework br0 ${1}${ID} dhcp ;;
 
   esac
   stat_done
@@ -64,7 +76,7 @@ function container_start {
 
 function container_stop {
 
-  stat_busy "Killing dhcpcd process"; pkill -f "dhcpcd -C resolv.conf -q eth1 -h ${1}"; stat_done
+  stat_busy "Killing dhcpcd process"; pkill -f "dhcpcd -A -c true -q eth1 -h ${1}"; stat_done
   stat_busy "Killing container ${1}"; docker ps | grep -wq ${1} && ID=`docker kill ${1}`; stat_done
   stat_busy "Removing container ${1}"; docker ps -a | grep -wq ${1} && ID=`docker rm -f ${1}`; stat_done
   case ${1} in boot01) resolvconf -d fake0 ;; esac
