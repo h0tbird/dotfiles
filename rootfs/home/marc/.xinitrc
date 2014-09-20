@@ -20,23 +20,18 @@ fi
 # Setup monitors:
 #-----------------
 
-ID=$(xrandr --verbose | grep MHz | sort | awk '{print $1$2$3}' | md5sum | cut -f1 -d' ')
+if [ `cat /etc/uuid` = '3609b77f-fc2a-4773-8f11-f035465f725e' ]; then
 
-case $ID in
+  xrandr --newmode "1600x900"  118.25  1600 1696 1856 2112  900 903 908 934 -hsync +vsync; xrandr --addmode LVDS1 1600x900
+  xrandr --newmode "1368x768"   85.25  1368 1440 1576 1784  768 771 781 798 -hsync +vsync; xrandr --addmode LVDS1 1368x768
+  xrandr --newmode "1280x720"   74.50  1280 1344 1472 1664  720 723 728 748 -hsync +vsync; xrandr --addmode LVDS1 1280x720
+  xrandr --newmode "1024x576"   46.50  1024 1064 1160 1296  576 579 584 599 -hsync +vsync; xrandr --addmode LVDS1 1024x576
+  xrandr --newmode "960x540"    40.75   960  992 1088 1216  540 543 548 562 -hsync +vsync; xrandr --addmode LVDS1 960x540
+  xrandr --newmode "856x480"    31.75   856  880  960 1064  480 483 493 500 -hsync +vsync; xrandr --addmode LVDS1 856x480
+  xrandr --newmode "640x360"    18.00   640  664  720  800  360 363 368 376 -hsync +vsync; xrandr --addmode LVDS1 640x360
 
-  # VirtualBox Latitude E7440:
-  'ec867d3dfa8050c8e04b0ebc8acb67d1') xrandr --output VBOX0 --mode 1366x768 ;;
-
-  # VirtualBox DELL E2313H:
-  '1f1319d611e213e8fe87366a90f97120') xrandr --output VBOX0 --mode 1920x1080 ;;
-
-  # Lenovo X1 Carbon and DELL E2313H:
-  '43a9367290c0165a3bf9f981e793d14b') xrandr --output LVDS1 --mode 1600x900 --output DP1 --mode 1920x1080 --above LVDS1 ;;
-
-  # VirtualBox DELL work:
-  '38329c8139c7d4ba5cefcd8ddaa5c85b') xrandr --output VBOX0 --mode 1680x1050 ;;
-
-esac
+  xrandr | grep -q 'DP1 connected' && xrandr --output LVDS1 --mode 1600x900 --output DP1 --mode 1920x1080 --above LVDS1
+fi
 
 #-------------------
 # Load .Xresources:
@@ -68,9 +63,9 @@ for app in "${list[@]}"; do
   check=$(ps -C "$app" -opid=)
   if [[ -z "$check" ]]; then
     case "$app" in
-      urxvtd) urxvtd -q -o -f ;;
+      urxvtd)    urxvtd -q -o -f ;;
       statusbar) statusbar & ;;
-      xcmenu) xcmenu --daemon --primary --clipboard ;;
+      xcmenu)    xcmenu --daemon --primary --clipboard ;;
     esac
   fi
 done
