@@ -3,8 +3,11 @@
 URxvt.depth:                  32
 URxvt.scrollBar:              true
 URxvt.scrollBar_right:        true
-URxvt.saveLines:              2000
 URxvt.scrollstyle:            plain
+URxvt.scrollTtyOutput:        false
+URxvt.scrollWithBuffer:       true
+URxvt.scrollTtyKeypress:      true
+URxvt.saveLines:              2000
 URxvt.termName:               rxvt-unicode-256color
 URxvt.perl-ext-common:        default,tabbedex,matcher
 URxvt.urlLauncher:            chromium
