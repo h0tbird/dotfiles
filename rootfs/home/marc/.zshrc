@@ -64,22 +64,21 @@ if [[ $TERM == 'rxvt-unicode-256color' ]]; then
   # Set the tab title:
   #--------------------
 
-  function my_ssh {
-    STN="\033]777;tabbedex;set_tab_name"
-    printf "${STN};${@: -1}\007"; ssh $@; printf "${STN};\007"
+  function ssh {
+    printf "\033]777;tabbedex;set_tab_name;${@: -1}\007"
+    /usr/sbin/ssh $@
+    printf "\033]777;tabbedex;set_tab_name;\007"
   }
-
-  alias ssh='my_ssh'
 
   #--------------------------
   # Set cmd for cloned tabs:
   #--------------------------
 
-  function my_hook {
+  function set_cmd_hook {
     printf "\033]777;tabbedex;set_cmd;$1\007"
   }
 
-  add-zsh-hook preexec my_hook
+  add-zsh-hook preexec set_cmd_hook
 
 fi
 
