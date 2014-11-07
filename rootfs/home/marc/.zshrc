@@ -27,6 +27,14 @@ setopt nomatch
 setopt notify
 
 #------------------------------------------------------------------------------
+# Autoload functions:
+#------------------------------------------------------------------------------
+
+autoload -U compinit
+autoload -U colors
+autoload -U add-zsh-hook
+
+#------------------------------------------------------------------------------
 # Aliasing:
 #------------------------------------------------------------------------------
 
@@ -52,13 +60,26 @@ alias dkb='docker build --rm -t ${PWD##*/} .'
 
 if [[ $TERM == 'rxvt-unicode-256color' ]]; then
 
-  # Wrapper around ssh to set the current tab title:
+  #--------------------
+  # Set the tab title:
+  #--------------------
+
   function my_ssh {
     STN="\033]777;tabbedex;set_tab_name"
     printf "${STN};${@: -1}\007"; ssh $@; printf "${STN};\007"
   }
 
   alias ssh='my_ssh'
+
+  #--------------------------
+  # Set cmd for cloned tabs:
+  #--------------------------
+
+  function my_hook {
+    printf "\033]777;tabbedex;set_cmd;$1\007"
+  }
+
+  add-zsh-hook preexec my_hook
 
 fi
 
@@ -81,8 +102,7 @@ PROMPT='${dp}[${RET}${dp}]${bw} %~ ${nc}$(git_super_status)${dp}>> ${nc}'
 # Advanced tab-completion:
 #------------------------------------------------------------------------------
 
-autoload -U compinit && compinit
-autoload -U colors && colors
+compinit && colors
 eval "$(dircolors -b)"
 
 # menu
