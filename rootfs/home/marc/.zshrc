@@ -47,6 +47,22 @@ alias drmi="i=\$(docker images | awk '/^<no/ {print \$3}'); [ -n \"\$i\" ] && do
 alias dkb='docker build --rm -t ${PWD##*/} .'
 
 #------------------------------------------------------------------------------
+# urxvt-tabbedex:
+#------------------------------------------------------------------------------
+
+if [[ $TERM == 'rxvt-unicode-256color' ]]; then
+
+  # Wrapper around ssh to set the current tab title:
+  function my_ssh {
+    STN="\033]777;tabbedex;set_tab_name"
+    printf "${STN};${@: -1}\007"; ssh $@; printf "${STN};\007"
+  }
+
+  alias ssh='my_ssh'
+
+fi
+
+#------------------------------------------------------------------------------
 # PS1:
 #------------------------------------------------------------------------------
 
