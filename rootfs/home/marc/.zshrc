@@ -30,8 +30,8 @@ setopt notify
 # Autoload functions:
 #------------------------------------------------------------------------------
 
-autoload -U compinit
-autoload -U colors
+autoload -U compinit && compinit
+autoload -U colors && colors
 autoload -U add-zsh-hook
 
 #------------------------------------------------------------------------------
@@ -53,6 +53,14 @@ alias dip="docker inspect --format '{{ .NetworkSettings.IPAddress }}'"
 alias drmi='docker rmi $(docker images | awk "/^<none>/ {print $3}")'
 alias drmi="i=\$(docker images | awk '/^<no/ {print \$3}'); [ -n \"\$i\" ] && docker rmi \$i"
 alias dkb='docker build --rm -t ${PWD##*/} .'
+
+#------------------------------------------------------------------------------
+# Google Cloud SDK:
+#------------------------------------------------------------------------------
+
+export CLOUDSDK_PYTHON=/usr/bin/python2
+source '/home/marc/google-cloud-sdk/path.zsh.inc'
+source '/home/marc/google-cloud-sdk/completion.zsh.inc'
 
 #------------------------------------------------------------------------------
 # urxvt-tabbedex:
@@ -101,7 +109,6 @@ PROMPT='${dp}[${RET}${dp}]${bw} %~ ${nc}$(git_super_status)${dp}>> ${nc}'
 # Advanced tab-completion:
 #------------------------------------------------------------------------------
 
-compinit && colors
 eval "$(dircolors -b)"
 
 # menu
