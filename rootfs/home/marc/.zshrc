@@ -43,6 +43,7 @@ alias ls='ls -hF --color=auto --group-directories-first'
 alias l='ls -l'
 alias ll='ls -la'
 alias grep='grep --color=auto'
+alias wanip='dig +short myip.opendns.com @resolver1.opendns.com'
 
 # Docker:
 alias dim='docker images'
