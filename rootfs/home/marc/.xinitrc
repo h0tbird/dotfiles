@@ -22,6 +22,7 @@ fi
 
 if [ `cat /etc/uuid` = '3609b77f-fc2a-4773-8f11-f035465f725e' ]; then
 
+  # Laptop screen modes:
   xrandr --newmode "1600x900"  118.25  1600 1696 1856 2112  900 903 908 934 -hsync +vsync; xrandr --addmode LVDS1 1600x900
   xrandr --newmode "1368x768"   85.25  1368 1440 1576 1784  768 771 781 798 -hsync +vsync; xrandr --addmode LVDS1 1368x768
   xrandr --newmode "1280x720"   74.50  1280 1344 1472 1664  720 723 728 748 -hsync +vsync; xrandr --addmode LVDS1 1280x720
@@ -30,7 +31,16 @@ if [ `cat /etc/uuid` = '3609b77f-fc2a-4773-8f11-f035465f725e' ]; then
   xrandr --newmode "856x480"    31.75   856  880  960 1064  480 483 493 500 -hsync +vsync; xrandr --addmode LVDS1 856x480
   xrandr --newmode "640x360"    18.00   640  664  720  800  360 363 368 376 -hsync +vsync; xrandr --addmode LVDS1 640x360
 
-  xrandr | grep -q 'DP1 connected' && xrandr --output LVDS1 --mode 1600x900 --output DP1 --mode 1920x1080 --above LVDS1
+  # External extends (1920x1080 no panning):
+  xrandr | grep -q 'DP1 connected' && xrandr \
+  --output LVDS1 --mode 1600x900 \
+  --output DP1 --mode 1920x1080 --above LVDS1
+
+  # External mirrors (640x480 panning 1600x900):
+  # xrandr | grep -q 'DP1 connected' && xrandr \
+  # --output LVDS1 --mode 1600x900 \
+  # --output DP1 --mode 640x480 --panning 1600x900 --same-as LVDS1
+
 fi
 
 #-------------------
