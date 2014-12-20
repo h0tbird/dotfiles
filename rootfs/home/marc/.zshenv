@@ -29,7 +29,7 @@ export VISUAL=`which vim`
 # Path to lightweight editor:
 #------------------------------------------------------------------------------
 
-export EDITOR=`which vi`
+export EDITOR=`which vim`
 
 #------------------------------------------------------------------------------
 # Path to the program used to list the contents of files:
