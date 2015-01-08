@@ -30,9 +30,11 @@ function preexec_update_git_vars() {
 }
 
 function precmd_update_git_vars() {
-    if [ -n "$__EXECUTED_GIT_COMMAND" ] || [ ! -n "$ZSH_THEME_GIT_PROMPT_CACHE" ]; then
-        update_current_git_vars
-        unset __EXECUTED_GIT_COMMAND
+    if [ -d .git ]; then
+        if [ -n "$__EXECUTED_GIT_COMMAND" ] || [ ! -n "$ZSH_THEME_GIT_PROMPT_CACHE" ]; then
+            update_current_git_vars
+            unset __EXECUTED_GIT_COMMAND
+        fi
     fi
 }
 
