@@ -7,9 +7,11 @@ if [[ -z $1 ]]; then
 
 else
 
+  rlwrap -a -H ~/.kbcast_history bash -c "
   while true; do
+    echo -n '> '
     read cmd
-    xdotool search --onlyvisible --maxdepth 1 --name rxvt type --delay 0 --window %@ "$(printf "${cmd}\n ")"
-  done
+    xdotool search --onlyvisible --maxdepth 1 --name core type --delay 0 --window %@ \"\$(printf \"\${cmd}\n \")\"
+  done"
 
 fi
