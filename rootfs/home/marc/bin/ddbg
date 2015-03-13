@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#-----------------------------------
+# Setup my docker workspace layout:
+#-----------------------------------
+
+urxvt &
+sleep 0.1; urxvt &
+sleep 0.1; urxvt -e sh -c "watch -n1 \"brctl show\"" &
+sleep 0.1; urxvt -e sh -c "watch -n1 \"docker ps -a\"" &
+sleep 0.1; urxvt -e sh -c "watch -n1 \"docker images\"" &
