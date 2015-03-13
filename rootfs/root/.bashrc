@@ -14,7 +14,6 @@ alias ls='ls -hF --color=auto --group-directories-first'
 alias l='ls -l'
 alias ll='ls -la'
 alias grep='grep --color=auto'
-alias pacman='pacman-color'
 
 #------------------------------------------------------------------------------
 # PS1:
