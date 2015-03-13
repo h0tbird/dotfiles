@@ -1,0 +1,3 @@
+# Latitude E6410
+SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:26:b9:cc:52:6b", NAME="eth0"
+SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:23:14:a8:02:88", NAME="wlan0"
