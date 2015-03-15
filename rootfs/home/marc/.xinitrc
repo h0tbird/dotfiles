@@ -56,11 +56,15 @@ case $UUID in
 
   6902f136-288b-4941-a750-5781d2117e1a)
 
-    # Turn off laptop screen:
-    xrandr --output eDP1 --off
+    xrandr | grep -q 'HDMI1 connected' && {
 
-    # Setup docking station:
-    xrandr --output VGA1 --mode 1280x1024 --output HDMI1 --mode 1680x1050 --right-of VGA1
+      # Turn off laptop screen:
+      xrandr --output eDP1 --off; sleep 1
+
+      # Setup docking station:
+      xrandr --output VGA1 --mode 1280x1024 --output HDMI1 \
+      --mode 1680x1050 --right-of VGA1
+    }
     ;;
 
 esac
