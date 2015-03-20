@@ -52,7 +52,7 @@ function lan_start {
         /usr/sbin/ip route add default via ${LAN_GW} dev br0 metric ${LAN_METRIC} ;;
 
       'dhcp')
-        /usr/sbin/dhcpcd -m ${LAN_METRIC} br0 ;;
+        /usr/sbin/dhcpcd -t 60 -4 -m ${LAN_METRIC} br0 ;;
 
     esac
 
@@ -114,7 +114,7 @@ function wifi_start {
         /usr/sbin/ip route add default via ${WIFI_GW} dev wlan0 metric ${WIFI_METRIC} ;;
 
       'dhcp')
-        /usr/sbin/dhcpcd -m ${WIFI_METRIC} wlan0 ;;
+        /usr/sbin/dhcpcd -4 -m ${WIFI_METRIC} wlan0 ;;
 
     esac
 
@@ -168,7 +168,7 @@ function usb_start {
         /usr/sbin/ip route add default via ${USB_GW} dev usb0 metric ${USB_METRIC} ;;
 
       'dhcp')
-        /usr/sbin/dhcpcd -m ${USB_METRIC} usb0 ;;
+        /usr/sbin/dhcpcd -4 -m ${USB_METRIC} usb0 ;;
 
     esac
 
