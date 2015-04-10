@@ -8,16 +8,19 @@ LAN_IP='192.168.1.11'
 LAN_NET='192.168.1.0'
 LAN_BCAST='192.168.1.255'
 LAN_GW='192.168.1.1'
+LAN_MASK='24'
 
 WIFI_IP='192.168.1.77'
 WIFI_NET='192.168.1.0'
 WIFI_BCAST='192.168.1.255'
 WIFI_GW='192.168.1.1'
+WIFI_MASK='24'
 
 USB_IP='192.168.42.209'
 USB_NET='192.168.42.0'
 USB_BCAST='192.168.42.255'
 USB_GW='192.168.42.129'
+USB_MASK='24'
 
 #------------------------------------------------------------------------------
 # Metrics:
@@ -45,9 +48,9 @@ function lan_start {
     case $1 in
 
       'static')
-        /usr/sbin/ip addr add ${LAN_IP}/24 dev br0 broadcast ${LAN_BCAST}
-        /usr/sbin/ip route del ${LAN_NET}/24 dev br0 proto kernel scope link src ${LAN_IP}
-        /usr/sbin/ip route add ${LAN_NET}/24 dev br0 proto kernel scope link src ${LAN_IP} metric ${LAN_METRIC}
+        /usr/sbin/ip addr add ${LAN_IP}/${LAN_MASK} dev br0 broadcast ${LAN_BCAST}
+        /usr/sbin/ip route del ${LAN_NET}/${LAN_MASK} dev br0 proto kernel scope link src ${LAN_IP}
+        /usr/sbin/ip route add ${LAN_NET}/${LAN_MASK} dev br0 proto kernel scope link src ${LAN_IP} metric ${LAN_METRIC}
         /usr/sbin/ip route add ${LAN_IP} via 127.0.0.1 dev lo metric ${LAN_METRIC}
         /usr/sbin/ip route add default via ${LAN_GW} dev br0 metric ${LAN_METRIC} ;;
 
@@ -107,9 +110,9 @@ function wifi_start {
     case $1 in
 
       'static')
-        /usr/sbin/ip addr add ${WIFI_IP}/24 dev wlan0 broadcast ${WIFI_BCAST}
-        /usr/sbin/ip route del ${WIFI_NET}/24 dev wlan0 proto kernel scope link src ${WIFI_IP}
-        /usr/sbin/ip route add ${WIFI_NET}/24 dev wlan0 proto kernel scope link src ${WIFI_IP} metric ${WIFI_METRIC}
+        /usr/sbin/ip addr add ${WIFI_IP}/${WIFI_MASK} dev wlan0 broadcast ${WIFI_BCAST}
+        /usr/sbin/ip route del ${WIFI_NET}/${WIFI_MASK} dev wlan0 proto kernel scope link src ${WIFI_IP}
+        /usr/sbin/ip route add ${WIFI_NET}/${WIFI_MASK} dev wlan0 proto kernel scope link src ${WIFI_IP} metric ${WIFI_METRIC}
         /usr/sbin/ip route add ${WIFI_IP} via 127.0.0.1 dev lo metric ${WIFI_METRIC}
         /usr/sbin/ip route add default via ${WIFI_GW} dev wlan0 metric ${WIFI_METRIC} ;;
 
@@ -161,9 +164,9 @@ function usb_start {
     case $1 in
 
       'static')
-        /usr/sbin/ip addr add ${USB_IP}/24 dev usb0 broadcast ${USB_BCAST}
-        /usr/sbin/ip route del ${USB_NET}/24 dev usb0 proto kernel scope link src ${USB_IP}
-        /usr/sbin/ip route add ${USB_NET}/24 dev usb0 proto kernel scope link src ${USB_IP} metric ${USB_METRIC}
+        /usr/sbin/ip addr add ${USB_IP}/${USB_MASK} dev usb0 broadcast ${USB_BCAST}
+        /usr/sbin/ip route del ${USB_NET}/${USB_MASK} dev usb0 proto kernel scope link src ${USB_IP}
+        /usr/sbin/ip route add ${USB_NET}/${USB_MASK} dev usb0 proto kernel scope link src ${USB_IP} metric ${USB_METRIC}
         /usr/sbin/ip route add ${USB_IP} via 127.0.0.1 dev lo metric ${USB_METRIC}
         /usr/sbin/ip route add default via ${USB_GW} dev usb0 metric ${USB_METRIC} ;;
 
