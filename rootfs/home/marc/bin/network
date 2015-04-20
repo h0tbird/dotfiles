@@ -105,7 +105,7 @@ function wifi_start {
     /usr/sbin/ip link set wlan0 up
 
     # Launch the supplicant:
-    /usr/sbin/wpa_supplicant -B -Dwext -i wlan0 -c /etc/wpa_supplicant/wpa_supplicant.conf
+    /usr/sbin/wpa_supplicant -B –Dnl80211 -i wlan0 -c /etc/wpa_supplicant/wpa_supplicant.conf
 
     case $1 in
 
