@@ -51,7 +51,7 @@ alias dps='docker ps'
 alias dki='docker run -i -t -P'
 alias drm='docker rm $(docker ps -qa)'
 alias dip="docker inspect --format '{{ .NetworkSettings.IPAddress }}'"
-alias drmi="docker images | awk '/<none>/ {print \$3}' | xargs docker rmi"
+alias drmi="docker rmi \$(docker images -f 'dangling=true' -q)"
 alias dkb='docker build --rm -t ${PWD##*/} .'
 
 #------------------------------------------------------------------------------
