@@ -33,6 +33,7 @@ setopt notify
 autoload -U compinit && compinit
 autoload -U colors && colors
 autoload -U add-zsh-hook
+autoload -U select-word-style
 
 #------------------------------------------------------------------------------
 # Aliasing:
@@ -124,6 +125,13 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:
 zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
 zstyle ':completion:*:*:kill:*:processes' list-colors "=(#b) #([0-9]#) ([0-9a-z-]#)*=$color[green]=0=$color[black]"
 zstyle ':completion:*:*:kill:*' force-list always
+
+#------------------------------------------------------------------------------
+# Define word boundary:
+#------------------------------------------------------------------------------
+
+select-word-style bash
+export WORDCHARS="*?_-[]~=/&;!#$%^(){}<>"
 
 #------------------------------------------------------------------------------
 # Key bindings:
