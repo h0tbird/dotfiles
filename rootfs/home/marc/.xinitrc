@@ -40,14 +40,20 @@ case $UUID in
     xrandr --newmode "640x360"    18.00   640  664  720  800  360 363 368 376 -hsync +vsync; xrandr --addmode LVDS1 640x360
 
     # External extends (1920x1080 no panning):
+    #xrandr | grep -q 'DP1 connected' && {
+    #  xrandr --output LVDS1 --mode 1600x900
+    #  xrandr --output DP1 --mode 800x600 --above LVDS1
+    #}
+
+    # External extends (1920x1080 no panning):
     xrandr | grep -q 'DP1 connected' && xrandr \
     --output LVDS1 --mode 1600x900 \
     --output DP1 --mode 1920x1080 --above LVDS1
 
     # External mirrors (640x480 panning 1600x900):
-    # xrandr | grep -q 'DP1 connected' && xrandr \
-    # --output LVDS1 --mode 1600x900 \
-    # --output DP1 --mode 640x480 --panning 1600x900 --same-as LVDS1
+    #xrandr | grep -q 'DP1 connected' && xrandr \
+    #--output LVDS1 --mode 1600x900 \
+    #--output DP1 --mode 800x600 --panning 1600x900 --same-as LVDS1
     ;;
 
   #----------------------
@@ -57,7 +63,7 @@ case $UUID in
   6902f136-288b-4941-a750-5781d2117e1a)
 
     xrandr | grep -q 'HDMI1 connected' && {
-      
+
       # Turn off laptop screen:
       xrandr --output eDP1 --off
 
