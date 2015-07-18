@@ -70,7 +70,7 @@ static const Layout layouts[] = {
 // Commands:
 //-----------
 
-static const char  *dmenucmd[] = { "dmenu_run", "-fn", font, "-nb", colors[0][ColBG], "-nf", colors[0][ColFG], "-sb", colors[1][ColBG], "-sf", colors[1][ColFG], NULL };
+static const char  *dmenucmd[] = { "dmenu_run", "-hist", "/home/marc/.dmenu.history", "-fn", font, "-nb", colors[0][ColBG], "-nf", colors[0][ColFG], "-sb", colors[1][ColBG], "-sf", colors[1][ColFG], NULL };
 static const char *termcmd[]   = { "urxvtc", NULL };
 static const char *zoomin[]    = { "zoom.sh", "in", NULL };
 static const char *zoomout[]   = { "zoom.sh", "out", NULL };
