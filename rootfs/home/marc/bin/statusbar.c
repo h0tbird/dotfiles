@@ -1,5 +1,5 @@
 // Compile with:
-// gcc -Wall -pedantic -std=c99 -lX11 -D_BSD_SOURCE statusbar.c -o statusbar
+// gcc -Wall -pedantic -std=c99 -lX11 -D_DEFAULT_SOURCE statusbar.c -o statusbar
 
 //-----------------------------------------------------------------------------
 // Includes:
@@ -43,6 +43,47 @@ void setstatus(char *str)
 }
 
 //-----------------------------------------------------------------------------
+// get_docker_count:
+//-----------------------------------------------------------------------------
+
+unsigned int get_docker_count() {
+
+  DIR *dp;
+  struct dirent *ep;
+  char str[CMDLEN];
+  static const char WATCHED_DIR[] = "/sys/fs/cgroup/memory/system.slice";
+  static const char SEARCH_PATTERN[] = "docker-";
+  unsigned int count = 0;
+
+  // Open WATCHED_DIR which contains a directory per docker container:
+  if((dp = opendir(WATCHED_DIR)) == NULL) MyDBG(end0);
+
+  // Iterate through WATCHED_DIR searching for ^docker-*
+  while((ep = readdir(dp))) {
+
+    // Skip everything but directories:
+    if(ep->d_type == DT_DIR) {
+
+      // Retrieve the directory name:
+      if(snprintf(str, CMDLEN, "%s", ep->d_name) < 0) MyDBG(end1);
+
+      // Compare directory name with SEARCH_PATTERN:
+      if(!strncmp(str, SEARCH_PATTERN, strlen(SEARCH_PATTERN))) {
+        count++;
+      }
+    }
+  }
+
+  // Return on success:
+  closedir(dp);
+  return count;
+
+  // Return on error
+  end1: closedir(dp);
+  end0: return -1;
+}
+
+//-----------------------------------------------------------------------------
 // getvmcount:
 //-----------------------------------------------------------------------------
 
@@ -68,8 +109,11 @@ int getvmcount()
 
     while((ep = readdir(dp))) { if(ep->d_type == DT_DIR) {
 
+        // Is the directory name an integer? Skeep if not.
         if(snprintf(str, CMDLEN, "%d", atoi(ep->d_name)) < 0) MyDBG(end0);
         if(strcmp(str, ep->d_name) != 0) continue;
+
+        // Open this process cmdline file:
         if(snprintf(str, CMDLEN, "/proc/%s/cmdline", ep->d_name) < 0) MyDBG(end0);
         if((fd = open(str, O_RDONLY)) == -1) MyDBG(end0);
 
@@ -174,7 +218,7 @@ int main(void)
 {
     char *status;
     char *datetime;
-    int bat0, vmc;
+    int bat0, dcnt;
 
     if(!(dpy = XOpenDisplay(NULL))) MyDBG(end0);
     if((status = malloc(200)) == NULL) MyDBG(end0);
@@ -183,10 +227,11 @@ int main(void)
 
         datetime = getdatetime();
         bat0 = getbattery();
-        vmc = getvmcount();
+        // vmc = getvmcount();
+        dcnt = get_docker_count();
 
-        if(vmc < 1) snprintf(status, 200, "\x04Ü\x06 Ã %d%% \x05Ü\x02 Õ %s", bat0, datetime);
-        else snprintf(status, 200, "\x01Ý \x0CÍ %d \x04Ü\x06 Ã %d%% \x05Ü\x02 Õ %s", vmc, bat0, datetime);
+        if(dcnt < 1) snprintf(status, 200, "\x04Ü\x06 Ã %d%% \x05Ü\x02 Õ %s", bat0, datetime);
+        else snprintf(status, 200, "\x01Ý \x0CÍ %d \x04Ü\x06 Ã %d%% \x05Ü\x02 Õ %s", dcnt, bat0, datetime);
 
         free(datetime);
         setstatus(status);
