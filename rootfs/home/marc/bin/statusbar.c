@@ -46,41 +46,42 @@ void setstatus(char *str)
 // get_docker_count:
 //-----------------------------------------------------------------------------
 
-unsigned int get_docker_count() {
+unsigned int get_docker_count()
 
-  DIR *dp;
-  struct dirent *ep;
-  char str[CMDLEN];
-  static const char WATCHED_DIR[] = "/sys/fs/cgroup/memory/system.slice";
-  static const char SEARCH_PATTERN[] = "docker-";
-  unsigned int count = 0;
+{
+    DIR *dp;
+    struct dirent *ep;
+    char str[CMDLEN];
+    static const char WATCHED_DIR[] = "/sys/fs/cgroup/memory/system.slice";
+    static const char SEARCH_PATTERN[] = "docker-";
+    unsigned int count = 0;
 
-  // Open WATCHED_DIR which contains a directory per docker container:
-  if((dp = opendir(WATCHED_DIR)) == NULL) MyDBG(end0);
+    // Open WATCHED_DIR which contains a directory per docker container:
+    if((dp = opendir(WATCHED_DIR)) == NULL) MyDBG(end0);
 
-  // Iterate through WATCHED_DIR searching for ^docker-*
-  while((ep = readdir(dp))) {
+    // Iterate through WATCHED_DIR searching for ^docker-*
+    while((ep = readdir(dp))) {
 
-    // Skip everything but directories:
-    if(ep->d_type == DT_DIR) {
+        // Skip everything but directories:
+        if(ep->d_type == DT_DIR) {
 
-      // Retrieve the directory name:
-      if(snprintf(str, CMDLEN, "%s", ep->d_name) < 0) MyDBG(end1);
+            // Retrieve the directory name:
+            if(snprintf(str, CMDLEN, "%s", ep->d_name) < 0) MyDBG(end1);
 
-      // Compare directory name with SEARCH_PATTERN:
-      if(!strncmp(str, SEARCH_PATTERN, strlen(SEARCH_PATTERN))) {
-        count++;
-      }
+            // Compare directory name with SEARCH_PATTERN:
+            if(!strncmp(str, SEARCH_PATTERN, strlen(SEARCH_PATTERN))) {
+                count++;
+            }
+        }
     }
-  }
 
-  // Return on success:
-  closedir(dp);
-  return count;
+    // Return on success:
+    closedir(dp);
+    return count;
 
-  // Return on error
-  end1: closedir(dp);
-  end0: return -1;
+    // Return on error
+    end1: closedir(dp);
+    end0: return -1;
 }
 
 //-----------------------------------------------------------------------------
@@ -97,16 +98,10 @@ int getvmcount()
     ssize_t r;
     unsigned n = 0;
 
-    //------------
     // Open /proc
-    //------------
-
     if((dp = opendir("/proc")) == NULL) MyDBG(end0);
 
-    //----------------------------------
     // Loop through /proc/<pid>/cmdline
-    //----------------------------------
-
     while((ep = readdir(dp))) { if(ep->d_type == DT_DIR) {
 
         // Is the directory name an integer? Skeep if not.
@@ -117,10 +112,7 @@ int getvmcount()
         if(snprintf(str, CMDLEN, "/proc/%s/cmdline", ep->d_name) < 0) MyDBG(end0);
         if((fd = open(str, O_RDONLY)) == -1) MyDBG(end0);
 
-        //---------------
         // Read cmdline:
-        //---------------
-
         n=0; str[0] = '\0'; while(1) {
 
             if((r = read(fd,str+n,CMDLEN-n)) == -1) {
@@ -137,24 +129,15 @@ int getvmcount()
         str[n] = '\0';
         close(fd);
 
-        //---------------------------
         // Count qemu-system-x86_64:
-        //---------------------------
-
         if(!strcmp(str, "qemu-system-x86_64")) c++;
     }}
 
-    //--------------------
     // Return on success:
-    //--------------------
-
     closedir(dp);
     return c;
 
-    //------------------
     // Return on error:
-    //------------------
-
     end0: return 0;
 }
 
