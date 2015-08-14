@@ -59,11 +59,11 @@ alias dkb='docker build --rm -t ${PWD##*/} .'
 # Google Cloud SDK:
 #------------------------------------------------------------------------------
 
-[ -d /home/marc/google-cloud-sdk ] && {
-  export CLOUDSDK_PYTHON=/usr/bin/python2
-  source '/home/marc/google-cloud-sdk/path.zsh.inc'
-  source '/home/marc/google-cloud-sdk/completion.zsh.inc'
-}
+#[ -d /home/marc/google-cloud-sdk ] && {
+#  export CLOUDSDK_PYTHON=/usr/bin/python2
+#  source '/home/marc/google-cloud-sdk/path.zsh.inc'
+#  source '/home/marc/google-cloud-sdk/completion.zsh.inc'
+#}
 
 #------------------------------------------------------------------------------
 # urxvt-tabbedex:

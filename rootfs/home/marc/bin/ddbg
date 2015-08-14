@@ -6,7 +6,7 @@
 
 urxvt &
 sleep 0.1; urxvt &
-sleep 0.1; urxvt -e sh -c "watch -n1 \"cat /data/boot/dnsmasq/dnsmasq.leases\"" &
+sleep 0.1; urxvt -e sh -c "watch -n1 \"cat /var/lib/booddies/boot/dnsmasq/dnsmasq.leases\"" &
 sleep 0.1; urxvt -e sh -c "watch -n1 \"brctl show\"" &
 sleep 0.1; urxvt -e sh -c "watch -n1 \"docker ps\"" &
 sleep 0.1; urxvt -e sh -c "watch -n1 \"docker images\"" &
