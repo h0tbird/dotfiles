@@ -16,8 +16,8 @@ export GOPATH=${HOME}/go
 #------------------------------------------------------------------------------
 
 export PATH="${HOME}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin"
-export PATH="`ruby -rubygems -e 'puts Gem.user_dir'`/bin:${PATH}"
-export PATH="${PATH}:${GOPATH}/bin"
+export PATH="$(ruby -rubygems -e 'puts Gem.user_dir')/bin:${PATH}"
+export PATH="${GOPATH}/bin:${PATH}"
 
 #------------------------------------------------------------------------------
 # Java lives here:
@@ -29,19 +29,19 @@ export JAVA_HOME='/usr/lib/jvm/java-7-openjdk'
 # Path to full-fledged editor:
 #------------------------------------------------------------------------------
 
-export VISUAL=`which vim`
+export VISUAL=$(which vim)
 
 #------------------------------------------------------------------------------
 # Path to lightweight editor:
 #------------------------------------------------------------------------------
 
-export EDITOR=`which vim`
+export EDITOR=$(which vim)
 
 #------------------------------------------------------------------------------
 # Path to the program used to list the contents of files:
 #------------------------------------------------------------------------------
 
-export PAGER=`which less`
+export PAGER=$(which less)
 
 #------------------------------------------------------------------------------
 # Set locales (define the character sets being used):
