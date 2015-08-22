@@ -17,10 +17,10 @@ URxvt.colorBD:                 #e8e8d3
 URxvt.colorUL:                 #8197bf
 URxvt.pointerColorBackground:  #586e75
 URxvt.pointerColorForeground:  #93a1a1
-URxvt.font:                    -*-terminuspowerline-medium-r-normal-*
-URxvt.boldFont:                -*-terminuspowerline-medium-r-normal-*
-URxvt.italicFont:              -*-terminuspowerline-medium-r-normal-*
-URxvt.boldItalic:              -*-terminuspowerline-medium-r-normal-*
+URxvt.font:                    xft:Terminus:pixelsize=12,xft:Inconsolata\ for\ Powerline:pixelsize=12
+URxvt.boldFont:                xft:Terminus:pixelsize=12,xft:Inconsolata\ for\ Powerline:pixelsize=12
+URxvt.italicFont:              xft:Terminus:pixelsize=12,xft:Inconsolata\ for\ Powerline:pixelsize=12
+URxvt.boldItalic:              xft:Terminus:pixelsize=12,xft:Inconsolata\ for\ Powerline:pixelsize=12
 URxvt.fading:                  3
 URxvt.fadeColor:               orange
 URxvt.tabbed.tabbar-fg:        11
