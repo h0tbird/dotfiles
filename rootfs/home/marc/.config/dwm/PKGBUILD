@@ -1,49 +1,51 @@
-# $Id: PKGBUILD 60970 2011-12-19 21:33:58Z spupykin $
-# Maintainer: Sergej Pupykin <pupykin.s+arch@gmail.com>
-# Contributor: Dag Odenhall <dag.odenhall@gmail.com>
-# Contributor: Grigorios Bouzakis <grbzks@gmail.com>
-
 #------------------------------------------------------------------------------
 # Variables:
 #------------------------------------------------------------------------------
 
 pkgname=dwm
-pkgver=6.0
+pkgver=6.1
 pkgrel=2
-pkgdesc="A dynamic window manager for X"
-url="http://dwm.suckless.org"
+pkgdesc='A dynamic window manager for X'
+url='http://dwm.suckless.org'
 arch=('i686' 'x86_64')
 license=('MIT')
 options=(zipman)
-depends=('libx11' 'libxinerama')
+depends=('libx11' 'libxinerama' 'libxft' 'freetype2')
 install=dwm.install
 
-source=(http://dl.suckless.org/dwm/dwm-$pkgver.tar.gz
+source=(http://dl.suckless.org/dwm/dwm-${pkgver}.tar.gz
         config.origin
-        config.h
-        dwm.desktop)
+	      config.h
+	      dwm.desktop)
 
-_patches=(01-statuscolours.diff
-          02-noborder.diff
-          03-pertag.diff
-          04-exposetags.diff
-          05-htile.diff)
+patches=(01-statuscolors.diff
+         02-noborder.diff
+         03-pertag.diff
+         04-htile.diff)
 
-source=(${source[@]} ${_patches[@]})
+source=(${source[@]} ${patches[@]})
 
 #------------------------------------------------------------------------------
 # MD5 Sums: (makepkg -g)
 #------------------------------------------------------------------------------
 
-md5sums=('8bb00d4142259beb11e13473b81c0857'
-         '2453e037f46449774ec8afab49b4f1a2'
-         'f064821eff563608f68281bf0ed62762'
+md5sums=('f0b6b1093b7207f89c2a90b848c008ec'
+         '80c4ef2a3eca0fe2d14e2203e3833200'
+         'c6662b2240e1b165d9e74df380386975'
          '939f403a71b6e85261d09fc3412269ee'
-         '96f5b44064d1bed596200c6c950b2b30'
-         '4abdc6c440aaefa28cbab08dd024dd10'
-         '535d5b99318f4b97bbe946fde270c95a'
-         '7bf4f2f5f18cb7687692da74d8f97318'
-         'a524e6bece7d9ba5bebf9f2e2297c4a7')
+         'ed406bed8c3278d99d3ff556f5f4f228'
+         'cd07a1ee08ebca41ecbbc0e4dd81d5f6'
+         '3126263695676ffa7ab7d90e49bd77cb'
+         '9207bfeb3d417799512dbe88c388a2ff')
+
+#------------------------------------------------------------------------------
+# Prepare:
+#------------------------------------------------------------------------------
+
+prepare() {
+  cd ${srcdir}/${pkgname}-${pkgver}
+  cp ${srcdir}/config.h config.h
+}
 
 #------------------------------------------------------------------------------
 # Build:
@@ -51,23 +53,16 @@ md5sums=('8bb00d4142259beb11e13473b81c0857'
 
 build() {
 
-    cd $srcdir/$pkgname-$pkgver
-    cp $srcdir/config.origin config.h
+  cd ${srcdir}/${pkgname}-${pkgver}
+  cp ${srcdir}/config.origin config.h
 
-    for p in "${_patches[@]}"; do
-        echo "=> $p"
-        patch < ../$p || return 1
-    done
+  for p in "${patches[@]}"; do
+    echo "=> ${p}"
+    patch < ../${p} || return 1
+  done
 
-    cp $srcdir/config.h config.h
-
-    sed -i 's/CPPFLAGS =/CPPFLAGS +=/g' config.mk
-    sed -i 's/^CFLAGS = -g/#CFLAGS += -g/g' config.mk
-    sed -i 's/^#CFLAGS = -std/CFLAGS += -std/g' config.mk
-    sed -i 's/^LDFLAGS = -g/#LDFLAGS += -g/g' config.mk
-    sed -i 's/^#LDFLAGS = -s/LDFLAGS += -s/g' config.mk
-
-    make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11
+  cp ${srcdir}/config.h config.h
+  make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11 FREETYPEINC=/usr/include/freetype2
 }
 
 #------------------------------------------------------------------------------
@@ -76,9 +71,9 @@ build() {
 
 package() {
 
-    cd $srcdir/$pkgname-$pkgver
-    make PREFIX=/usr DESTDIR=$pkgdir install
-    install -m644 -D LICENSE $pkgdir/usr/share/licenses/$pkgname/LICENSE
-    install -m644 -D README $pkgdir/usr/share/doc/$pkgname/README
-    install -m644 -D $srcdir/dwm.desktop $pkgdir/usr/share/xsessions/dwm.desktop
+  cd ${srcdir}/${pkgname}-${pkgver}
+  make PREFIX=/usr DESTDIR=${pkgdir} install
+  install -m644 -D LICENSE ${pkgdir}/usr/share/licenses/${pkgname}/LICENSE
+  install -m644 -D README ${pkgdir}/usr/share/doc/${pkgname}/README
+  install -m644 -D ${srcdir}/dwm.desktop ${pkgdir}/usr/share/xsessions/dwm.desktop
 }

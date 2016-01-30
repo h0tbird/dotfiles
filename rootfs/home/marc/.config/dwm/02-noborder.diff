@@ -1,21 +1,25 @@
-diff -up a/dwm.c b/dwm.c
---- a/dwm.c	2013-09-09 23:29:40.570161653 +0200
-+++ b/dwm.c	2013-09-09 23:30:04.206822548 +0200
-@@ -1218,7 +1218,7 @@ maprequest(XEvent *e) {
- 
+Author: Jan Christoph Ebersbach <jceb@e-jc.de>
+URL: http://dwm.suckless.org/patches/noborder
+This patch removes the border when there is just one window visible in tiled or
+monocle layout.
+
+--- dwm/dwm.c.orig	2015-11-11 19:14:39.771079356 -0800
++++ dwm/dwm.c	2015-11-11 19:14:42.821079144 -0800
+@@ -1117,7 +1117,7 @@ maprequest(XEvent *e)
  void
- monocle(Monitor *m) {
+ monocle(Monitor *m)
+ {
 -	unsigned int n = 0;
 +	unsigned int n = 0, r = 0;
  	Client *c;
  
- 	for(c = m->clients; c; c = c->next)
-@@ -1226,8 +1226,17 @@ monocle(Monitor *m) {
+ 	for (c = m->clients; c; c = c->next)
+@@ -1125,8 +1125,17 @@ monocle(Monitor *m)
  			n++;
- 	if(n > 0) /* override layout symbol */
+ 	if (n > 0) /* override layout symbol */
  		snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d]", n);
--	for(c = nexttiled(m->clients); c; c = nexttiled(c->next))
--		resize(c, m->wx, m->wy, m->ww - 2 * c->bw, m->wh - 2 * c->bw, False);
+-	for (c = nexttiled(m->clients); c; c = nexttiled(c->next))
+-		resize(c, m->wx, m->wy, m->ww - 2 * c->bw, m->wh - 2 * c->bw, 0);
 +	for(c = nexttiled(m->clients); c; c = nexttiled(c->next)) {
 +		/* remove border when in monocle layout */
 +		if(c->bw) {
@@ -23,31 +27,31 @@ diff -up a/dwm.c b/dwm.c
 +			c->bw = 0;
 +			r = 1;
 +		}
-+		resize(c, m->wx, m->wy, m->ww - (2 * c->bw), m->wh - (2 * c->bw), False);
++		resize(c, m->wx, m->wy, m->ww - (2 * c->bw), m->wh - (2 * c->bw),     False);
 +		if(r)
-+			resizeclient(c, m->wx, m->wy, m->ww - (2 * c->bw), m->wh - (2 * c->bw));
++			resizeclient(c, m->wx, m->wy, m->ww - (2 * c->bw), m->wh -     (2 * c->bw));
 +	}
  }
  
  void
-@@ -1743,7 +1752,7 @@ textnw(const char *text, unsigned int le
- 
+@@ -1666,7 +1675,7 @@ tagmon(const Arg *arg)
  void
- tile(Monitor *m) {
+ tile(Monitor *m)
+ {
 -	unsigned int i, n, h, mw, my, ty;
 +	unsigned int i, n, h, mw, my, ty, r;
  	Client *c;
  
- 	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
-@@ -1754,17 +1763,36 @@ tile(Monitor *m) {
+ 	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
+@@ -1677,16 +1686,35 @@ tile(Monitor *m)
  		mw = m->nmaster ? m->ww * m->mfact : 0;
  	else
  		mw = m->ww;
--	for(i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
-+	for(i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++, r = 0) {
+-	for (i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
++	for (i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
 +		if(n == 1) {
 +			if (c->bw) {
-+				/* remove border when only one window is on the current tag */
++				/* remove border when only one window is on the cu    rrent tag */
 +				c->oldbw = c->bw;
 +				c->bw = 0;
 +				r = 1;
@@ -59,16 +63,15 @@ diff -up a/dwm.c b/dwm.c
 +			c->oldbw = 0;
 +			r = 1;
 +		}
- 		if(i < m->nmaster) {
+ 		if (i < m->nmaster) {
  			h = (m->wh - my) / (MIN(n, m->nmaster) - i);
- 			resize(c, m->wx, m->wy + my, mw - (2*c->bw), h - (2*c->bw), False);
+ 			resize(c, m->wx, m->wy + my, mw - (2*c->bw), h - (2*c->bw), 0);
 +			if(r)
 +				resizeclient(c, m->wx, m->wy + my, mw - (2*c->bw), h - (2*c->bw));
  			my += HEIGHT(c);
- 		}
- 		else {
+ 		} else {
  			h = (m->wh - ty) / (n - i);
- 			resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2*c->bw), h - (2*c->bw), False);
+ 			resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2*c->bw), h - (2*c->bw), 0);
 +			if(r)
 +				resizeclient(c, m->wx + mw, m->wy + ty, m->ww - mw - (2*c->bw), h - (2*c->bw));
  			ty += HEIGHT(c);
@@ -77,16 +80,20 @@ diff -up a/dwm.c b/dwm.c
  }
  
  void
-@@ -1781,6 +1809,12 @@ togglefloating(const Arg *arg) {
+@@ -1706,9 +1734,15 @@ togglefloating(const Arg *arg)
+ 	if (selmon->sel->isfullscreen) /* no support for fullscreen windows */
  		return;
  	selmon->sel->isfloating = !selmon->sel->isfloating || selmon->sel->isfixed;
- 	if(selmon->sel->isfloating)
+-	if (selmon->sel->isfloating)
++	if (selmon->sel->isfloating) {
 +		/* restore border when moving window into floating mode */
 +		if(!selmon->sel->bw && selmon->sel->oldbw) {
 +			selmon->sel->bw = selmon->sel->oldbw;
 +			selmon->sel->oldbw = 0;
 +		}
-+	if(selmon->sel->isfloating)
  		resize(selmon->sel, selmon->sel->x, selmon->sel->y,
- 		       selmon->sel->w, selmon->sel->h, False);
+ 		       selmon->sel->w, selmon->sel->h, 0);
++	}
  	arrange(selmon);
+ }
+ 

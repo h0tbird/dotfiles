@@ -41,6 +41,7 @@ index c9fdd49..783fcdb 100644
 +}
 +
 +void
- togglebar(const Arg *arg) {
+ togglebar(const Arg *arg)
+ {
  	selmon->showbar = selmon->pertag->showbars[selmon->pertag->curtag] = !selmon->showbar;
  	updatebarpos(selmon);

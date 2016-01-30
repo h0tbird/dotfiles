@@ -2,9 +2,12 @@
 // Appearance:
 //-------------
 
-static const char font[] = "-*-terminus2-medium-r-*-*-12-*-*-*-*-*-*-*";
-#define NUMCOLORS 13
-static const char colors[NUMCOLORS][ColLast][9] = {
+static const char *fonts[] = {
+  "terminus2-8"
+};
+
+#define NUMCOLORS 9
+static const char colors[NUMCOLORS][MAXCOLORS][8] = {
  /* <border>   <fground>  <bground> */
   { "#282a2e", "#373b41", "#1d1f21" }, // 1 = normal (grey on black)
   { "#f0c674", "#c5c8c6", "#1d1f21" }, // 2 = selected (white on black)
@@ -15,16 +18,13 @@ static const char colors[NUMCOLORS][ColLast][9] = {
   { "#282a2e", "#cc6666", "#1d1f21" }, // 7 = red on black
   { "#282a2e", "#b5bd68", "#1d1f21" }, // 8 = green on black
   { "#282a2e", "#81a2be", "#282a2e" }, // 9 = blue on darkgrey
-  { "#282a2e", "#f0c674", "#1d1f21" }, // A = yellow on black
-  { "#282a2e", "#f0c674", "#282a2e" }, // B = yellow on darkgrey
-  { "#282a2e", "#de935f", "#1d1f21" }, // C = orange on black
-  { "#282a2e", "#8abeb7", "#282a2e" }, // D = cyan on darkgrey
 };
 
-static const unsigned int borderpx = 1;    // Border pixel of windows
-static const unsigned int snap     = 8;    // snap pixel
-static const Bool showbar          = True; // False means no bar
-static const Bool topbar           = True; // False means bottom bar
+static const char dmenufont[] = "terminus-8";
+static const unsigned int borderpx = 1; // Border pixel of windows
+static const unsigned int snap     = 8; // snap pixel
+static const Bool showbar          = 1; // 0 means no bar
+static const Bool topbar           = 1; // 0 means bottom bar
 
 //----------
 // Tagging:
@@ -34,19 +34,19 @@ static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 static const Rule rules[] = {
     /* class      instance    title       tags mask     isfloating   monitor */
-    { "Gimp",     NULL,       NULL,       0,            True,        -1 },
-    { "Firefox",  NULL,       NULL,       1 << 1,       False,       -1 },
-    { "Chromium", NULL,       NULL,       1 << 1,       False,       -1 },
-    { "URxvt",    NULL,       "kbcast",   0,            True,        -1 },
+    { "Gimp",     NULL,       NULL,       0,            1,           -1 },
+    { "Firefox",  NULL,       NULL,       1 << 1,       0,           -1 },
+    { "Chromium", NULL,       NULL,       1 << 1,       0,           -1 },
+    { "URxvt",    NULL,       "kbcast",   0,            1,           -1 },
 };
 
 //------------
 // Layout(s):
 //------------
 
-static const float mfact      = 0.5;   // Factor of master area size [0.05..0.95]
-static const int nmaster      = 2;     // Number of clients in master area
-static const Bool resizehints = False; // True means respect size hints in tiled resizals
+static const float mfact      = 0.5; // Factor of master area size [0.05..0.95]
+static const int nmaster      = 2;   // Number of clients in master area
+static const Bool resizehints = 0;   // 1 means respect size hints in tiled resizals
 
 static const Layout layouts[] = {
    /* <symbol>      <arrange function> */
@@ -71,18 +71,19 @@ static const Layout layouts[] = {
 // Commands:
 //-----------
 
-static const char  *dmenucmd[] = { "dmenu_run", "-hist", "/home/marc/.dmenu.history", "-fn", font, "-nb", colors[0][ColBG], "-nf", colors[0][ColFG], "-sb", colors[1][ColBG], "-sf", colors[1][ColFG], NULL };
-static const char *termcmd[]   = { "urxvtc", NULL };
-static const char *zoomin[]    = { "zoom.sh", "in", NULL };
-static const char *zoomout[]   = { "zoom.sh", "out", NULL };
-static const char *zoom1[]     = { "zoom.sh", "1", NULL };
-static const char *zoom2[]     = { "zoom.sh", "2", NULL };
-static const char *zoom3[]     = { "zoom.sh", "3", NULL };
-static const char *zoom4[]     = { "zoom.sh", "4", NULL };
-static const char *zoom5[]     = { "zoom.sh", "5", NULL };
-static const char *zoom6[]     = { "zoom.sh", "6", NULL };
-static const char *zoom7[]     = { "zoom.sh", "7", NULL };
-static const char *kbcast[]    = { "kbcast.sh", NULL };
+static char dmenumon[2] = "0";
+static const char *dmenucmd[] = { "dmenu_run", "-hist", "/home/marc/.dmenu.history", "-fn", dmenufont, "-nb", colors[0][2], "-nf", colors[0][1], "-sb", colors[1][2], "-sf", colors[1][1], NULL };
+static const char *termcmd[]  = { "urxvtc", NULL };
+static const char *zoomin[]   = { "zoom.sh", "in", NULL };
+static const char *zoomout[]  = { "zoom.sh", "out", NULL };
+static const char *zoom1[]    = { "zoom.sh", "1", NULL };
+static const char *zoom2[]    = { "zoom.sh", "2", NULL };
+static const char *zoom3[]    = { "zoom.sh", "3", NULL };
+static const char *zoom4[]    = { "zoom.sh", "4", NULL };
+static const char *zoom5[]    = { "zoom.sh", "5", NULL };
+static const char *zoom6[]    = { "zoom.sh", "6", NULL };
+static const char *zoom7[]    = { "zoom.sh", "7", NULL };
+static const char *kbcast[]   = { "kbcast.sh", NULL };
 
 static Key keys[] = {
    /* <modifier>                    <key>      <function>      <argument> */
@@ -111,7 +112,7 @@ static Key keys[] = {
     { MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
     { MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
     { MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-    { MODKEY,                       XK_h,      setlayout,      {.v = &layouts[3]} },
+    { MODKEY,                       XK_v,      setlayout,      {.v = &layouts[3]} },
     { MODKEY,                       XK_space,  setlayout,      {0} },
     { MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
     { MODKEY,                       XK_0,      view,           {.ui = ~0 } },
