@@ -53,7 +53,7 @@ static const Layout layouts[] = {
     { "Û É Û",      tile },    // First entry is default
     { "Û Ê Û",      NULL },    // No layout function means floating behavior
     { "Û Ë Û",      monocle },
-    { "###",        htile },
+    { "Û Ì Û",      htile },
 };
 
 //------------------
