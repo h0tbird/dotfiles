@@ -50,9 +50,9 @@ alias wanip='dig +short myip.opendns.com @resolver1.opendns.com'
 alias dim='docker images'
 alias dps='docker ps'
 alias dki='docker run -i -t -P'
-alias drm='docker rm $(docker ps -qa)'
+alias drm='docker rm -v $(docker ps -qaf "status=exited")'
 alias dip="docker inspect --format '{{ .NetworkSettings.IPAddress }}'"
-alias drmi="docker rmi \$(docker images -f 'dangling=true' -q)"
+alias drmi='docker rmi $(docker images -qf "dangling=true")'
 alias dkb='docker build --rm -t ${PWD##*/} .'
 
 #------------------------------------------------------------------------------
