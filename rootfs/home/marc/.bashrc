@@ -14,12 +14,22 @@ alias ls='ls -hF --color=auto --group-directories-first'
 alias l='ls -l'
 alias ll='ls -la'
 alias grep='grep --color=auto'
-alias sudo='A=`alias` sudo '
+alias wanip='dig +short myip.opendns.com @resolver1.opendns.com'
+# alias sudo='A=`alias` sudo '
 alias pacman='pacman --color auto'
 alias picocom='picocom -l /dev/pts/4'
+
+# Docker:
+alias dim='docker images'
+alias dps='docker ps'
+alias drm='docker rm -v $(docker ps -qaf "status=exited")'
 alias dip="docker inspect --format '{{ .NetworkSettings.IPAddress }}'"
-alias drm='docker rm $(docker ps -qa)';
-alias drmi='docker rmi $(docker images | grep "^<none>" | awk "{print $3}")';
+alias drmi='docker rmi $(docker images -qf "dangling=true")'
+
+
+#alias dip="docker inspect --format '{{ .NetworkSettings.IPAddress }}'"
+#alias drm='docker rm $(docker ps -qa)';
+#alias drmi='docker rmi $(docker images | grep "^<none>" | awk "{print $3}")';
 
 #------------------------------------------------------------------------------
 # PS1:
@@ -79,4 +89,4 @@ fi
 export VISUAL=`which vim`
 export EDITOR=`which vim`
 export GOPATH=$HOME/go
-export PATH="$PATH:$HOME/bin:/usr/local/go/bin"
+export PATH="${GOPATH}/bin:${PATH}:${HOME}/bin:/usr/local/go/bin"
