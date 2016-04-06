@@ -99,7 +99,7 @@ xset fp rehash
 # Start apps in background (only if not already running)
 #--------------------------------------------------------
 
-list=(urxvtd statusbar xcmenu)
+list=(urxvtd statusbar clipster)
 
 for app in "${list[@]}"; do
   check=$(ps -C "$app" -opid=)
@@ -107,7 +107,7 @@ for app in "${list[@]}"; do
     case "$app" in
       urxvtd)    urxvtd -q -o -f ;;
       statusbar) statusbar & ;;
-      xcmenu)    xcmenu --daemon --primary --clipboard ;;
+      clipster)  clipster -d & ;;
     esac
   fi
 done
