@@ -1,6 +1,7 @@
 [user]
   name = Marc Villacorta
   email = marc.villacorta@gmail.com
+  signingkey = 620B07F7
 
 [push]
   default = simple
@@ -9,3 +10,6 @@
   st = status
   ci = commit
   lg = log --pretty=format:'%C(yellow)%h%Cred%d%Creset - %C(cyan)%an %Creset: %s %Cgreen(%cr)' --graph
+
+[commit]
+  gpgsign = true
