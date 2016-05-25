@@ -74,7 +74,7 @@ setxkbmap -model pc104 -layout es
 # Adjusting typematic delay and rate:
 #-------------------------------------
 
-kbdrate -d 200 -r 30
+xset r rate 200 30
 
 #------------------
 # Add fonts paths:
