@@ -30,6 +30,8 @@ setopt notify
 # Autoload functions:
 #------------------------------------------------------------------------------
 
+fpath=(~/.zsh/completion $fpath)
+
 autoload -U compinit && compinit
 autoload -U colors && colors
 autoload -U add-zsh-hook
