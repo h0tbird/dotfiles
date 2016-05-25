@@ -20,15 +20,15 @@ fi
 # Setup monitors:
 #-----------------
 
-UUID=`cat /etc/uuid`
+MID=$(cat /etc/machine-id)
 
-case $UUID in
+case $MID in
 
   #-------------------
   # Lenovo X1 Carbon:
   #-------------------
 
-  3609b77f-fc2a-4773-8f11-f035465f725e)
+  d70d8472bb6848b2a6c38ce2b53e59e5)
 
     # Laptop screen modes:
     xrandr --newmode "1600x900"  118.25  1600 1696 1856 2112  900 903 908 934 -hsync +vsync; xrandr --addmode LVDS1 1600x900
@@ -56,23 +56,6 @@ case $UUID in
     #--output DP1 --mode 800x600 --panning 1600x900 --same-as LVDS1
     ;;
 
-  #----------------------
-  # Dell Latitude E6410:
-  #----------------------
-
-  6902f136-288b-4941-a750-5781d2117e1a)
-
-    xrandr | grep -q 'HDMI1 connected' && {
-
-      # Turn off laptop screen:
-      xrandr --output eDP1 --off
-
-      # Setup docking station:
-      xrandr --output VGA1 --mode 1280x1024
-      xrandr --output HDMI1 --mode 1680x1050 --right-of VGA1
-    }
-    ;;
-
 esac
 
 #-------------------
@@ -86,6 +69,12 @@ esac
 #---------------------------------------------------------
 
 setxkbmap -model pc104 -layout es
+
+#-------------------------------------
+# Adjusting typematic delay and rate:
+#-------------------------------------
+
+kbdrate -d 200 -r 30
 
 #------------------
 # Add fonts paths:
