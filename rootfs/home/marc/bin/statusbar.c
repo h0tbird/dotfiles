@@ -154,7 +154,7 @@ char *getdatetime()
 
     if(resulttm == NULL) MyDBG(end0);
     if((buf = malloc(sizeof(char)*65)) == NULL) MyDBG(end0);
-    if(!strftime(buf, sizeof(char)*65-1, "%a %d %b Ý %H:%M:%S ", resulttm)) MyDBG(end0);
+    if(!strftime(buf, sizeof(char)*65-1, "%a %d %b  %H:%M:%S", resulttm)) MyDBG(end0);
 
     // Return on success:
     return buf;
@@ -213,7 +213,8 @@ int main(void)
         // vmc = getvmcount();
         dcnt = get_docker_count();
 
-        if(dcnt < 1) snprintf(status, 200, "\x04Ü\x06 Ã %d%% \x05Ü\x02 Õ %s", bat0, datetime);
+        //if(dcnt < 1) snprintf(status, 200, "\x04\x06%d%%\x05\x02%s       ", bat0, datetime);
+        if(dcnt < 1) snprintf(status, 200, "%d%%%s       ", bat0, datetime);
         else snprintf(status, 200, "\x01Ý \x0CÍ %d \x04Ü\x06 Ã %d%% \x05Ü\x02 Õ %s", dcnt, bat0, datetime);
 
         free(datetime);

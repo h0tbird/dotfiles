@@ -3,7 +3,8 @@
 //-------------
 
 static const char *fonts[] = {
-  "terminus2-8"
+  "siji:size=10",
+  "terminus:size=8"
 };
 
 #define NUMCOLORS 9
@@ -20,7 +21,7 @@ static const char colors[NUMCOLORS][MAXCOLORS][8] = {
   { "#282a2e", "#81a2be", "#282a2e" }, // 9 = blue on darkgrey
 };
 
-static const char dmenufont[] = "terminus-8";
+static const char dmenufont[] = "terminus:size=8";
 static const unsigned int borderpx = 1; // Border pixel of windows
 static const unsigned int snap     = 8; // snap pixel
 static const Bool showbar          = 1; // 0 means no bar

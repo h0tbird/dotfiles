@@ -14,7 +14,7 @@ fi
 # VirtualBox guest services:
 #----------------------------
 
-[[ -x /usr/bin/VBoxClient-all ]] && /usr/bin/VBoxClient-all &
+[ -x /usr/bin/VBoxClient-all ] && /usr/bin/VBoxClient-all &
 
 #-----------------
 # Setup monitors:
@@ -22,7 +22,7 @@ fi
 
 MID=$(cat /etc/machine-id)
 
-case $MID in
+case ${MID} in
 
   #-------------------
   # Lenovo X1 Carbon:
@@ -62,7 +62,7 @@ esac
 # Load .Xresources:
 #-------------------
 
-[[ -f $HOME/.Xresources ]] && xrdb -merge $HOME/.Xresources
+[ -f ${HOME}/.Xresources ] && xrdb -merge ${HOME}/.Xresources
 
 #---------------------------------------------------------
 # Setting keyboard layout (setxkbmap -print -verbose 10):
@@ -81,7 +81,7 @@ xset r rate 200 30
 #------------------
 
 xset fp default
-[[ -d $HOME/.fonts ]] && xset +fp $HOME/.fonts
+[ -d ${HOME}/.fonts ] && xset +fp ${HOME}/.fonts
 xset fp rehash
 
 #--------------------------------------------------------
