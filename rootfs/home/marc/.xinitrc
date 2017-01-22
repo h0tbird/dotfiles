@@ -1,8 +1,8 @@
 #!/bin/sh
 
-#---------------------------------------------------------
+#------------------------------------------------------------------------------
 # Source xinitrc.d scripts:
-#---------------------------------------------------------
+#------------------------------------------------------------------------------
 
 if [ -d /etc/X11/xinit/xinitrc.d ]; then
   for f in /etc/X11/xinit/xinitrc.d/*; do
@@ -10,15 +10,58 @@ if [ -d /etc/X11/xinit/xinitrc.d ]; then
   done
 fi
 
-#----------------------------
+#------------------------------------------------------------------------------
 # VirtualBox guest services:
-#----------------------------
+#------------------------------------------------------------------------------
 
 [ -x /usr/bin/VBoxClient-all ] && /usr/bin/VBoxClient-all &
 
-#-----------------
-# Setup monitors:
-#-----------------
+#------------------------------------------------------------------------------
+# Load .Xresources:
+#------------------------------------------------------------------------------
+
+[ -f ${HOME}/.Xresources ] && xrdb -merge ${HOME}/.Xresources
+
+#------------------------------------------------------------------------------
+# Setting keyboard layout (setxkbmap -print -verbose 10):
+#------------------------------------------------------------------------------
+
+setxkbmap -model pc104 -layout es
+
+#------------------------------------------------------------------------------
+# Adjusting typematic delay and rate:
+#------------------------------------------------------------------------------
+
+xset r rate 200 30
+
+#------------------------------------------------------------------------------
+# Add fonts paths:
+#------------------------------------------------------------------------------
+
+xset fp default
+[ -d ${HOME}/.fonts ] && xset +fp ${HOME}/.fonts
+xset fp rehash
+
+#------------------------------------------------------------------------------
+# Start apps in background (only if not already running)
+#------------------------------------------------------------------------------
+
+list=(urxvtd statusbar clipster)
+
+for app in "${list[@]}"; do
+  check=$(ps -C "$app" -opid=)
+  if [[ -z "$check" ]]; then
+    case "$app" in
+      urxvtd)    urxvtd -q -o -f ;;
+      statusbar) statusbar & ;;
+      clipster)  clipster -d & ;;
+    esac
+  fi
+done
+
+#------------------------------------------------------------------------------
+# Setup the monitors:
+#------------------------------------------------------------------------------
 
 MID=$(cat /etc/machine-id)
 
@@ -40,69 +83,29 @@ case ${MID} in
     xrandr --newmode "640x360"    18.00   640  664  720  800  360 363 368 376 -hsync +vsync; xrandr --addmode LVDS1 640x360
 
     # External extends (1920x1080 no panning):
-    #xrandr | grep -q 'DP1 connected' && {
-    #  xrandr --output LVDS1 --mode 1600x900
-    #  xrandr --output DP1 --mode 800x600 --above LVDS1
-    #}
-
-    # External extends (1920x1080 no panning):
     xrandr | grep -q 'DP1 connected' && xrandr \
     --output LVDS1 --mode 1600x900 \
     --output DP1 --mode 1920x1080 --above LVDS1
+    ;;
 
-    # External mirrors (640x480 panning 1600x900):
-    #xrandr | grep -q 'DP1 connected' && xrandr \
-    #--output LVDS1 --mode 1600x900 \
-    #--output DP1 --mode 800x600 --panning 1600x900 --same-as LVDS1
+  #-------------
+  # VirtualBox:
+  #-------------
+
+  b422c3b66842496db5307e940c28767a)
+
+    # Map middle mouse button:
+    xmodmap -e "keycode 134 = Pointer_Button2"
+    xkbset m
+
+    # Setup monitors:
+    xrandr --output VGA-1 --mode 1440x900
     ;;
 
 esac
 
-#-------------------
-# Load .Xresources:
-#-------------------
-
-[ -f ${HOME}/.Xresources ] && xrdb -merge ${HOME}/.Xresources
-
-#---------------------------------------------------------
-# Setting keyboard layout (setxkbmap -print -verbose 10):
-#---------------------------------------------------------
-
-setxkbmap -model pc104 -layout es
-
-#-------------------------------------
-# Adjusting typematic delay and rate:
-#-------------------------------------
-
-xset r rate 200 30
-
-#------------------
-# Add fonts paths:
-#------------------
-
-xset fp default
-[ -d ${HOME}/.fonts ] && xset +fp ${HOME}/.fonts
-xset fp rehash
-
-#--------------------------------------------------------
-# Start apps in background (only if not already running)
-#--------------------------------------------------------
-
-list=(urxvtd statusbar clipster)
-
-for app in "${list[@]}"; do
-  check=$(ps -C "$app" -opid=)
-  if [[ -z "$check" ]]; then
-    case "$app" in
-      urxvtd)    urxvtd -q -o -f ;;
-      statusbar) statusbar & ;;
-      clipster)  clipster -d & ;;
-    esac
-  fi
-done
-
-#---------------
+#------------------------------------------------------------------------------
 # Start the WM:
-#---------------
+#------------------------------------------------------------------------------
 
 exec dwm
