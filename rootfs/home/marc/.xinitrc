@@ -99,7 +99,9 @@ case ${MID} in
     xkbset m
 
     # Setup monitors:
-    xrandr --output VGA-1 --mode 1440x900
+    xrandr | grep -q VGA-2 && xrandr \
+    --output VGA-1 --mode 1680x1050 --pos 0x0 \
+    --primary --output VGA-2 --mode 1680x1050 --pos 1680x0
     ;;
 
 esac
