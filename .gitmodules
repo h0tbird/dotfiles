@@ -1,3 +1,0 @@
-[submodule "rootfs/etc/vim"]
-	path = rootfs/etc/vim
-	url = https://h0tbird@github.com/h0tbird/dotvim.git
