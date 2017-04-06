@@ -16,6 +16,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'majutsushi/tagbar'
 Plug 'scrooloose/nerdtree'
+Plug 'wesQ3/vim-windowswap'
 call plug#end()
 
 "------------------------------------------------------------------------------
