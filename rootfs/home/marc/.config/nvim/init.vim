@@ -17,6 +17,8 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'majutsushi/tagbar'
 Plug 'scrooloose/nerdtree'
 Plug 'wesQ3/vim-windowswap'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'zchee/deoplete-go', { 'do': 'make'}
 call plug#end()
 
 "------------------------------------------------------------------------------
@@ -53,6 +55,7 @@ set cursorcolumn             " Highlight current column (performance killer).
 set listchars=tab:▸\ ,eol:¬  " Way whitespace characters are shown.
 set shell=bash               " Force bash shell even if using zsh.
 set updatetime=100           " Status line updates every 100ms.
+set completeopt=menu         " Options for Insert mode completion.
 
 "------------------------------------------------------------------------------
 " Highlight tabs and trailing spaces:
@@ -146,3 +149,9 @@ let g:airline_theme='hybridline'
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_go_checkers = ['go', 'golint', 'govet', 'errcheck']
 let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+
+"------------------------------------------------------------------------------
+" Deoplete settings:
+"------------------------------------------------------------------------------
+
+let g:deoplete#enable_at_startup = 1
