@@ -20,6 +20,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'wesQ3/vim-windowswap'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'zchee/deoplete-go', { 'do': 'make'}
+Plug 'airblade/vim-gitgutter'
 call plug#end()
 
 "------------------------------------------------------------------------------
