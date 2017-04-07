@@ -10,7 +10,8 @@
 
 call plug#begin('~/.local/share/nvim/plugged')
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
-Plug 'vim-syntastic/syntastic'
+Plug 'tpope/vim-fugitive'
+Plug 'neomake/neomake'
 Plug 'w0ng/vim-hybrid'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -110,11 +111,12 @@ function! s:build_go_files()
 endfunction
 
 "------------------------------------------------------------------------------
-" Golang mappings:
+" vim-go mappings:
 "------------------------------------------------------------------------------
 
 autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
 autocmd FileType go nmap <leader>r  <Plug>(go-run)
+autocmd FileType go nmap <leader>i  <Plug>(go-install)
 autocmd FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
 autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
 
@@ -143,12 +145,13 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline_theme='hybridline'
 
 "------------------------------------------------------------------------------
-" Syntastic settings:
+" Neomake settings:
 "------------------------------------------------------------------------------
 
-let g:syntastic_aggregate_errors = 1
-let g:syntastic_go_checkers = ['go', 'golint', 'govet', 'errcheck']
-let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+autocmd BufWritePost,BufEnter * Neomake
+highlight NeomakeWarMsg ctermfg=3 ctermbg=0
+let g:neomake_warning_sign={'text': '>>', 'texthl': 'NeomakeWarMsg'}
+let g:neomake_error_sign={'text': '>>', 'texthl': 'ErrorMsg'}
 
 "------------------------------------------------------------------------------
 " Deoplete settings:
