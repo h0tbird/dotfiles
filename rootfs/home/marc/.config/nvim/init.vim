@@ -21,6 +21,7 @@ Plug 'wesQ3/vim-windowswap'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'zchee/deoplete-go', { 'do': 'make'}
 Plug 'airblade/vim-gitgutter'
+Plug 'zainin/vim-mikrotik'
 call plug#end()
 
 "------------------------------------------------------------------------------
