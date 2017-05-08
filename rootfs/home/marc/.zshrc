@@ -30,8 +30,6 @@ setopt notify
 # Autoload functions:
 #------------------------------------------------------------------------------
 
-fpath=(~/.zsh/completion $fpath)
-
 autoload -U compinit && compinit
 autoload -U colors && colors
 autoload -U add-zsh-hook
@@ -136,10 +134,12 @@ zstyle ':completion:*:*:kill:*:processes' list-colors "=(#b) #([0-9]#) ([0-9a-z-
 zstyle ':completion:*:*:kill:*' force-list always
 
 #------------------------------------------------------------------------------
-# kubectl tab-completion:
+# Tab-completion:
 #------------------------------------------------------------------------------
 
+source <(katoctl --completion-script-zsh)
 source <(kubectl completion zsh)
+source <(helm completion zsh)
 
 #------------------------------------------------------------------------------
 # Define word boundary:
