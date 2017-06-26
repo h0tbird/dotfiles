@@ -56,23 +56,6 @@ alias drmi='docker rmi $(docker images -qf "dangling=true")'
 alias dkb='docker build --rm -t ${PWD##*/} .'
 
 #------------------------------------------------------------------------------
-# Google Cloud SDK:
-#------------------------------------------------------------------------------
-
-[ -d /opt/google-cloud-sdk ] && {
-  source '/opt/google-cloud-sdk/path.zsh.inc'
-  source '/opt/google-cloud-sdk/completion.zsh.inc'
-}
-
-#------------------------------------------------------------------------------
-# AWS cli completion:
-#------------------------------------------------------------------------------
-
-[ -f /usr/sbin/aws_zsh_completer.sh ] && {
-  source '/usr/sbin/aws_zsh_completer.sh'
-}
-
-#------------------------------------------------------------------------------
 # urxvt-tabbedex:
 #------------------------------------------------------------------------------
 
@@ -140,6 +123,23 @@ zstyle ':completion:*:*:kill:*' force-list always
 source <(katoctl --completion-script-zsh)
 source <(kubectl completion zsh)
 source <(helm completion zsh)
+
+#------------------------------------------------------------------------------
+# Google Cloud SDK:
+#------------------------------------------------------------------------------
+
+[ -d /opt/google-cloud-sdk ] && {
+  source /opt/google-cloud-sdk/path.zsh.inc
+  source /opt/google-cloud-sdk/completion.zsh.inc
+}
+
+#------------------------------------------------------------------------------
+# AWS cli completion:
+#------------------------------------------------------------------------------
+
+[ -f /usr/sbin/aws_zsh_completer.sh ] && {
+  source /usr/sbin/aws_zsh_completer.sh
+}
 
 #------------------------------------------------------------------------------
 # Define word boundary:
