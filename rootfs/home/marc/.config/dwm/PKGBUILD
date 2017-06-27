@@ -31,7 +31,7 @@ source=(${source[@]} ${patches[@]})
 
 md5sums=('f0b6b1093b7207f89c2a90b848c008ec'
          '80c4ef2a3eca0fe2d14e2203e3833200'
-         '5e07ba839b5c56f12e60d9c491053c39'
+         'a5d4af01fae0eeb801a3152f26513f1e'
          '939f403a71b6e85261d09fc3412269ee'
          'ed406bed8c3278d99d3ff556f5f4f228'
          'cd07a1ee08ebca41ecbbc0e4dd81d5f6'

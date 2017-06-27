@@ -3,25 +3,25 @@
 //-------------
 
 static const char *fonts[] = {
-  "siji:size=10",
-  "terminus:size=8"
+  "Wuncon Siji:size=10", // fc-match "Wuncon Siji:size=10"
+  "xos4 Terminus:size=8" // fc-match "xos4 Terminus:size=8"
 };
 
 #define NUMCOLORS 9
-static const char colors[NUMCOLORS][MAXCOLORS][8] = {
- /* <border>   <fground>  <bground> */
-  { "#282a2e", "#373b41", "#1d1f21" }, // 1 = normal (grey on black)
-  { "#f0c674", "#c5c8c6", "#1d1f21" }, // 2 = selected (white on black)
-  { "#dc322f", "#1d1f21", "#f0c674" }, // 3 = urgent (black on yellow)
-  { "#282a2e", "#282a2e", "#1d1f21" }, // 4 = darkgrey on black (triangle)
-  { "#282a2e", "#1d1f21", "#282a2e" }, // 5 = black on darkgrey (triangle)
-  { "#282a2e", "#b294bb", "#282a2e" }, // 6 = magenta on darkgrey
-  { "#282a2e", "#cc6666", "#1d1f21" }, // 7 = red on black
-  { "#282a2e", "#b5bd68", "#1d1f21" }, // 8 = green on black
-  { "#282a2e", "#81a2be", "#282a2e" }, // 9 = blue on darkgrey
+static const char colors[NUMCOLORS][MAXCOLORS][9] = {
+  //<border>   <fground>  <bground>
+  { "#282a2e", "#373b41", "#1d1f21" }, // 0 = normal (grey on black)
+  { "#f0c674", "#c5c8c6", "#1d1f21" }, // 1 = selected (white on black)
+  { "#dc322f", "#1d1f21", "#f0c674" }, // 2 = urgent (black on yellow)
+  { "#282a2e", "#282a2e", "#1d1f21" }, // 3 = darkgrey on black (triangle)
+  { "#282a2e", "#1d1f21", "#282a2e" }, // 4 = black on darkgrey (triangle)
+  { "#282a2e", "#b294bb", "#282a2e" }, // 5 = magenta on darkgrey
+  { "#282a2e", "#cc6666", "#1d1f21" }, // 6 = red on black
+  { "#282a2e", "#b5bd68", "#1d1f21" }, // 7 = green on black
+  { "#282a2e", "#81a2be", "#282a2e" }, // 8 = blue on darkgrey
 };
 
-static const char dmenufont[] = "terminus:size=8";
+static const char dmenufont[] = "xos4 Terminus:size=8";
 static const unsigned int borderpx = 1; // Border pixel of windows
 static const unsigned int snap     = 8; // snap pixel
 static const Bool showbar          = 1; // 0 means no bar
@@ -31,7 +31,17 @@ static const Bool topbar           = 1; // 0 means bottom bar
 // Tagging:
 //----------
 
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = {
+	"\ue17e", // 1
+	"\ue17f", // 2
+	"\ue180", // 3
+	"\ue181", // 4
+	"\ue182", // 5
+	"\ue183", // 6
+	"\ue184", // 7
+	"\ue185", // 8
+	"\ue186"  // 9
+};
 
 static const Rule rules[] = {
     /* class      instance    title       tags mask     isfloating   monitor */
@@ -51,10 +61,10 @@ static const Bool resizehints = 0;   // 1 means respect size hints in tiled resi
 
 static const Layout layouts[] = {
    /* <symbol>      <arrange function> */
-    { "Û É Û",      tile },    // First entry is default
-    { "Û Ê Û",      NULL },    // No layout function means floating behavior
-    { "Û Ë Û",      monocle },
-    { "Û Ì Û",      htile },
+    { " \ue009 ",      tile },
+    { " \ue006 ",      NULL },
+    { " \ue000 ",      monocle },
+    { " \ue00a ",      htile },
 };
 
 //------------------
