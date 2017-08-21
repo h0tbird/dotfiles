@@ -22,6 +22,7 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'zchee/deoplete-go', { 'do': 'make'}
 Plug 'airblade/vim-gitgutter'
 Plug 'zainin/vim-mikrotik'
+Plug 'stephpy/vim-yaml'
 call plug#end()
 
 "------------------------------------------------------------------------------
@@ -163,3 +164,9 @@ let g:deoplete#enable_at_startup = 1
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <C-c> <Esc>
+
+"------------------------------------------------------------------------------
+" Jenkinsfile are Groovy:
+"------------------------------------------------------------------------------
+
+au BufNewFile,BufRead Jenkinsfile setf groovy
