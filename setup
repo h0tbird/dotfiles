@@ -16,19 +16,15 @@ readonly DEL_TEXT="\e[$(( $(( $(tput cols) - 13 )) + 4 ))G"
 # Helper functions:
 #------------------------------------------------------------------------------
 
-function deltext() {
-  printf "${DEL_TEXT}"
-}
-
 function stat_busy() {
   printf "${C_OTHER}:: ${C_MAIN}${1}${C_CLEAR} "
   printf "\e[s"
-  deltext
+  printf "${DEL_TEXT}"
   printf "   ${C_OTHER}[${C_BUSY}BUSY${C_OTHER}]${C_CLEAR} "
 }
 
 function stat_done() {
-  deltext
+  printf "${DEL_TEXT}"
   printf "   ${C_OTHER}[${C_MAIN}DONE${C_OTHER}]${C_CLEAR} \n"
 }
 
@@ -76,5 +72,9 @@ IFS=$'\n'; for i in ${FILES}; do
   couple ${SRC} ${DST}
 
 done
+
+#------------------------------------------------------------------------------
+# Set ownership:
+#------------------------------------------------------------------------------
 
 [ -d /home/marc ] && chown -R marc:users /home/marc
