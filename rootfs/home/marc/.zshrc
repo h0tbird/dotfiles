@@ -117,14 +117,6 @@ zstyle ':completion:*:*:kill:*:processes' list-colors "=(#b) #([0-9]#) ([0-9a-z-
 zstyle ':completion:*:*:kill:*' force-list always
 
 #------------------------------------------------------------------------------
-# Tab-completion:
-#------------------------------------------------------------------------------
-
-source <(katoctl --completion-script-zsh)
-source <(kubectl completion zsh)
-source <(helm completion zsh)
-
-#------------------------------------------------------------------------------
 # Google Cloud SDK:
 #------------------------------------------------------------------------------
 
@@ -132,6 +124,14 @@ source <(helm completion zsh)
   source /opt/google-cloud-sdk/path.zsh.inc
   source /opt/google-cloud-sdk/completion.zsh.inc
 }
+
+#------------------------------------------------------------------------------
+# Tab-completion:
+#------------------------------------------------------------------------------
+
+source <(katoctl --completion-script-zsh)
+source <(kubectl completion zsh)
+source <(helm completion zsh)
 
 #------------------------------------------------------------------------------
 # AWS cli completion:
