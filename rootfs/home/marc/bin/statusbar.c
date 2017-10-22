@@ -42,104 +42,6 @@ void setstatus(char *str)
     XSync(dpy, False);
 }
 
-//-----------------------------------------------------------------------------
-// get_docker_count:
-//-----------------------------------------------------------------------------
-
-unsigned int get_docker_count()
-
-{
-    DIR *dp;
-    struct dirent *ep;
-    char str[CMDLEN];
-    static const char WATCHED_DIR[] = "/sys/fs/cgroup/memory/system.slice";
-    static const char SEARCH_PATTERN[] = "docker-";
-    unsigned int count = 0;
-
-    // Open WATCHED_DIR which contains a directory per docker container:
-    if((dp = opendir(WATCHED_DIR)) == NULL) MyDBG(end0);
-
-    // Iterate through WATCHED_DIR searching for ^docker-*
-    while((ep = readdir(dp))) {
-
-        // Skip everything but directories:
-        if(ep->d_type == DT_DIR) {
-
-            // Retrieve the directory name:
-            if(snprintf(str, CMDLEN, "%s", ep->d_name) < 0) MyDBG(end1);
-
-            // Compare directory name with SEARCH_PATTERN:
-            if(!strncmp(str, SEARCH_PATTERN, strlen(SEARCH_PATTERN))) {
-                count++;
-            }
-        }
-    }
-
-    // Return on success:
-    closedir(dp);
-    return count;
-
-    // Return on error
-    end1: closedir(dp);
-    end0: return -1;
-}
-
-//-----------------------------------------------------------------------------
-// getvmcount:
-//-----------------------------------------------------------------------------
-
-int getvmcount()
-
-{
-    DIR *dp;
-    struct dirent *ep;
-    char str[CMDLEN];
-    int fd, c = 0;
-    ssize_t r;
-    unsigned n = 0;
-
-    // Open /proc
-    if((dp = opendir("/proc")) == NULL) MyDBG(end0);
-
-    // Loop through /proc/<pid>/cmdline
-    while((ep = readdir(dp))) { if(ep->d_type == DT_DIR) {
-
-        // Is the directory name an integer? Skeep if not.
-        if(snprintf(str, CMDLEN, "%d", atoi(ep->d_name)) < 0) MyDBG(end0);
-        if(strcmp(str, ep->d_name) != 0) continue;
-
-        // Open this process cmdline file:
-        if(snprintf(str, CMDLEN, "/proc/%s/cmdline", ep->d_name) < 0) MyDBG(end0);
-        if((fd = open(str, O_RDONLY)) == -1) MyDBG(end0);
-
-        // Read cmdline:
-        n=0; str[0] = '\0'; while(1) {
-
-            if((r = read(fd,str+n,CMDLEN-n)) == -1) {
-                if(errno==EINTR) continue;
-                break;
-            }
-
-            n += r;
-            if(n==CMDLEN) break;
-            if(r==0) break;
-        }
-
-        if(n==CMDLEN) n--;
-        str[n] = '\0';
-        close(fd);
-
-        // Count qemu-system-x86_64:
-        if(!strcmp(str, "qemu-system-x86_64")) c++;
-    }}
-
-    // Return on success:
-    closedir(dp);
-    return c;
-
-    // Return on error:
-    end0: return 0;
-}
 
 //-----------------------------------------------------------------------------
 // getdatetime:
@@ -201,7 +103,7 @@ int main(void)
 {
     char *status;
     char *datetime;
-    int bat0, dcnt;
+    int bat0;
 
     if(!(dpy = XOpenDisplay(NULL))) MyDBG(end0);
     if((status = malloc(200)) == NULL) MyDBG(end0);
@@ -210,12 +112,21 @@ int main(void)
 
         datetime = getdatetime();
         bat0 = getbattery();
-        // vmc = getvmcount();
-        dcnt = get_docker_count();
 
-        //if(dcnt < 1) snprintf(status, 200, "\x04\x06%d%%\x05\x02%s       ", bat0, datetime);
-        if(dcnt < 1) snprintf(status, 200, "%d%%%s       ", bat0, datetime);
-        else snprintf(status, 200, "\x01Ý \x0CÍ %d \x04Ü\x06 Ã %d%% \x05Ü\x02 Õ %s", dcnt, bat0, datetime);
+        // Siji iconic bitmap font:
+        //
+        // <UTF-8 encoding> | <Unicode value> | <Description>
+        // -----------------------------------------------
+        // \x04             | \u004           |
+        // \xEE\x86\xAB     | \uE1AB          | Left arrow
+        // \x06             | \u006           |
+        // \xEE\x80\xB3     | \uE033          | Battery
+        // \x05             | \u005           |
+        // \xEE\x86\xAB     | \uE1AB          | Left arrow
+        // \x02             | \u002           |
+        // \xEE\x80\x95     | \uE015          | Clock
+
+        snprintf(status, 200, "\x04\xEE\x86\xAB\x06\xEE\x80\xB3%d%%\x05\xEE\x86\xAB\x02\xEE\x80\x95%s       ", bat0, datetime);
 
         free(datetime);
         setstatus(status);
