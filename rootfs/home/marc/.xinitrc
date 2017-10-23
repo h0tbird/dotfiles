@@ -5,8 +5,8 @@
 #------------------------------------------------------------------------------
 
 if [ -d /etc/X11/xinit/xinitrc.d ]; then
-  for f in /etc/X11/xinit/xinitrc.d/*; do
-    [ -x "$f" ] && . "$f"
+  for i in /etc/X11/xinit/xinitrc.d/*; do
+    [ -x "${i}" ] && . "${i}"
   done
 fi
 
@@ -49,9 +49,9 @@ xset fp rehash
 list=(urxvtd statusbar clipster)
 
 for app in "${list[@]}"; do
-  check=$(ps -C "$app" -opid=)
-  if [[ -z "$check" ]]; then
-    case "$app" in
+  check=$(ps -C "${app}" -opid=)
+  if [[ -z "${check}" ]]; then
+    case "${app}" in
       urxvtd)    urxvtd -q -o -f ;;
       statusbar) statusbar & ;;
       clipster)  clipster -d & ;;

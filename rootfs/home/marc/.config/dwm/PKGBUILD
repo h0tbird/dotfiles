@@ -15,13 +15,13 @@ install=dwm.install
 
 source=(http://dl.suckless.org/dwm/dwm-${pkgver}.tar.gz
         config.origin
-	      config.h
-	      dwm.desktop)
+        config.h
+        dwm.desktop)
 
 patches=(01-statuscolors.diff
          02-noborder.diff
          03-pertag.diff
-         04-htile.diff)
+         04-horizgrid.diff)
 
 source=(${source[@]} ${patches[@]})
 
@@ -31,12 +31,12 @@ source=(${source[@]} ${patches[@]})
 
 md5sums=('f0b6b1093b7207f89c2a90b848c008ec'
          '80c4ef2a3eca0fe2d14e2203e3833200'
-         'a5d4af01fae0eeb801a3152f26513f1e'
+         '81e8df974eed8b6d8e06593331179ed6'
          '939f403a71b6e85261d09fc3412269ee'
          'ed406bed8c3278d99d3ff556f5f4f228'
-         'cd07a1ee08ebca41ecbbc0e4dd81d5f6'
+         '7e25b6da25308c899d2ac6eb322cc69d'
          '3126263695676ffa7ab7d90e49bd77cb'
-         '9207bfeb3d417799512dbe88c388a2ff')
+         'c30ca4262f7d32fd5ee11179b2a3345f')
 
 #------------------------------------------------------------------------------
 # Prepare:
