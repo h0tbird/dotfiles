@@ -61,13 +61,12 @@ static const float mfact      = 0.5; // Factor of master area size [0.05..0.95]
 static const int nmaster      = 2;   // Number of clients in master area
 static const Bool resizehints = 0;   // 1 means respect size hints in tiled resizals
 
-#include "horizgrid.c"
 static const Layout layouts[] = {
    /* <symbol>      <arrange function> */
     { " \ue009 ",      tile },
     { " \ue006 ",      NULL },
     { " \ue000 ",      monocle },
-    { " \ue00a ",      horizgrid },
+    { " \ue00a ",      htile },
 };
 
 //------------------

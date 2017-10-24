@@ -11,7 +11,7 @@ else
   while true; do
     echo -n '> '
     read cmd
-    xdotool search --onlyvisible --maxdepth 1 --name core type --delay 0 --window %@ \"\$(printf \"\${cmd}\n \")\"
+    xdotool search --onlyvisible --maxdepth 1 --name urxvt type --delay 0 --window %@ \"\$(printf \"\${cmd}\n \")\"
   done"
 
 fi

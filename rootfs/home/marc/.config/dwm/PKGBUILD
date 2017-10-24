@@ -21,7 +21,7 @@ source=(http://dl.suckless.org/dwm/dwm-${pkgver}.tar.gz
 patches=(01-statuscolors.diff
          02-noborder.diff
          03-pertag.diff
-         04-horizgrid.diff)
+         04-htile.diff)
 
 source=(${source[@]} ${patches[@]})
 
@@ -31,12 +31,12 @@ source=(${source[@]} ${patches[@]})
 
 md5sums=('f0b6b1093b7207f89c2a90b848c008ec'
          '80c4ef2a3eca0fe2d14e2203e3833200'
-         '81e8df974eed8b6d8e06593331179ed6'
+         'ec069b644c5cf8cdee6ac4d0e400b343'
          '939f403a71b6e85261d09fc3412269ee'
          'ed406bed8c3278d99d3ff556f5f4f228'
          '7e25b6da25308c899d2ac6eb322cc69d'
          '3126263695676ffa7ab7d90e49bd77cb'
-         'c30ca4262f7d32fd5ee11179b2a3345f')
+         '94d38718d025a0013e746247c6938316')
 
 #------------------------------------------------------------------------------
 # Prepare:
