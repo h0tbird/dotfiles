@@ -126,7 +126,7 @@ int main(void)
         // \x02             | \u002           |
         // \xEE\x80\x95     | \uE015          | Clock
 
-        snprintf(status, 200, "\x03| \x06\xEE\x80\xB3%d%% \x03| \x02\xEE\x80\x95%s        ", bat0, datetime);
+        snprintf(status, 200, "\x06\xEE\x80\xB3%d%% \x03| \x02\xEE\x80\x95%s     ", bat0, datetime);
 
 	// Xbmicons iconic bitmap font:
 	//
