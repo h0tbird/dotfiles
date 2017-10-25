@@ -56,7 +56,7 @@ char *getdatetime()
 
     if(resulttm == NULL) MyDBG(end0);
     if((buf = malloc(sizeof(char)*65)) == NULL) MyDBG(end0);
-    if(!strftime(buf, sizeof(char)*65-1, "%a %d %b  %H:%M:%S", resulttm)) MyDBG(end0);
+    if(!strftime(buf, sizeof(char)*65-1, "%a %d %b \xEE\x86\xAC%H:%M:%S", resulttm)) MyDBG(end0);
 
     // Return on success:
     return buf;
@@ -116,17 +116,32 @@ int main(void)
         // Siji iconic bitmap font:
         //
         // <UTF-8 encoding> | <Unicode value> | <Description>
-        // -----------------------------------------------
-        // \x04             | \u004           |
+        // --------------------------------------------------
+        // \x04             | \u004           | Darkgrey on black
         // \xEE\x86\xAB     | \uE1AB          | Left arrow
-        // \x06             | \u006           |
+        // \x06             | \u006           | Magenta on darkgrey
         // \xEE\x80\xB3     | \uE033          | Battery
         // \x05             | \u005           |
         // \xEE\x86\xAB     | \uE1AB          | Left arrow
         // \x02             | \u002           |
         // \xEE\x80\x95     | \uE015          | Clock
 
-        snprintf(status, 200, "\x04\xEE\x86\xAB\x06\xEE\x80\xB3%d%%\x05\xEE\x86\xAB\x02\xEE\x80\x95%s       ", bat0, datetime);
+        snprintf(status, 200, "\x03| \x06\xEE\x80\xB3%d%% \x03| \x02\xEE\x80\x95%s        ", bat0, datetime);
+
+	// Xbmicons iconic bitmap font:
+	//
+	// <UTF-8 encoding> | <Unicode value> | <Description>
+	// --------------------------------------------------
+	// \x04             | \u004           |
+	// \xEE\x80\x9A     | \uE01A          | Left arrow
+	// \x06             | \u006           |
+	// \xEE\x80\x9F     | \uE01F          | Battery
+	// \x05             | \u005           |
+	// \xEE\x80\x9A     | \uE1AB          | Left arrow
+	// \x02             | \u002           |
+	// \xEE\x80\x96     | \uE016          | Clock
+
+        // snprintf(status, 200, "\x04\xEE\x80\x9A\x06\xEE\x80\x9F%d%%\x05\xEE\x80\x9A\x02\xEE\x80\x96%s       ", bat0, datetime);
 
         free(datetime);
         setstatus(status);
