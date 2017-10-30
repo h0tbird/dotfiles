@@ -35,9 +35,8 @@ static Display *dpy;
 // setstatus:
 //-----------------------------------------------------------------------------
 
-void setstatus(char *str)
+void setstatus(char *str) {
 
-{
     XStoreName(dpy, DefaultRootWindow(dpy), str);
     XSync(dpy, False);
 }
@@ -47,9 +46,8 @@ void setstatus(char *str)
 // getdatetime:
 //-----------------------------------------------------------------------------
 
-char *getdatetime()
+char *getdatetime() {
 
-{
     char *buf = NULL;
     time_t result = time(NULL);
     struct tm *resulttm = localtime(&result);
@@ -69,9 +67,8 @@ char *getdatetime()
 // getbattery:
 //-----------------------------------------------------------------------------
 
-int getbattery()
+int getbattery() {
 
-{
     FILE *fd;
     int energy_now, energy_full, voltage_now;
 
@@ -95,15 +92,41 @@ int getbattery()
 }
 
 //-----------------------------------------------------------------------------
+// getupdates:
+//-----------------------------------------------------------------------------
+
+int getupdates(void) {
+
+    int updates = 0;
+
+    // One time:
+    // ---------
+    // mkdir /tmp/checkup-db-marc
+    // ln -s /var/lib/pacman/local /tmp/checkup-db-marc
+
+    // Low frequency:
+    // --------------
+    // fakeroot -- pacman -Sy --dbpath /tmp/checkup-db-marc --logfile /dev/null
+
+    // High frequency (inotify):
+    // -------------------------
+    // pacman -Qu --dbpath /tmp/checkup-db-marc
+
+    // FILE *fp = popen("pacman -Qqu | wc -l", "r");
+    // fscanf(fp, "%d", &updates);
+
+    return updates;
+}
+
+//-----------------------------------------------------------------------------
 // Entry point:
 //-----------------------------------------------------------------------------
 
-int main(void)
+int main(void) {
 
-{
     char *status;
     char *datetime;
-    int bat0;
+    int battery, updates;
 
     if(!(dpy = XOpenDisplay(NULL))) MyDBG(end0);
     if((status = malloc(200)) == NULL) MyDBG(end0);
@@ -111,7 +134,8 @@ int main(void)
     while(1) {
 
         datetime = getdatetime();
-        bat0 = getbattery();
+        battery = getbattery();
+        updates = getupdates();
 
         // Siji iconic bitmap font:
         //
@@ -126,22 +150,9 @@ int main(void)
         // \x02             | \u002           |
         // \xEE\x80\x95     | \uE015          | Clock
 
-        snprintf(status, 200, "\x06\xEE\x80\xB3%d%% \x03| \x02\xEE\x80\x95%s     ", bat0, datetime);
-
-	// Xbmicons iconic bitmap font:
-	//
-	// <UTF-8 encoding> | <Unicode value> | <Description>
-	// --------------------------------------------------
-	// \x04             | \u004           |
-	// \xEE\x80\x9A     | \uE01A          | Left arrow
-	// \x06             | \u006           |
-	// \xEE\x80\x9F     | \uE01F          | Battery
-	// \x05             | \u005           |
-	// \xEE\x80\x9A     | \uE1AB          | Left arrow
-	// \x02             | \u002           |
-	// \xEE\x80\x96     | \uE016          | Clock
-
-        // snprintf(status, 200, "\x04\xEE\x80\x9A\x06\xEE\x80\x9F%d%%\x05\xEE\x80\x9A\x02\xEE\x80\x96%s       ", bat0, datetime);
+        snprintf(status, 200,
+            "\x02\xEE\x80\x8E%d \x03| \x06\xEE\x80\xB3%d%% \x03| \x02\xEE\x80\x95%s          ",
+            updates, battery, datetime);
 
         free(datetime);
         setstatus(status);
