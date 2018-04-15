@@ -1,7 +1,0 @@
-# Latitude E6410
-SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:26:b9:cc:52:6b", NAME="eth0"
-SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:23:14:a8:02:88", NAME="wlan0"
-
-# Lenovo X1 Carbon
-SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="80:49:71:10:75:4c", NAME="eth0"
-SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="8c:70:5a:7c:bd:0c", NAME="wlan0"

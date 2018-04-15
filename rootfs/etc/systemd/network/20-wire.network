@@ -1,0 +1,8 @@
+[Match]
+Name=wire
+
+[Network]
+DHCP=ipv4
+
+[DHCP]
+RouteMetric=10
