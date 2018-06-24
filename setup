@@ -4,8 +4,8 @@
 # Globals:
 #------------------------------------------------------------------------------
 
-readonly BASEDIR="/etc/.dotfiles/rootfs"
-readonly FILES="$(find ${BASEDIR} -type f | cut -b 23-)"
+readonly BASEDIR="/etc/dotfiles/rootfs"
+readonly FILES=$(find ${BASEDIR} -type f | sed "s#${BASEDIR}##")
 readonly C_CLEAR=$(tput sgr0)
 readonly C_MAIN=${C_CLEAR}$(tput bold)
 readonly C_OTHER=${C_MAIN}$(tput setaf 4)
@@ -58,10 +58,10 @@ function couple() {
 # Main loop:
 #------------------------------------------------------------------------------
 
-IFS=$'\n'; for i in ${FILES}; do
+IFS=$'\n'; for FILE in ${FILES}; do
 
-  SRC="/${i}"
-  DST="${BASEDIR}/${i}"
+  SRC="${FILE}"
+  DST="${BASEDIR}${FILE}"
 
   if exists ${SRC}; then
     hardlinked ${SRC} ${DST} && continue

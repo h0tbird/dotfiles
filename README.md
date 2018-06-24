@@ -1,3 +1,9 @@
+### Change file ownership:
+
+```
+sudo chown -R marc:users rootfs/home/marc
+```
+
 ### Ignore changes to file:
 
 ```
