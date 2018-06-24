@@ -65,7 +65,7 @@ IFS=$'\n'; for i in ${FILES}; do
 
   if exists ${SRC}; then
     hardlinked ${SRC} ${DST} && continue
-    equal ${SRC} ${DST} && continue
+    #equal ${SRC} ${DST} && continue
     backup ${SRC}
   fi
 

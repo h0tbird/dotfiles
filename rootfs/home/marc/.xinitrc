@@ -46,7 +46,7 @@ xset fp rehash
 # Start apps in background (only if not already running)
 #------------------------------------------------------------------------------
 
-list=(urxvtd statusbar clipster)
+list=(urxvtd statusbar)
 
 for app in "${list[@]}"; do
   check=$(ps -C "${app}" -opid=)
