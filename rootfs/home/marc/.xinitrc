@@ -63,29 +63,18 @@ done
 # Setup the monitors:
 #------------------------------------------------------------------------------
 
-MID=$(cat /etc/machine-id)
-
-case ${MID} in
+case "$(cat /etc/machine-id)" in
 
   #-------------------
   # Lenovo X1 Carbon:
   #-------------------
 
-  d70d8472bb6848b2a6c38ce2b53e59e5)
-
-    # Laptop screen modes:
-    xrandr --newmode "1600x900"  118.25  1600 1696 1856 2112  900 903 908 934 -hsync +vsync; xrandr --addmode LVDS1 1600x900
-    xrandr --newmode "1368x768"   85.25  1368 1440 1576 1784  768 771 781 798 -hsync +vsync; xrandr --addmode LVDS1 1368x768
-    xrandr --newmode "1280x720"   74.50  1280 1344 1472 1664  720 723 728 748 -hsync +vsync; xrandr --addmode LVDS1 1280x720
-    xrandr --newmode "1024x576"   46.50  1024 1064 1160 1296  576 579 584 599 -hsync +vsync; xrandr --addmode LVDS1 1024x576
-    xrandr --newmode "960x540"    40.75   960  992 1088 1216  540 543 548 562 -hsync +vsync; xrandr --addmode LVDS1 960x540
-    xrandr --newmode "856x480"    31.75   856  880  960 1064  480 483 493 500 -hsync +vsync; xrandr --addmode LVDS1 856x480
-    xrandr --newmode "640x360"    18.00   640  664  720  800  360 363 368 376 -hsync +vsync; xrandr --addmode LVDS1 640x360
+  5d563aaaade24e3e9c790d6a1a5f982d)
 
     # External extends (1920x1080 no panning):
-    xrandr | grep -q 'DP1 connected' && xrandr \
+    xrandr | grep -q 'HDMI1 connected' && xrandr \
     --output LVDS1 --mode 1600x900 \
-    --output DP1 --mode 1920x1080 --above LVDS1
+    --output HDMI1 --mode 1920x1080 --above LVDS1
     ;;
 
   #-------------
