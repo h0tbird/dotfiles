@@ -23,12 +23,6 @@ fi
 [ -f ${HOME}/.Xresources ] && xrdb -merge ${HOME}/.Xresources
 
 #------------------------------------------------------------------------------
-# Setting keyboard layout (setxkbmap -print -verbose 10):
-#------------------------------------------------------------------------------
-
-setxkbmap -model pc104 -layout es
-
-#------------------------------------------------------------------------------
 # Adjusting typematic delay and rate:
 #------------------------------------------------------------------------------
 
@@ -71,6 +65,9 @@ case "$(cat /etc/machine-id)" in
 
   5d563aaaade24e3e9c790d6a1a5f982d)
 
+    # Keyboard layout:
+    setxkbmap -model pc104 -layout es
+
     # External extends (1920x1080 no panning):
     xrandr | grep -q 'HDMI1 connected' && xrandr \
     --output LVDS1 --mode 1600x900 \
@@ -82,6 +79,9 @@ case "$(cat /etc/machine-id)" in
   #---------
 
   b422c3b66842496db5307e940c28767a)
+
+    # Keyboard layout:
+    setxkbmap -model pc104 -layout us
 
     # Map middle mouse button:
     xmodmap -e "keycode 134 = Pointer_Button2"
