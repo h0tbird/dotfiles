@@ -11,10 +11,10 @@ if [ -d /etc/X11/xinit/xinitrc.d ]; then
 fi
 
 #------------------------------------------------------------------------------
-# VirtualBox guest services:
+# VMWare guest services:
 #------------------------------------------------------------------------------
 
-[ -x /usr/bin/VBoxClient-all ] && /usr/bin/VBoxClient-all &
+[ -x /usr/sbin/vmware-user ] && /usr/sbin/vmware-user
 
 #------------------------------------------------------------------------------
 # Load .Xresources:
@@ -77,9 +77,9 @@ case "$(cat /etc/machine-id)" in
     --output HDMI1 --mode 1920x1080 --above LVDS1
     ;;
 
-  #-------------
-  # VirtualBox:
-  #-------------
+  #---------
+  # vmware:
+  #---------
 
   b422c3b66842496db5307e940c28767a)
 
@@ -87,10 +87,10 @@ case "$(cat /etc/machine-id)" in
     xmodmap -e "keycode 134 = Pointer_Button2"
     xkbset m
 
-    # Setup monitors:
-    xrandr | grep -q VGA-2 && xrandr \
-    --output VGA-1 --mode 1680x1050 --pos 0x0 --primary --output VGA-2 \
-    --mode 1680x1050 --pos 1680x0 || xrandr --output VGA-1 --mode 1440x900
+    # Host is LG 3840x2160
+    xrandr | grep -q Virtual2 && xrandr \
+    --output Virtual1 --below Virtual2 --mode 1680x1050 --output Virtual2 \
+    --mode 3840x2160 || xrandr --output Virtual1 --mode 3840x2160
     ;;
 
 esac
