@@ -1,6 +1,0 @@
-INTERFACE="br0"
-CONNECTION="bridge"
-DESCRIPTION="Bridge eth0"
-BRIDGE_INTERFACES="eth0"
-IP="dhcp"
-POST_UP="ip addr add 192.168.2.1/24 dev br0 broadcast 192.168.2.0"

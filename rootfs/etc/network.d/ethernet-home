@@ -1,3 +1,0 @@
-CONNECTION='ethernet'
-INTERFACE='eth0'
-IP='dhcp'
