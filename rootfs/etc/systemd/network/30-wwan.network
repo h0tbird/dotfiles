@@ -1,0 +1,8 @@
+[Match]
+Name=wwan
+
+[Network]
+DHCP=ipv4
+
+[DHCP]
+RouteMetric=30
