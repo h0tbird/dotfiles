@@ -1,5 +1,6 @@
 [Match]
 MACAddress=80:49:71:10:75:4c
+Driver=asix
 
 [Link]
 Name=wire

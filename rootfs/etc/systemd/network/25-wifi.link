@@ -1,5 +1,6 @@
 [Match]
 MACAddress=8c:70:5a:7c:bd:0c
+Driver=iwlwifi
 
 [Link]
 Name=wifi

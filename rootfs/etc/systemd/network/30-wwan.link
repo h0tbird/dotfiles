@@ -1,5 +1,6 @@
 [Match]
 MACAddress=02:15:e0:ec:01:00
+Driver=cdc_ncm
 
 [Link]
 Name=wwan
