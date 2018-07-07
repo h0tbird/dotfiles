@@ -1,3 +1,0 @@
-SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="80:49:71:10:75:4c", NAME="wire"
-SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="8c:70:5a:7c:bd:0c", NAME="wifi"
-SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="02:15:e0:ec:01:00", NAME="wwan"
