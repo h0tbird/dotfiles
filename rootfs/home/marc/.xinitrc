@@ -69,7 +69,8 @@ case "$(cat /etc/machine-id)" in
     setxkbmap -model pc104 -layout es
 
     # External extends (1920x1080 no panning):
-    xrandr | grep -q 'HDMI1 connected' && xrandr \
+    xrandr | grep -q 'HDMI1 connected' \
+    && xrandr --dpi 138 \
     --output LVDS1 --mode 1600x900 \
     --output HDMI1 --mode 1920x1080 --above LVDS1
     ;;
