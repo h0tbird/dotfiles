@@ -1,8 +1,8 @@
-[Match]
-Name=wwan
+#[Match]
+#Name=wwan
 
-[Network]
-DHCP=ipv4
+#[Network]
+#DHCP=no
 
-[DHCP]
-RouteMetric=30
+#[DHCP]
+#RouteMetric=30
