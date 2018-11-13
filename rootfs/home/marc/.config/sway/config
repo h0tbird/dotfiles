@@ -189,11 +189,11 @@ gaps {
 }
 
 for_window [class=".*"] {
-  border pixel 2
+  border pixel 1
 }
 
 for_window [title="termite"] {
-  border pixel 2
+  border pixel 1
   opacity 0.95
 }
 
