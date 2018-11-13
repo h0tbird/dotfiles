@@ -11,7 +11,7 @@ set $menu dmenu_run
 
 ### Output configuration
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+output * bg /home/marc/.wallpapers/wallpaper01.png fill
 
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 #output HDMI-A-1 {
@@ -194,7 +194,7 @@ for_window [class=".*"] {
 
 for_window [title="termite"] {
   border pixel 2
-  opacity 0.97
+  opacity 0.95
 }
 
 client.focused #f9af36 #285577 #ffffff #2e9ef4 #f9af36
