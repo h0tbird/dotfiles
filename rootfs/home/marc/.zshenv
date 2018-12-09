@@ -16,7 +16,7 @@ export GOPATH=${HOME}/go
 #------------------------------------------------------------------------------
 
 export PATH="${HOME}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin"
-export PATH="/opt/google-cloud-sdk/bin:${GOPATH}/bin:${PATH}"
+export PATH="${GOPATH}/bin:${PATH}"
 
 #------------------------------------------------------------------------------
 # Java lives here:
