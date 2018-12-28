@@ -187,6 +187,9 @@ bindsym $mod+r mode "resize"
 # Read `man 5 sway-bar` for more information about this section.
 bar {
     position top
+    workspace_buttons yes
+    status_command i3status-rs ~/.config/i3status-rs/config.toml
+    font pango:DejaVu Sans Mono, FontAwesome 9
     colors {
         statusline #ffffff
         background #323232
