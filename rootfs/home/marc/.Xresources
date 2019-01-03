@@ -1,3 +1,14 @@
+! Xft -------------------------------------------------------------------------
+
+Xft.dpi:       138
+!Xft.dpi:       96
+Xft.autohint:  0
+Xft.lcdfilter: lcddefault
+Xft.hintstyle: hintslight
+Xft.hinting:   1
+Xft.antialias: 1
+Xft.rgba:      rgb
+
 ! URxvt -----------------------------------------------------------------------
 
 URxvt.depth:                   32
@@ -17,21 +28,10 @@ URxvt.colorBD:                 #e8e8d3
 URxvt.colorUL:                 #8197bf
 URxvt.pointerColorBackground:  #586e75
 URxvt.pointerColorForeground:  #93a1a1
-!URxvt.font:                    -*-terminus-*-*-*-*-12-*-*-*-*-*-*-*,xft:Inconsolata\ for\ Powerline:pixelsize=12
-!URxvt.boldFont:                -*-terminus-*-*-*-*-12-*-*-*-*-*-*-*,xft:Inconsolata\ for\ Powerline:pixelsize=12
-!URxvt.italicFont:              -*-terminus-*-*-*-*-12-*-*-*-*-*-*-*,xft:Inconsolata\ for\ Powerline:pixelsize=12
-!URxvt.boldItalic:              -*-terminus-*-*-*-*-12-*-*-*-*-*-*-*,xft:Inconsolata\ for\ Powerline:pixelsize=12
-URxvt.font:                    xft:monaco:size=7
-URxvt.boldFont:                xft:monaco:bold:size=7
-URxvt.italicFont:              xft:monaco:italic:size=7
-URxvt.boldItalic:              xft:monaco:bold:italic:size=7
-Xft.dpi:                       138
-Xft.autohint:                  0
-Xft.lcdfilter:                 lcddefault
-Xft.hintstyle:                 hintslight
-Xft.hinting:                   1
-Xft.antialias:                 1
-Xft.rgba:                      rgb
+URxvt.font:                    xft:Inconsolata\ for\ Powerline:pixelsize=12
+URxvt.boldFont:                xft:Inconsolata\ for\ Powerline:pixelsize=12
+URxvt.italicFont:              xft:Inconsolata\ for\ Powerline:pixelsize=12
+URxvt.boldItalic:              xft:Inconsolata\ for\ Powerline:pixelsize=12
 URxvt.letterSpace:             -1
 URxvt.fading:                  3
 URxvt.fadeColor:               orange

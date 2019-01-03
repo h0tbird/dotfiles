@@ -66,7 +66,7 @@ case "$(cat /etc/machine-id)" in
   5d563aaaade24e3e9c790d6a1a5f982d)
 
     # Keyboard layout:
-    setxkbmap -model pc104 -layout es
+    setxkbmap -model pc104 -layout us
 
     # External extends (1920x1080 no panning):
     xrandr | grep -q 'HDMI1 connected' \
@@ -100,4 +100,4 @@ esac
 # Start the WM:
 #------------------------------------------------------------------------------
 
-exec dwm
+exec i3
