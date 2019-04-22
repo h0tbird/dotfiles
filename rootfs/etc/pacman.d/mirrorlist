@@ -1,8 +1,10 @@
 ##
 ## Arch Linux repository mirrorlist
-## Filtered by mirror score from mirror status page
-## Generated on 2017-04-14
+## Generated on 2019-04-20
 ##
 
+## Spain
+Server = http://mirror.librelabucm.org/archlinux/$repo/os/$arch
+Server = https://mirror.librelabucm.org/archlinux/$repo/os/$arch
 Server = http://osl.ugr.es/archlinux/$repo/os/$arch
-Server = http://sunsite.rediris.es/mirror/archlinux/$repo/os/$arch
+Server = http://ftp.rediris.es/mirror/archlinux/$repo/os/$arch
