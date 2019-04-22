@@ -194,12 +194,13 @@ bindsym $mod+r mode "resize"
 # Read `man 5 sway-bar` for more information about this section.
 bar {
     position top
+    mode hide
+    modifier Mod1
     workspace_buttons yes
     status_command exec ~/bin/mybar
-font pango:DejaVu Sans Mono 10
-#status_command i3status-rs ~/.config/i3status-rs/config.toml
-#status_command while true; do date; sleep 1; done
-#font pango:DejaVu Sans Mono, FontAwesome 14
+    font pango:DejaVu Sans Mono 10
+    #status_command i3status-rs ~/.config/i3status-rs/config.toml
+    #status_command while true; do date; sleep 1; done
     colors {
         statusline #ffffff
         background #323232
@@ -208,16 +209,16 @@ font pango:DejaVu Sans Mono 10
 }
 
 gaps {
-  outer 2
-  inner 4
+  outer 0
+  inner 0
 }
 
 default_border pixel 1
 
 # Attributes of all open windows: swaymsg -t get_tree | jq .
-for_window [app_id="termite"] {
-  opacity 0.95
-}
+#for_window [app_id="termite"] {
+#  opacity 0.95
+#}
 
 client.focused #f9af36 #285577 #ffffff #2e9ef4 #f9af36
 
