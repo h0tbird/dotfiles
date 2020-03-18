@@ -3,7 +3,8 @@ Name=wifi
 
 [Network]
 DHCP=ipv4
-DNS=8.8.8.8
+DNS=1.1.1.1
 
 [DHCP]
 RouteMetric=20
+UseDNS=false
